@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { useState } from "react";
+import "./App.css";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { ThemeSwitch } from "./components/ThemeSwitch/ThemeSwitch";
+import { AuthProvider } from "./context/AuthContext";
+import { Route, Routes } from "react-router-dom";
+import LoginMain from "./pages/Login/LoginMain";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Login/Register";
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [modeColor, setModeColor] = useState("light");
+    const theme = createTheme({
+        palette: {
+            mode: modeColor,
+            primary: {
+                main: modeColor === "light" ? "#753939" : "#C6E3F5",
+            },
+            secondary: {
+                main: modeColor === "light" ? "#CAA7A7" : "#757439",
+            },
+        },
+    });
+    const handleChange = () => {
+        setModeColor((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    };
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ThemeSwitch theme={theme} onChange={handleChange} />
+            <AuthProvider>
+                <Routes>
+                    <Route exact path="/" element={<LoginMain />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
+                </Routes>
+            </AuthProvider>
+        </ThemeProvider>
+    );
 }
 
-export default App
+export default App;

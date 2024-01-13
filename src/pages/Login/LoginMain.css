@@ -1,0 +1,91 @@
+.login-register-container {
+    position: relative;
+    /* width: 375px !important; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.login-register-container img {
+    width: 300px;
+    height: 200px;
+    position: relative;
+}
+.top-buttons-container {
+    margin-top: 32px;
+    height: 58px;
+}
+.login-register-btn {
+    display: flex;
+    gap: 16px;
+}
+
+.login-form-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-direction: column;
+}
+#login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 16px;
+}
+/* form input[type="email"],
+input[type="password"],
+input[type="text"] {
+    height: 48px;
+    
+    
+    border-radius: 6px;
+    border: 1px solid #cdcaca;
+    width: 98%;
+} */
+
+.forgot-password {
+    text-align: center;
+    position: relative;
+    font-weight: 400;
+
+    font-size: 14px;
+    color: #0d53fc;
+    text-decoration: none;
+}
+
+.social-media {
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+.social-media-text {
+    /* color: #0f0f0f; */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.social-media-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+.sm-icon {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 3px 0 lightslategray;
+    padding: 4px;
+    border-radius: 6px;
+}
