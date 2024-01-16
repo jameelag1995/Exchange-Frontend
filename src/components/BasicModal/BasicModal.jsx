@@ -32,8 +32,15 @@ export default function BasicModal({ msg, setMsg }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                    >
+                        {msg?.title}
+                    </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        {msg}
+                        {msg?.message}
                     </Typography>
                 </Box>
             </Modal>

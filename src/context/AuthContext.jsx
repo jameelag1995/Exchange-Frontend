@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../utils/utils";
+import { axiosUsersInstance } from "../utils/utils";
 
 const AuthContext = createContext({
     login: () => {},
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     const [isLoading, setIsLoading] = useState(false);
     const login = async (email, password) => {
         try {
-            const result = await axiosInstance.post("/login", {
+            const result = await axiosUsersInstance.post("/login", {
                 email,
                 password,
             });
@@ -27,6 +27,7 @@ export function AuthProvider({ children }) {
                 "token",
                 JSON.stringify(result.data.accessToken)
             );
+            return result;
         } catch (error) {
             console.log(error);
             return error;
@@ -34,13 +35,14 @@ export function AuthProvider({ children }) {
     };
     const register = async (userInfo) => {
         try {
-            const result = await axiosInstance.post("register", userInfo);
+            const result = await axiosUsersInstance.post("register", userInfo);
             console.log(result);
             setAccessToken(result.data.accessToken);
             localStorage.setItem(
                 "token",
                 JSON.stringify(result.data.accessToken)
             );
+            return result;
         } catch (error) {
             console.log(error);
             return error;
@@ -48,16 +50,16 @@ export function AuthProvider({ children }) {
     };
     const logout = async () => {
         try {
+            console.log(accessToken);
             if (accessToken) {
-                await axiosInstance("logout", {
+                localStorage.clear();
+                navigate("/login");
+                await axiosUsersInstance.put("/logout", {
                     headers: {
-                        "Content-Type": "application/json",
                         Authorization: "Bearer " + accessToken,
                     },
                 });
-                localStorage.clear();
                 setAccessToken("");
-                navigate("/login");
             }
         } catch (error) {
             console.log(error);
@@ -67,7 +69,7 @@ export function AuthProvider({ children }) {
     const logoutAll = async () => {
         try {
             if (accessToken) {
-                await axiosInstance("logoutAll", {
+                await axiosUsersInstance.put("/logoutAll", {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: "Bearer " + accessToken,
@@ -85,8 +87,11 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         if (localStorage.getItem("token") !== "undefined") {
             setAccessToken(JSON.parse(localStorage.getItem("token")));
+            navigate("/dashboard");
+        } else {
+            navigate("/login");
         }
-    }, []);
+    }, [accessToken]);
 
     const AuthValues = {
         login,

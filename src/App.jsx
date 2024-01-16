@@ -7,13 +7,16 @@ import { Route, Routes } from "react-router-dom";
 import LoginMain from "./pages/Login/LoginMain";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Profile from "./pages/Profile/Profile";
+import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
 function App() {
     const [modeColor, setModeColor] = useState("light");
     const theme = createTheme({
         palette: {
             mode: modeColor,
             primary: {
-                main: modeColor === "light" ? "#753939" : "#C6E3F5",
+                main: modeColor === "light" ? "#005f8b" : "#753939",
             },
             secondary: {
                 main: modeColor === "light" ? "#CAA7A7" : "#757439",
@@ -33,6 +36,24 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Route>
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <>
+                                <Dashboard />
+                                <BottomNavbar />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <>
+                                <Profile />
+                                <BottomNavbar />
+                            </>
+                        }
+                    />
                 </Routes>
             </AuthProvider>
         </ThemeProvider>

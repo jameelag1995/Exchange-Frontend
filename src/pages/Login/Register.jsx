@@ -33,7 +33,7 @@ export default function Register() {
     const idRef = useRef();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [registerError, setRegisterError] = useState("");
+    const [registerError, setRegisterError] = useState(null);
     const { register } = useAuth();
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -56,9 +56,13 @@ export default function Register() {
                 password: passwordInput.current.value,
             };
             const result = await register(userInfo);
-            if (result.status !== 201) {
-                setRegisterError(result.response.data.message);
-            }
+            setTimeout(() => {
+                if (result.status !== 201) {
+                    setRegisterError(result.response.data);
+                } else {
+                    navigate("/dashboard");
+                }
+            }, 1000);
         }
         setLoading((prev) => !prev);
     };

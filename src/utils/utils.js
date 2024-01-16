@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const axiosInstance = axios.create({
+export const axiosUsersInstance = axios.create({
     baseURL: "http://localhost:3000/api/v1/exchange/users/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {

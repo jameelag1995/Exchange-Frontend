@@ -19,7 +19,7 @@ export default function Login() {
     const email = useRef();
     const password = useRef();
     const navigate = useNavigate();
-    const [invalidInput, setInvalidInput] = useState("");
+    const [invalidInput, setInvalidInput] = useState(null);
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -31,9 +31,14 @@ export default function Login() {
         e.preventDefault();
         setLoading((prev) => !prev);
         const result = await login(email.current.value, password.current.value);
-        if (result.status !== 200) {
-            setInvalidInput(result.response.data.message);
-        }
+        setTimeout(() => {
+            if (result.status !== 200) {
+                setInvalidInput(result.response.data);
+            } else {
+                navigate("/dashboard");
+            }
+        }, 1000);
+
         setLoading((prev) => !prev);
     };
 
