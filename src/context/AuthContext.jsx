@@ -52,15 +52,19 @@ export function AuthProvider({ children }) {
         try {
             console.log(accessToken);
             if (accessToken) {
-                localStorage.clear();
-                navigate("/login");
-                await axiosUsersInstance.put("/logout", {
-                    headers: {
-                        Authorization: "Bearer " + accessToken,
-                    },
-                });
-                setAccessToken("");
+                await axiosUsersInstance.put(
+                    "/logout",
+                    {},
+                    {
+                        headers: {
+                            Authorization: "Bearer " + accessToken,
+                        },
+                    }
+                );
             }
+            localStorage.clear();
+            setAccessToken("");
+            navigate("/login");
         } catch (error) {
             console.log(error);
             return error;
@@ -69,12 +73,15 @@ export function AuthProvider({ children }) {
     const logoutAll = async () => {
         try {
             if (accessToken) {
-                await axiosUsersInstance.put("/logoutAll", {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + accessToken,
-                    },
-                });
+                await axiosUsersInstance.put(
+                    "/logoutAll",
+                    {},
+                    {
+                        headers: {
+                            Authorization: "Bearer " + accessToken,
+                        },
+                    }
+                );
                 localStorage.clear();
                 setAccessToken("");
                 navigate("/login");
@@ -85,13 +92,13 @@ export function AuthProvider({ children }) {
         }
     };
     useEffect(() => {
-        if (localStorage.getItem("token") !== "undefined") {
+        if (localStorage.getItem("token")) {
             setAccessToken(JSON.parse(localStorage.getItem("token")));
             navigate("/dashboard");
         } else {
             navigate("/login");
         }
-    }, [accessToken]);
+    }, []);
 
     const AuthValues = {
         login,

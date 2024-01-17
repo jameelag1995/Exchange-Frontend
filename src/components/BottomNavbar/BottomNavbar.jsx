@@ -1,5 +1,5 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
-import { AccountCircle, Dashboard } from "@mui/icons-material";
+import { AccountCircle, Dashboard, Inventory } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,11 @@ export default function BottomNavbar() {
                     label="Dashboard"
                     value="dashboard"
                     icon={<Dashboard />}
+                />
+                <BottomNavigationAction
+                    label="My Products"
+                    value="myProducts"
+                    icon={<Inventory />}
                 />
                 <BottomNavigationAction
                     label="Profile"

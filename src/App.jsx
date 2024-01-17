@@ -10,6 +10,7 @@ import Register from "./pages/Login/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
+import MyProducts from "./pages/MyProducts/MyProducts";
 function App() {
     const [modeColor, setModeColor] = useState("light");
     const theme = createTheme({
@@ -50,6 +51,15 @@ function App() {
                         element={
                             <>
                                 <Profile />
+                                <BottomNavbar />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/myProducts"
+                        element={
+                            <>
+                                <MyProducts />
                                 <BottomNavbar />
                             </>
                         }

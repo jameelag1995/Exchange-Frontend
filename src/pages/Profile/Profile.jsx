@@ -19,13 +19,16 @@ import { Link, useNavigate } from "react-router-dom";
 import BasicModal from "../../components/BasicModal/BasicModal";
 export default function Profile() {
     const navigate = useNavigate();
-    const { accessToken, logout } = useAuth();
+    const { accessToken, logout, logoutAll } = useAuth();
     const [userDetails, setUserDetails] = useState(null);
     const [msg, setMsg] = useState(null);
     const [editing, setEditing] = useState(false);
     const displayNameRef = useRef();
     const handleLogout = async () => {
         await logout();
+    };
+    const handleLogoutAll = async () => {
+        await logoutAll();
     };
     const handleDisplayNameChange = async () => {
         if (displayNameRef.current.value.length >= 2) {
@@ -37,7 +40,6 @@ export default function Profile() {
                     },
                     {
                         headers: {
-                            "Content-Type": "application/json",
                             Authorization: "Bearer " + accessToken,
                         },
                     }
@@ -60,7 +62,6 @@ export default function Profile() {
         try {
             const result = await axiosUsersInstance.get("/me", {
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: "Bearer " + accessToken,
                 },
             });
@@ -143,6 +144,15 @@ export default function Profile() {
                 >
                     <LogoutIcon color="#ee2740" />
                     Logout
+                </div>
+                <Divider orientation="horizontal" sx={{ width: 1 }} />
+                <div
+                    className="action"
+                    style={{ color: "#ee2740" }}
+                    onClick={handleLogoutAll}
+                >
+                    <LogoutIcon color="#ee2740" />
+                    Logout From All Devices
                 </div>
             </div>
             {msg && <BasicModal msg={msg} setMsg={setMsg} />}
