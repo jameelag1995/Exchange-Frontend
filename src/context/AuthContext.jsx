@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { axiosUsersInstance } from "../utils/utils";
 
 const AuthContext = createContext({
@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     const [accessToken, setAccessToken] = useState("");
     const [notification, setNotification] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
     const login = async (email, password) => {
         try {
             const result = await axiosUsersInstance.post("/login", {
