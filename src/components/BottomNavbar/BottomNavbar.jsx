@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function BottomNavbar() {
-    const [value, setValue] = useState("dashboard");
+    const [value, setValue] = useState("");
     const navigate = useNavigate();
     const handleChange = (event, newValue) => {
         navigate(`/${newValue}`);
@@ -12,7 +12,13 @@ export default function BottomNavbar() {
     };
     return (
         <Paper
-            sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+            sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: "99",
+            }}
             elevation={3}
         >
             <BottomNavigation value={value} onChange={handleChange}>

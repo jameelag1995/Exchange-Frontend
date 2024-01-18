@@ -9,9 +9,12 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import ProductForm from "../../components/ProductForm/ProductForm";
 export default function MyProducts() {
     const [productsData, setProductsData] = useState();
-    const [editProduct, setEditProduct] = useState(false);
+    const [addingProduct, setAddingProduct] = useState(false);
+    const [editingProduct, setEditingProduct] = useState(false);
     const [msg, setMsg] = useState(null);
     const { accessToken } = useAuth();
+    const [productToEdit, setProductToEdit] = useState(null);
+
     const fetchMyProducts = async () => {
         try {
             const result = await axiosProductsInstance.get("/myProducts", {
@@ -19,24 +22,31 @@ export default function MyProducts() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
+            console.log(result.data);
             setProductsData(result.data);
         } catch (error) {
             setMsg(error.response.data);
         }
     };
     useEffect(() => {
-        fetchMyProducts();
-    }, []);
+        if (accessToken) fetchMyProducts();
+    }, [addingProduct, editingProduct]);
     return (
         <div className="MyProducts Page">
             <Typography variant="h3">My Products</Typography>
             <div className="my-products-container">
                 {productsData?.map((product) => (
-                    <ProductCard key={product?._id} productInfo={product} />
+                    <ProductCard
+                        key={product?._id}
+                        setProductToEdit={setProductToEdit}
+                        setEditingProduct={setEditingProduct}
+                        setProductsData={setProductsData}
+                        productInfo={product}
+                    />
                 ))}
                 <div className="add-new-product">
                     <AddBoxIcon
-                        onClick={() => setEditProduct(true)}
+                        onClick={() => setAddingProduct(true)}
                         sx={{
                             height: "250px",
                             width: "150px",
@@ -48,11 +58,26 @@ export default function MyProducts() {
                     />
                 </div>
             </div>
-            {editProduct && (
-                <ProductForm
-                    editingProduct={editProduct}
-                    setEditingProduct={setEditProduct}
-                />
+            {(addingProduct || editingProduct) && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        position: "absolute",
+                        zIndex: "1",
+                    }}
+                >
+                    <ProductForm
+                        productToEdit={productToEdit}
+                        setEditingProduct={setEditingProduct}
+                        addingProduct={addingProduct}
+                        setAddingProduct={setAddingProduct}
+                        setMsg={setMsg}
+                    />
+                </div>
             )}
             {msg && <BasicModal msg={msg} setMsg={setMsg} />}
         </div>

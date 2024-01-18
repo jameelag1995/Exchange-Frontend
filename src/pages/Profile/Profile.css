@@ -34,4 +34,5 @@ a {
     align-items: center;
     gap: 16px;
     width: 100%;
+    cursor: pointer;
 }
