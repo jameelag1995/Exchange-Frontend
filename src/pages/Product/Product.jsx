@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import { Button, Typography } from "@mui/material";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import "./Product.css";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { jwtDecode } from "jwt-decode";
 export default function Product() {
     const [msg, setMsg] = useState("");
     const params = useParams();
     const { accessToken } = useAuth();
+    const navigate = useNavigate();
+    const decoded = jwtDecode(accessToken);
     const [productInfo, setProductInfo] = useState(null);
     const fetchProductData = async () => {
         try {
@@ -29,9 +33,20 @@ export default function Product() {
     };
     useEffect(() => {
         fetchProductData();
+        if (!accessToken) navigate("/login");
     }, []);
     return (
         <div className="Product Page">
+            <ArrowBackIcon
+                sx={{
+                    position: "absolute",
+                    zIndex: "10",
+                    left: "16px",
+                    top: "16px",
+                    cursor: "pointer",
+                }}
+                onClick={() => navigate(-1)}
+            />
             <ImageCarousel images={productInfo?.pictures} />
             <div className="product-info-container">
                 <div className="product-container">
@@ -46,14 +61,24 @@ export default function Product() {
                     {productInfo?.canBeTradedFor.join(", ")}
                 </Typography>
                 <div className="product-container">
-                    <Typography variant="h6">
+                    <Typography variant="p">
                         Estimated Value: {productInfo?.estimatedValue}$
+                    </Typography>
+                    <Typography variant="p">
+                        {productInfo?.currentOwner?.displayName}
                     </Typography>
                 </div>
             </div>
-            <Button variant="contained" color="success">
-                Send an offer
-            </Button>
+            {decoded._id !== productInfo?.currentOwner && (
+                <Button
+                    variant="contained"
+                    color="success"
+                    sx={{ mb: "16px" }}
+                    onClick={() => navigate(`/offer/${productInfo?._id}`)}
+                >
+                    Send an offer
+                </Button>
+            )}
             {msg && <BasicModal msg={msg} setMsg={setMsg} />}
         </div>
     );

@@ -2,9 +2,9 @@ import { Button, Typography } from "@mui/material";
 import "./ProductCard.css";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
-import { axiosProductsInstance, axiosUsersInstance } from "../../utils/utils";
+import { axiosProductsInstance } from "../../utils/utils";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function ProductCard({
     setEditingProduct,
     productInfo,
@@ -14,6 +14,8 @@ export default function ProductCard({
     const { accessToken } = useAuth();
     const navigate = useNavigate();
     const decoded = jwtDecode(accessToken);
+    const location = useLocation();
+    console.log(location);
     const handleDelete = async () => {
         try {
             const result = await axiosProductsInstance.delete(
@@ -50,38 +52,45 @@ export default function ProductCard({
                         {productInfo?.type}
                     </Typography>
                 </div>
-                <Typography variant="p">{productInfo?.color}</Typography>
+                <div className="product-container">
+                    <Typography variant="p">{productInfo?.color}</Typography>
+                    <Typography variant="p">{productInfo?.category}</Typography>
+                </div>
                 <Typography variant="p">{productInfo?.description}</Typography>
                 <Typography variant="p">
                     {productInfo?.canBeTradedFor.join(", ")}
                 </Typography>
                 <div className="product-container">
-                    <Typography variant="h6">
+                    <Typography variant="p">
                         Estimated Value: {productInfo?.estimatedValue}$
+                    </Typography>
+                    <Typography variant="p">
+                        {productInfo?.currentOwner?.displayName}
                     </Typography>
                 </div>
             </div>
 
-            {decoded._id === productInfo?.currentOwner && (
-                <>
-                    <Button
-                        variant="contained"
-                        color="success"
-                        fullWidth
-                        onClick={handleEdit}
-                    >
-                        Edit Product
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        fullWidth
-                        onClick={handleDelete}
-                    >
-                        Delete Product
-                    </Button>
-                </>
-            )}
+            {decoded._id === productInfo?.currentOwner &&
+                !location.pathname.includes("dashboard") && (
+                    <>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            fullWidth
+                            onClick={handleEdit}
+                        >
+                            Edit Product
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            fullWidth
+                            onClick={handleDelete}
+                        >
+                            Delete Product
+                        </Button>
+                    </>
+                )}
             <Button variant="outlined" fullWidth onClick={handleVisitPage}>
                 visit product page
             </Button>

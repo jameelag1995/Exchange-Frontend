@@ -18,6 +18,7 @@ import { axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import UploadWidget from "../UploadWidget/UploadWidget";
 import { image } from "@cloudinary/url-gen/qualifiers/source";
+import ProductCategorySelect from "../ProductCategorySelect/ProductCategorySelect";
 export default function ProductForm({
     productToEdit,
     addingProduct,
@@ -26,10 +27,12 @@ export default function ProductForm({
     setMsg,
 }) {
     const [images, setImages] = useState([]);
-    const [productType, setProductType] = useState("");
+    const [productType, setProductType] = useState(productToEdit?.type || "");
+    const [selectedCategory, setSelectedCategory] = useState(
+        productToEdit?.category || ""
+    );
     const titleRef = useRef();
     const priceRef = useRef();
-    const categoryRef = useRef();
     const descriptionRef = useRef();
     const canBeTradedForRef = useRef();
     const colorRef = useRef();
@@ -38,6 +41,11 @@ export default function ProductForm({
     const handleTypeChange = (event) => {
         setProductType(event.target.value);
     };
+
+    const handleCategoryChange = (event) => {
+        setSelectedCategory(event.target.value);
+    };
+
     const setFormData = () => {
         const formData = new FormData();
         formData.append("title", titleRef.current.value);
@@ -45,12 +53,22 @@ export default function ProductForm({
         formData.append("type", productType);
         formData.append("estimatedValue", priceRef.current.value);
         formData.append("color", colorRef.current.value);
-        formData.append("category", categoryRef.current.value);
+        formData.append("category", selectedCategory);
         formData.append("description", descriptionRef.current.value);
 
         formData.append("canBeTradedFor", canBeTradedForRef.current.value);
         console.log(canBeTradedForRef.current.value.split(","));
         return formData;
+    };
+    const resetForm = () => {
+        titleRef.current.value = "";
+        setImages([]);
+        setProductType("");
+        priceRef.current.value = 0;
+        colorRef.current.value = "";
+        setSelectedCategory("");
+        descriptionRef.current.value = "";
+        canBeTradedForRef.current.value = "";
     };
     const handleEditProduct = async () => {
         const formData = setFormData();
@@ -65,6 +83,7 @@ export default function ProductForm({
                 }
             );
             setEditingProduct(false);
+            resetForm();
             setMsg({
                 title: "Success",
                 message: "Product Edited Successfully",
@@ -86,11 +105,24 @@ export default function ProductForm({
                 }
             );
             setAddingProduct(false);
+            resetForm();
             setMsg({ title: "Success", message: "Product Added Successfully" });
         } catch (error) {
             setMsg(error.response.data);
         }
     };
+    const categories = [
+        "Electronics",
+        "Clothing",
+        "Books",
+        "Jewelry",
+        "Home & Furniture",
+        "Beauty",
+        "Sports & Outdoors",
+        "Toys & Games",
+        "Automotive",
+        // Add more categories as needed
+    ];
 
     return (
         <Paper
@@ -113,6 +145,7 @@ export default function ProductForm({
                 onClick={() => {
                     setAddingProduct(false);
                     setEditingProduct(false);
+                    resetForm();
                 }}
                 sx={{
                     position: "absolute",
@@ -152,14 +185,25 @@ export default function ProductForm({
                         width: "100%",
                     }}
                 >
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="Category"
-                        fullWidth
-                        required
-                        defaultValue={productToEdit?.category}
-                        inputRef={categoryRef}
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                            Category
+                        </InputLabel>
+
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Category"
+                            defaultValue={selectedCategory}
+                            onChange={handleCategoryChange}
+                        >
+                            {categories.map((category, index) => (
+                                <MenuItem key={index} value={category}>
+                                    {category}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Color"
@@ -170,6 +214,7 @@ export default function ProductForm({
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Estimated Value"
+                        type="number"
                         fullWidth
                         required
                         defaultValue={productToEdit?.estimatedValue}
@@ -184,7 +229,7 @@ export default function ProductForm({
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Type"
-                            value={productToEdit?.type}
+                            defaultValue={productType}
                             onChange={handleTypeChange}
                         >
                             <MenuItem value="Goods">Goods</MenuItem>

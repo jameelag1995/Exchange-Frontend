@@ -1,0 +1,24 @@
+.ProductOfferCard {
+    width: 200px;
+    height: 300px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    border: 1px solid black;
+    border-radius: 6px;
+    box-shadow: 0 0 5px;
+}
+.info-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+    gap: 8px;
+}
+.ProductOfferCard img {
+    width: 100%;
+    height: 200px;
+}

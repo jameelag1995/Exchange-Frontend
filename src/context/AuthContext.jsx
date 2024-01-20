@@ -8,6 +8,7 @@ const AuthContext = createContext({
     logout: () => {},
     logoutAll: () => {},
     accessToken: "",
+    setAccessToken: () => {},
 });
 
 export function AuthProvider({ children }) {
@@ -15,7 +16,12 @@ export function AuthProvider({ children }) {
     const [accessToken, setAccessToken] = useState("");
     const [notification, setNotification] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
+    const location = useLocation();
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            setAccessToken(JSON.parse(localStorage.getItem("token")));
+        }
+    }, [location.pathname]);
     const login = async (email, password) => {
         try {
             const result = await axiosUsersInstance.post("/login", {
@@ -92,20 +98,13 @@ export function AuthProvider({ children }) {
             return error;
         }
     };
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            setAccessToken(JSON.parse(localStorage.getItem("token")));
-            navigate("/dashboard");
-        } else {
-            navigate("/login");
-        }
-    }, []);
 
     const AuthValues = {
         login,
         register,
         logout,
         logoutAll,
+        setAccessToken,
         accessToken,
         notification,
     };

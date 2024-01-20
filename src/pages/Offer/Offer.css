@@ -1,0 +1,48 @@
+.offer-container {
+    width: 100%;
+    padding: 16px;
+    min-height: 400px;
+    border: 1px solid black;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.products-to-offer-container {
+    width: 100%;
+    padding: 16px;
+    min-height: 400px;
+    border: 1px solid black;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.sender-container {
+    padding: 16px;
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+}
+.receiver-container {
+    padding: 16px;
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+}

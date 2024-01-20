@@ -7,6 +7,7 @@ import "./MyProducts.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ProductForm from "../../components/ProductForm/ProductForm";
+import { useNavigate } from "react-router-dom";
 export default function MyProducts() {
     const [productsData, setProductsData] = useState();
     const [addingProduct, setAddingProduct] = useState(false);
@@ -14,7 +15,7 @@ export default function MyProducts() {
     const [msg, setMsg] = useState(null);
     const { accessToken } = useAuth();
     const [productToEdit, setProductToEdit] = useState(null);
-
+    const navigate = useNavigate();
     const fetchMyProducts = async () => {
         try {
             const result = await axiosProductsInstance.get("/myProducts", {
@@ -29,7 +30,8 @@ export default function MyProducts() {
         }
     };
     useEffect(() => {
-        if (accessToken) fetchMyProducts();
+        if (accessToken && !editingProduct && !addingProduct) fetchMyProducts();
+        if (!accessToken) navigate("/login");
     }, [addingProduct, editingProduct]);
     return (
         <div className="MyProducts Page">
