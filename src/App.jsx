@@ -105,7 +105,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/offer/:productId"
+                        path="/offer/:offerId"
                         element={
                             <>
                                 <Offer />

@@ -33,10 +33,9 @@ export default function Dashboard() {
             navigate("/login");
             return;
         }
-        
 
         fetchData();
-    }, []);
+    }, [accessToken]);
     return (
         <div className="Dashboard Page">
             <Search

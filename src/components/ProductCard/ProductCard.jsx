@@ -47,24 +47,45 @@ export default function ProductCard({
             <img src={productInfo?.pictures[0]} alt="" />
             <div className="product-info-container">
                 <div className="product-container">
-                    <Typography variant="h5">{productInfo?.title}</Typography>
-                    <Typography variant="h6" color="green">
+                    <Typography variant="p">
+                        <b>{productInfo?.title}</b>
+                    </Typography>
+                    <Typography variant="p" color="green">
+                        <b>Type: </b>
                         {productInfo?.type}
                     </Typography>
                 </div>
                 <div className="product-container">
-                    <Typography variant="p">{productInfo?.color}</Typography>
-                    <Typography variant="p">{productInfo?.category}</Typography>
+                    <Typography variant="p">
+                        <b>Color: </b>
+                        {productInfo?.color}
+                    </Typography>
+                    <Typography variant="p">
+                        <b>Category: </b>
+                        {productInfo?.category}
+                    </Typography>
                 </div>
-                <Typography variant="p">{productInfo?.description}</Typography>
+                <Typography
+                    variant="p"
+                    sx={{ maxHeight: "50px", overflow: "hidden" }}
+                >
+                    <b>Description: </b>
+                    <br />
+                    {productInfo?.description}
+                </Typography>
                 <Typography variant="p">
+                    <b>Can be traded for: </b>
+                    <br />
                     {productInfo?.canBeTradedFor.join(", ")}
                 </Typography>
                 <div className="product-container">
                     <Typography variant="p">
-                        Estimated Value: {productInfo?.estimatedValue}$
+                        <b>Estimated Value: </b>
+                        {productInfo?.estimatedValue}$
                     </Typography>
                     <Typography variant="p">
+                        <b>Owner: </b>
+                        <br />
                         {productInfo?.currentOwner?.displayName}
                     </Typography>
                 </div>

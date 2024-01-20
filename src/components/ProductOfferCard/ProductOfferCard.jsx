@@ -6,10 +6,12 @@ export default function ProductOfferCard({ productInfo }) {
         <div className="ProductOfferCard">
             <img src={productInfo?.pictures[0]} alt="" />
             <div className="info-container">
-                <Typography variant="p">{productInfo?.title}</Typography>
-                <Typography variant="p">{productInfo?.category}</Typography>
+                <Typography variant="p">Title: {productInfo?.title}</Typography>
                 <Typography variant="p">
-                    {productInfo?.estimatedValue}$
+                    Category: {productInfo?.category}
+                </Typography>
+                <Typography variant="p">
+                    Estimated value:{productInfo?.estimatedValue}$
                 </Typography>
             </div>
         </div>
