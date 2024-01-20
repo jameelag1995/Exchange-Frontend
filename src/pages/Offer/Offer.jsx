@@ -1,49 +1,61 @@
-import { Slide, Typography } from "@mui/material";
+import { Button, Slide, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./Offer.css";
-import { axiosProductsInstance, axiosUsersInstance } from "../../utils/utils";
+import {
+    axiosOffersInstance,
+    axiosProductsInstance,
+    axiosUsersInstance,
+} from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import ProductOfferCard from "../../components/ProductOfferCard/ProductOfferCard";
 import { useLocation, useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 export default function Offer() {
-    const [senderProducts, setSenderProducts] = useState([]);
-    const [senderOffer, setSenderOffer] = useState([]);
-    const [receiverProducts, setReceiverProducts] = useState([]);
+    const [senderProducts, setSenderProducts] = useState(null);
+    const [senderOffer, setSenderOffer] = useState(null);
+    const [receiverProducts, setReceiverProducts] = useState(null);
+    const [receiverOffer, setReceiverOffer] = useState(null);
+    const [offerInfo, setOfferInfo] = useState(null);
     const { accessToken } = useAuth();
-    const location = useLocation();
-    const [selectedProduct, setSelectedProduct] = useState(
-        location.state?.data
-    );
-    const [receiverOffer, setReceiverOffer] = useState([selectedProduct]);
-    const receiver = location.state?.data?.currentOwner;
+
     const params = useParams();
     const fetchData = async (dataType) => {
         try {
             let result;
             switch (dataType) {
                 case "sender":
-                    result = await axiosUsersInstance.get("/me", {
-                        headers: {
-                            Authorization: "Bearer " + accessToken,
-                        },
-                    });
-
-                    console.log(result);
-                    setSenderProducts(result.data.products);
-                    break;
-                case "receiver":
                     result = await axiosProductsInstance(
-                        `/by-userId/${receiver._id}`,
+                        `/by-userId/${offerInfo.sender._id}`,
                         {
                             headers: {
                                 Authorization: "Bearer " + accessToken,
                             },
                         }
                     );
-                    console.log(result.data);
+                    setSenderProducts(
+                        result.data.filter(
+                            (prod1) =>
+                                !senderOffer.some(
+                                    (prod2) => prod2._id === prod1._id
+                                )
+                        )
+                    );
+                    break;
+                case "receiver":
+                    result = await axiosProductsInstance(
+                        `/by-userId/${offerInfo.receiver._id}`,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + accessToken,
+                            },
+                        }
+                    );
                     setReceiverProducts(
                         result.data.filter(
-                            (product) => product._id != selectedProduct._id
+                            (prod1) =>
+                                !receiverOffer.some(
+                                    (prod2) => prod2._id === prod1._id
+                                )
                         )
                     );
                     break;
@@ -51,6 +63,21 @@ export default function Offer() {
                 default:
                     break;
             }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const fetchOffer = async () => {
+        try {
+            const result = await axiosOffersInstance.get(`/${params.offerId}`, {
+                headers: {
+                    Authorization: "Bearer " + accessToken,
+                },
+            });
+            console.log(result.data);
+            setOfferInfo(() => result.data);
+            setReceiverOffer([...result.data.receiverProducts]);
+            setSenderOffer([...result.data.senderProducts]);
         } catch (error) {
             console.log(error);
         }
@@ -77,14 +104,46 @@ export default function Offer() {
         );
         setReceiverProducts([...receiverProducts, product]);
     };
+    const handleOfferUpdate = async () => {
+        try {
+            const decoded = jwtDecode(accessToken);
+            const reqBody = {
+                senderProducts: senderOffer,
+                receiverProducts: receiverOffer,
+                status: [
+                    ...offerInfo.status,
+                    { userId: decoded._id, status: "Pending" },
+                ],
+            };
+            const result = await axiosOffersInstance.patch(
+                `/${offerInfo._id}`,
+                reqBody,
+                {
+                    headers: {
+                        Authorization: "Bearer " + accessToken,
+                    },
+                }
+            );
+            console.log(result.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
-        fetchData("sender");
-        fetchData("receiver");
-        console.log(receiverProducts);
-    }, []);
+        if (accessToken) fetchOffer();
+        console.log(accessToken);
+
+        // console.log(receiverProducts);
+    }, [accessToken]);
+    useEffect(() => {
+        if (offerInfo) {
+            fetchData("sender");
+            fetchData("receiver");
+        }
+    }, [offerInfo]);
     return (
         <div className="Offer Page">
-            <Typography variant="h4">Offer</Typography>
+            <Typography variant="h4">Offer Status:Pending</Typography>
             <Slide
                 direction="left"
                 in
@@ -93,30 +152,57 @@ export default function Offer() {
             >
                 <div className="offer-container">
                     <div className="sender-container">
-                        {senderOffer.map((product) => (
-                            <div
-                                key={product._id}
-                                onClick={() => handleSenderOfferClick(product)}
-                            >
-                                <ProductOfferCard productInfo={product} />
-                            </div>
-                        ))}
+                        {senderOffer &&
+                            senderOffer.map((product) => (
+                                <div
+                                    key={product._id}
+                                    onClick={() =>
+                                        handleSenderOfferClick(product)
+                                    }
+                                >
+                                    <ProductOfferCard productInfo={product} />
+                                </div>
+                            ))}
+                    </div>
+                    <div className="buttons-container">
+                        <Button
+                            variant="contained"
+                            color="warning"
+                            onClick={handleOfferUpdate}
+                        >
+                            Update Offer
+                        </Button>
+                        <Button variant="contained" color="success">
+                            Accept Offer
+                        </Button>
+                        <Button variant="contained" color="error">
+                            Reject Offer
+                        </Button>
                     </div>
                     <div className="receiver-container">
-                        {receiverOffer.map((product) => (
-                            <div
-                                key={product._id}
-                                onClick={() =>
-                                    handleReceiverOfferClick(product)
-                                }
-                            >
-                                <ProductOfferCard productInfo={product} />
-                            </div>
-                        ))}
+                        {receiverOffer &&
+                            receiverOffer.map((product) => (
+                                <div
+                                    key={product._id}
+                                    onClick={() =>
+                                        handleReceiverOfferClick(product)
+                                    }
+                                >
+                                    <ProductOfferCard productInfo={product} />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </Slide>
-            <Typography variant="h4">Your Current Products</Typography>
+            <div className="offer-sides-info">
+                <Typography variant="h4">
+                    {offerInfo?.sender.displayName}
+                </Typography>
+                <Typography variant="h4">Your Current Products</Typography>
+                <Typography variant="h4">
+                    {offerInfo?.receiver.displayName}
+                </Typography>
+            </div>
             <Slide
                 direction="right"
                 in
@@ -125,28 +211,30 @@ export default function Offer() {
             >
                 <div className="products-to-offer-container">
                     <div className="sender-container">
-                        {senderProducts.map((product) => (
-                            <div
-                                key={product._id}
-                                onClick={() =>
-                                    handleSenderProductsClick(product)
-                                }
-                            >
-                                <ProductOfferCard productInfo={product} />
-                            </div>
-                        ))}
+                        {senderProducts &&
+                            senderProducts?.map((product) => (
+                                <div
+                                    key={product._id}
+                                    onClick={() =>
+                                        handleSenderProductsClick(product)
+                                    }
+                                >
+                                    <ProductOfferCard productInfo={product} />
+                                </div>
+                            ))}
                     </div>
                     <div className="receiver-container">
-                        {receiverProducts.map((product) => (
-                            <div
-                                key={product._id}
-                                onClick={() =>
-                                    handleReceiverProductsClick(product)
-                                }
-                            >
-                                <ProductOfferCard productInfo={product} />
-                            </div>
-                        ))}
+                        {receiverProducts &&
+                            receiverProducts?.map((product) => (
+                                <div
+                                    key={product._id}
+                                    onClick={() =>
+                                        handleReceiverProductsClick(product)
+                                    }
+                                >
+                                    <ProductOfferCard productInfo={product} />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </Slide>

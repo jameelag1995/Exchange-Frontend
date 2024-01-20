@@ -1,6 +1,6 @@
 .ProductCard {
     width: 300px;
-    height: 600px;
+    min-height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -30,8 +30,4 @@
     justify-content: space-evenly;
     align-items: start;
     gap: 8px;
-}
-.product-info-container span {
-    max-height: 20px;
-    overflow-y: hidden;
 }
