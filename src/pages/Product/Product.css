@@ -2,3 +2,6 @@
     width: 80%;
     margin: auto;
 }
+.Product img {
+    border-radius: 6px;
+}

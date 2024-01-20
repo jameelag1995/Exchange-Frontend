@@ -31,3 +31,7 @@
     align-items: start;
     gap: 8px;
 }
+.product-info-container span {
+    max-height: 20px;
+    overflow-y: hidden;
+}

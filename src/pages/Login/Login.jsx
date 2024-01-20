@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginUsingSocialMedia from "./LoginUsingSocialMedia";
 import {
@@ -19,9 +19,16 @@ export default function Login() {
     const email = useRef();
     const password = useRef();
     const navigate = useNavigate();
+    const { accessToken } = useAuth();
     const [invalidInput, setInvalidInput] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, setAccessToken } = useAuth();
+    useEffect(() => {
+        if (accessToken) {
+            navigate("/dashboard");
+        }
+    }, []);
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {

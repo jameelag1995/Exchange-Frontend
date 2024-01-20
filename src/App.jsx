@@ -13,18 +13,36 @@ import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
 import MyProducts from "./pages/MyProducts/MyProducts";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Product from "./pages/Product/Product";
+import Offer from "./pages/Offer/Offer";
 function App() {
     const location = useLocation();
     const [modeColor, setModeColor] = useState("light");
+
+    const commonColors = {
+        primary: {
+            main: "#753939",
+        },
+        secondary: {
+            main: "#757439",
+        },
+        info: {
+            main: "#395E75",
+        },
+        error: {
+            main: "#CAA7A7",
+        },
+        background: {
+            main: "#C6E3F5",
+        },
+    };
+
     const theme = createTheme({
         palette: {
             mode: modeColor,
-            primary: {
-                main: modeColor === "light" ? "#005f8b" : "#753939",
-            },
-            secondary: {
-                main: modeColor === "light" ? "#CAA7A7" : "#757439",
-            },
+            ...commonColors,
+        },
+        typography: {
+            fontFamily: "Roboto, sans-serif",
         },
     });
     const handleChange = () => {
@@ -32,7 +50,6 @@ function App() {
     };
 
     const [showNavbar, setShowNavbar] = useState(false);
-    console.log(location.pathname.includes("login"));
     useEffect(() => {
         if (
             location.pathname.includes("login") ||
@@ -84,6 +101,14 @@ function App() {
                         element={
                             <>
                                 <Product />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/offer/:productId"
+                        element={
+                            <>
+                                <Offer />
                             </>
                         }
                     />
