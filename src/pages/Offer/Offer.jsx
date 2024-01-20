@@ -4,13 +4,18 @@ import "./Offer.css";
 import { axiosProductsInstance, axiosUsersInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import ProductOfferCard from "../../components/ProductOfferCard/ProductOfferCard";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 export default function Offer() {
     const [senderProducts, setSenderProducts] = useState([]);
     const [senderOffer, setSenderOffer] = useState([]);
     const [receiverProducts, setReceiverProducts] = useState([]);
-    const [receiverOffer, setReceiverOffer] = useState([]);
     const { accessToken } = useAuth();
+    const location = useLocation();
+    const [selectedProduct, setSelectedProduct] = useState(
+        location.state?.data
+    );
+    const [receiverOffer, setReceiverOffer] = useState([selectedProduct]);
+    const receiver = location.state?.data?.currentOwner;
     const params = useParams();
     const fetchData = async (dataType) => {
         try {
@@ -26,9 +31,9 @@ export default function Offer() {
                     console.log(result);
                     setSenderProducts(result.data.products);
                     break;
-                case "receiver-offer":
+                case "receiver":
                     result = await axiosProductsInstance(
-                        `/${params.productId}`,
+                        `/by-userId/${receiver._id}`,
                         {
                             headers: {
                                 Authorization: "Bearer " + accessToken,
@@ -36,7 +41,11 @@ export default function Offer() {
                         }
                     );
                     console.log(result.data);
-                    setReceiverOffer([result.data]);
+                    setReceiverProducts(
+                        result.data.filter(
+                            (product) => product._id != selectedProduct._id
+                        )
+                    );
                     break;
 
                 default:
@@ -46,9 +55,32 @@ export default function Offer() {
             console.log(error);
         }
     };
+    const handleSenderProductsClick = (product) => {
+        setSenderOffer([...senderOffer, product]);
+        setSenderProducts(
+            senderProducts.filter((prod) => prod._id != product._id)
+        );
+    };
+    const handleSenderOfferClick = (product) => {
+        setSenderOffer(senderOffer.filter((prod) => prod._id != product._id));
+        setSenderProducts([...senderProducts, product]);
+    };
+    const handleReceiverProductsClick = (product) => {
+        setReceiverOffer([...receiverOffer, product]);
+        setReceiverProducts(
+            receiverProducts.filter((prod) => prod._id != product._id)
+        );
+    };
+    const handleReceiverOfferClick = (product) => {
+        setReceiverOffer(
+            receiverOffer.filter((prod) => prod._id != product._id)
+        );
+        setReceiverProducts([...receiverProducts, product]);
+    };
     useEffect(() => {
         fetchData("sender");
-        fetchData("receiver-offer");
+        fetchData("receiver");
+        console.log(receiverProducts);
     }, []);
     return (
         <div className="Offer Page">
@@ -60,13 +92,26 @@ export default function Offer() {
                 mountOnEnter
             >
                 <div className="offer-container">
-                    <div className="sender-container"></div>
+                    <div className="sender-container">
+                        {senderOffer.map((product) => (
+                            <div
+                                key={product._id}
+                                onClick={() => handleSenderOfferClick(product)}
+                            >
+                                <ProductOfferCard productInfo={product} />
+                            </div>
+                        ))}
+                    </div>
                     <div className="receiver-container">
                         {receiverOffer.map((product) => (
-                            <ProductOfferCard
-                                productInfo={product}
+                            <div
                                 key={product._id}
-                            />
+                                onClick={() =>
+                                    handleReceiverOfferClick(product)
+                                }
+                            >
+                                <ProductOfferCard productInfo={product} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -81,13 +126,28 @@ export default function Offer() {
                 <div className="products-to-offer-container">
                     <div className="sender-container">
                         {senderProducts.map((product) => (
-                            <ProductOfferCard
-                                productInfo={product}
+                            <div
                                 key={product._id}
-                            />
+                                onClick={() =>
+                                    handleSenderProductsClick(product)
+                                }
+                            >
+                                <ProductOfferCard productInfo={product} />
+                            </div>
                         ))}
                     </div>
-                    <div className="receiver-container"></div>
+                    <div className="receiver-container">
+                        {receiverProducts.map((product) => (
+                            <div
+                                key={product._id}
+                                onClick={() =>
+                                    handleReceiverProductsClick(product)
+                                }
+                            >
+                                <ProductOfferCard productInfo={product} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </Slide>
         </div>
