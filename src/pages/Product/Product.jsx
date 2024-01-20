@@ -15,6 +15,13 @@ export default function Product() {
     const navigate = useNavigate();
     const decoded = jwtDecode(accessToken);
     const [productInfo, setProductInfo] = useState(null);
+
+    const handleMoveToOfferPage = () => {
+        navigate(`/offer/${productInfo?.currentOwner._id}`, {
+            state: { data: productInfo },
+        });
+    };
+
     const fetchProductData = async () => {
         try {
             const result = await axiosProductsInstance.get(
@@ -31,6 +38,7 @@ export default function Product() {
             setMsg(error.response.data);
         }
     };
+
     useEffect(() => {
         fetchProductData();
         if (!accessToken) navigate("/login");
@@ -74,7 +82,8 @@ export default function Product() {
                     variant="contained"
                     color="success"
                     sx={{ mb: "16px" }}
-                    onClick={() => navigate(`/offer/${productInfo?._id}`)}
+                    // onClick={() => navigate(`/offer/${productInfo?._id}`)}
+                    onClick={handleMoveToOfferPage}
                 >
                     Send an offer
                 </Button>
