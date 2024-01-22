@@ -34,7 +34,7 @@
     flex-direction: row;
     gap: 16px;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
 }
 .receiver-container {
@@ -47,7 +47,7 @@
     flex-direction: row;
     gap: 16px;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -66,7 +66,7 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    width: 300px;
+    width: 150px;
     text-align: center;
 }
 
@@ -101,7 +101,7 @@
 
 .messages-container {
     width: 300px;
-    height: 200px;
+    height: 100px;
     overflow-y: auto;
 }
 
@@ -136,19 +136,13 @@
     width: 100%;
 }
 
-@media (min-width: 1401px) {
-    .mobile-container {
-        display: none;
-    }
-
-    /* Add more styles as needed */
-}
-
-/* Styles for screens less than 1400 pixels */
-@media (max-width: 1400px) {
-    .Offer {
-        display: none;
-    }
-
-    /* Add more styles as needed */
+.bottom-offer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 8px;
+    width: 100%;
 }
