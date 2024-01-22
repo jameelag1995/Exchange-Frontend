@@ -1,5 +1,6 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import { AccountCircle, Dashboard, Inventory } from "@mui/icons-material";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +32,11 @@ export default function BottomNavbar() {
                     label="My Products"
                     value="myProducts"
                     icon={<Inventory />}
+                />
+                <BottomNavigationAction
+                    label="My Offers"
+                    value="my-offers"
+                    icon={<ReceiptLongIcon />}
                 />
                 <BottomNavigationAction
                     label="Profile"

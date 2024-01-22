@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Avatar, Button, Typography } from "@mui/material";
 import "./ProductCard.css";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
@@ -63,6 +63,9 @@ export default function ProductCard({
                     <Typography variant="p">
                         <b>Category: </b>
                         {productInfo?.category}
+                        <br />
+                        <b>Sub-Category: </b>
+                        {productInfo?.subCategory}
                     </Typography>
                 </div>
                 <Typography
@@ -83,11 +86,16 @@ export default function ProductCard({
                         <b>Estimated Value: </b>
                         {productInfo?.estimatedValue}$
                     </Typography>
-                    <Typography variant="p">
-                        <b>Owner: </b>
-                        <br />
-                        {productInfo?.currentOwner?.displayName}
-                    </Typography>
+
+                    <div className="info-usr-container">
+                        <Avatar
+                            src={productInfo?.currentOwner?.profilePicture}
+                            sx={{ width: "20px", height: "20px" }}
+                        />
+                        <Typography variant="p">
+                            {productInfo?.currentOwner?.displayName}
+                        </Typography>
+                    </div>
                 </div>
             </div>
 
@@ -112,7 +120,7 @@ export default function ProductCard({
                         </Button>
                     </>
                 )}
-            <Button variant="outlined" fullWidth onClick={handleVisitPage}>
+            <Button variant="contained" fullWidth onClick={handleVisitPage}>
                 visit product page
             </Button>
         </div>
