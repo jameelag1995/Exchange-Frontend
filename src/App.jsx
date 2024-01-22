@@ -14,6 +14,7 @@ import MyProducts from "./pages/MyProducts/MyProducts";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Product from "./pages/Product/Product";
 import Offer from "./pages/Offer/Offer";
+import MyOffers from "./pages/MyOffers/MyOffers";
 function App() {
     const location = useLocation();
     const [modeColor, setModeColor] = useState("light");
@@ -29,7 +30,7 @@ function App() {
             main: "#395E75",
         },
         error: {
-            main: "#CAA7A7",
+            main: "#f44336",
         },
         background: {
             main: "#C6E3F5",
@@ -109,6 +110,14 @@ function App() {
                         element={
                             <>
                                 <Offer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/my-offers"
+                        element={
+                            <>
+                                <MyOffers />
                             </>
                         }
                     />

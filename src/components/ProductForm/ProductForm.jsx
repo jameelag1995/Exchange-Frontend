@@ -31,6 +31,9 @@ export default function ProductForm({
     const [selectedCategory, setSelectedCategory] = useState(
         productToEdit?.category || ""
     );
+    const [selectedSubCategory, setSelectedSubCategory] = useState(
+        productToEdit?.subCategory || ""
+    );
     const titleRef = useRef();
     const priceRef = useRef();
     const descriptionRef = useRef();
@@ -45,6 +48,9 @@ export default function ProductForm({
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
     };
+    const handleSubCategoryChange = (event) => {
+        setSelectedSubCategory(event.target.value);
+    };
 
     const setFormData = () => {
         const formData = new FormData();
@@ -54,9 +60,14 @@ export default function ProductForm({
         formData.append("estimatedValue", priceRef.current.value);
         formData.append("color", colorRef.current.value);
         formData.append("category", selectedCategory);
+        formData.append("subCategory", selectedSubCategory);
+
         formData.append("description", descriptionRef.current.value);
 
-        formData.append("canBeTradedFor", canBeTradedForRef.current.value);
+        formData.append(
+            "canBeTradedFor",
+            canBeTradedForRef.current.value.split(",")
+        );
         console.log(canBeTradedForRef.current.value.split(","));
         return formData;
     };
@@ -67,6 +78,7 @@ export default function ProductForm({
         priceRef.current.value = 0;
         colorRef.current.value = "";
         setSelectedCategory("");
+        setSelectedSubCategory("");
         descriptionRef.current.value = "";
         canBeTradedForRef.current.value = "";
     };
@@ -121,8 +133,31 @@ export default function ProductForm({
         "Sports & Outdoors",
         "Toys & Games",
         "Automotive",
+        "Other",
         // Add more categories as needed
     ];
+    const subcategories = {
+        Electronics: [
+            "Smartphones",
+            "Smart Watch",
+            "Laptops",
+            "Tablets",
+            "Audio",
+            "PC",
+            "Hardware",
+            "Accessories",
+        ],
+        Clothing: ["Men's", "Women's", "Kids"],
+        Books: ["Fiction", "Non-Fiction", "Mystery", "Science Fiction"],
+        Jewelry: ["Necklaces", "Bracelets", "Earrings", "Rings", "Watch"],
+        "Home & Furniture": ["Furniture", "Bedding", "Decor"],
+        Beauty: ["Skincare", "Makeup", "Haircare"],
+        "Sports & Outdoors": ["Outdoor Gear", "Athletic Clothing", "Footwear"],
+        "Toys & Games": ["Action Figures", "Board Games", "Puzzles"],
+        Automotive: ["Car Accessories", "Tools", "Maintenance"],
+        Other: ["Miscellaneous"],
+        // Add more subcategories as needed
+    };
 
     return (
         <Paper
@@ -186,7 +221,7 @@ export default function ProductForm({
                     }}
                 >
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="demo-simple-select-label" required>
                             Category
                         </InputLabel>
 
@@ -194,7 +229,7 @@ export default function ProductForm({
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Category"
-                            defaultValue={selectedCategory}
+                            value={selectedCategory}
                             onChange={handleCategoryChange}
                         >
                             {categories.map((category, index) => (
@@ -202,6 +237,31 @@ export default function ProductForm({
                                     {category}
                                 </MenuItem>
                             ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label" required>
+                            Sub-Category
+                        </InputLabel>
+
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Sub-Category"
+                            value={selectedSubCategory}
+                            onChange={handleSubCategoryChange}
+                        >
+                            {selectedCategory &&
+                                subcategories[selectedCategory].map(
+                                    (subCategory, index) => (
+                                        <MenuItem
+                                            key={index}
+                                            value={subCategory}
+                                        >
+                                            {subCategory}
+                                        </MenuItem>
+                                    )
+                                )}
                         </Select>
                     </FormControl>
                     <TextField
@@ -221,7 +281,7 @@ export default function ProductForm({
                         inputRef={priceRef}
                     />
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="demo-simple-select-label" required>
                             Type
                         </InputLabel>
 
@@ -229,7 +289,7 @@ export default function ProductForm({
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Type"
-                            defaultValue={productType}
+                            value={productType}
                             onChange={handleTypeChange}
                         >
                             <MenuItem value="Goods">Goods</MenuItem>
@@ -254,6 +314,7 @@ export default function ProductForm({
                     rows={2}
                     fullWidth
                     required
+                    placeholder="include the sub category and separate with commas example (iphone 10,smartphones,lenovo,laptop)"
                     defaultValue={productToEdit?.canBeTradedFor}
                     inputRef={canBeTradedForRef}
                 />

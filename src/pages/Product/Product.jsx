@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import BasicModal from "../../components/BasicModal/BasicModal";
-import { Button, Typography } from "@mui/material";
+import { Avatar, Button, Typography } from "@mui/material";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import "./Product.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -22,6 +22,11 @@ export default function Product() {
                 sender: decoded._id,
                 receiver: productInfo.currentOwner._id,
                 product: productInfo._id,
+                status: [
+                    { userId: decoded._id, status: "Pending" },
+                    { userId: productInfo.currentOwner._id, status: "Pending" },
+                ],
+                conversation: [],
             };
             const result = await axiosOffersInstance.post("/create", offerObj, {
                 headers: {
@@ -85,6 +90,10 @@ export default function Product() {
                         <b>Category: </b>
                         {productInfo?.category}
                     </Typography>
+                    <Typography variant="p">
+                        <b>Sub-Category: </b>
+                        {productInfo?.subCategory}
+                    </Typography>
                     <Typography variant="h6" color="green">
                         <b>Type:</b>
                         {productInfo?.type}
@@ -104,9 +113,22 @@ export default function Product() {
                         <b>Estimated Value: </b>
                         {productInfo?.estimatedValue}$
                     </Typography>
-                    <Typography variant="p">
+                    <Typography
+                        variant="p"
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "start",
+                            alignItems: "center",
+                            textAlign: "center",
+                            gap: "8px",
+                        }}
+                    >
                         <b>Owner: </b>
-                        <br />
+
+                        <Avatar
+                            src={productInfo?.currentOwner?.profilePicture}
+                        />
                         {productInfo?.currentOwner?.displayName}
                     </Typography>
                 </div>

@@ -30,7 +30,7 @@ export default function UploadWidget({ images, setImages }) {
                 variant="outlined"
                 sx={{ display: "flex", gap: "8px" }}
             >
-                Upload Images <CloudUploadIcon />
+                Upload Image <CloudUploadIcon />
             </Button>
         </div>
     );

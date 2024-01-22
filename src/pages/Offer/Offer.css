@@ -1,60 +1,63 @@
+.Offer {
+    gap: 16px !important;
+}
 .offer-container {
     width: 100%;
-    padding: 16px;
-    min-height: 500px;
-    border: 1px solid black;
+    /* padding: 16px; */
+
     border-radius: 6px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    min-width: 1400px;
+    justify-content: space-between;
     align-items: center;
 }
 
 .products-to-offer-container {
     width: 100%;
-    padding: 16px;
-    min-height: 500px;
-    border: 1px solid black;
+    /* padding: 16px; */
     border-radius: 6px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    min-width: 1400px;
+    justify-content: space-between;
     align-items: center;
 }
 
 .sender-container {
-    padding: 16px;
+    padding: 4px 16px;
     width: 40%;
-    min-height: 400px;
+    min-height: 320px;
     border: 1px solid black;
     border-radius: 6px;
     display: flex;
     flex-direction: row;
-    gap: 32px;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: start;
-    align-items: start;
+    align-items: center;
 }
 .receiver-container {
-    padding: 16px;
+    padding: 4px 16px;
     width: 40%;
-    min-height: 400px;
+    min-height: 320px;
     border: 1px solid black;
     border-radius: 6px;
     display: flex;
     flex-direction: row;
-    gap: 32px;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: start;
-    align-items: start;
+    align-items: center;
 }
 
 .offer-sides-info {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    width: 100%;
+    text-align: center;
 }
 
 .buttons-container {
@@ -64,4 +67,88 @@
     align-items: center;
     gap: 16px;
     width: 300px;
+    text-align: center;
+}
+
+.users-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 40%;
+}
+
+.text-container {
+    border: 1px solid lightblue;
+    border-radius: 6px;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.messages-container {
+    width: 300px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.mobile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    min-width: 600px;
+    padding: 48px 16px 60px 16px;
+    position: relative;
+    min-height: 100vh;
+}
+
+.user-switch {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-mobile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+@media (min-width: 1401px) {
+    .mobile-container {
+        display: none;
+    }
+
+    /* Add more styles as needed */
+}
+
+/* Styles for screens less than 1400 pixels */
+@media (max-width: 1400px) {
+    .Offer {
+        display: none;
+    }
+
+    /* Add more styles as needed */
 }

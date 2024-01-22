@@ -1,11 +1,10 @@
 .ProductOfferCard {
     width: 200px;
-    height: 300px;
-    padding: 8px;
+    /* height: 300px; */
+    padding: 4px 8px;
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 8px;
     align-items: start;
     border: 1px solid black;
     border-radius: 6px;
