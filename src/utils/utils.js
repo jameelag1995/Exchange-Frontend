@@ -25,3 +25,11 @@ export const axiosOffersInstance = axios.create({
         // Add any other headers you need
     },
 });
+export const axiosReviewsInstance = axios.create({
+    baseURL: "http://localhost:3000/api/v1/exchange/reviews/",
+    timeout: 5000, // Set a timeout for requests (optional)
+    headers: {
+        "Content-Type": "application/json",
+        // Add any other headers you need
+    },
+});

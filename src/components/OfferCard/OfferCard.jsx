@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useNavigate } from "react-router-dom";
 import "./OfferCard.css";
-export default function OfferCard({ offerInfo, myId }) {
+import Review from "../Review/Review";
+export default function OfferCard({ offerInfo, myId, setMsg, msg }) {
     const [senderName, setSenderName] = useState("");
     const [receiverName, setReceiverName] = useState("");
     const [offerStatus, setOfferStatus] = useState("");
     const [timeCreated, setTimeCreated] = useState("");
     const [timeUpdated, setTimeUpdated] = useState("");
     const navigate = useNavigate();
+    const [writingReview, setWritingReview] = useState(false);
     useEffect(() => {
         setTimeCreated(offerInfo?.createdAt.split(".")[0].replace("T", " "));
         setTimeUpdated(offerInfo?.updatedAt.split(".")[0].replace("T", " "));
@@ -47,7 +49,19 @@ export default function OfferCard({ offerInfo, myId }) {
                 >
                     Go To Offer
                 </Button>
+                {offerInfo.completed !== undefined && (
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        onClick={() => setWritingReview((prev) => !prev)}
+                    >
+                        Write Review
+                    </Button>
+                )}
             </div>
+            {writingReview && (
+                <Review offerInfo={offerInfo} setMsg={setMsg} msg={msg} />
+            )}
             <Divider orientation="horizontal" sx={{ width: 1 }} />
         </>
     );
