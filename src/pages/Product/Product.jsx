@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import BasicModal from "../../components/BasicModal/BasicModal";
@@ -60,7 +61,6 @@ export default function Product() {
     };
     useEffect(() => {
         if (accessToken) fetchProductData();
-        if (!accessToken) navigate("/login");
     }, [accessToken]);
     return (
         <div className="Product Page">
@@ -107,16 +107,16 @@ export default function Product() {
                     <b>Can be traded for: </b>
                     {productInfo?.canBeTradedFor.join(",")}
                 </Typography>
+                <Typography variant="p">
+                    <b>Estimated Value: </b>
+                    {productInfo?.estimatedValue}$
+                </Typography>
                 <div className="product-container">
-                    <Typography variant="p">
-                        <b>Estimated Value: </b>
-                        {productInfo?.estimatedValue}$
-                    </Typography>
                     <Typography
                         variant="p"
                         style={{
                             display: "flex",
-                            flexDirection: "column",
+                            flexDirection: "row",
                             justifyContent: "start",
                             alignItems: "center",
                             textAlign: "center",
@@ -127,9 +127,27 @@ export default function Product() {
 
                         <Avatar
                             src={productInfo?.currentOwner?.profilePicture}
+                            sx={{
+                                boxShadow: "0 0 4px",
+                            }}
                         />
                         {productInfo?.currentOwner?.displayName}
                     </Typography>
+                    <div
+                        className="location"
+                        style={{
+                            display: "flex",
+                            justifyContent: "start",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: "8px",
+                        }}
+                    >
+                        <LocationOnIcon />
+                        <Typography variant="p">
+                            {productInfo?.location}
+                        </Typography>
+                    </div>
                 </div>
             </div>
             <div className="product-buttons">

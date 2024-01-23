@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Slide, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { axiosOffersInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
@@ -31,18 +31,20 @@ export default function MyOffers() {
         if (accessToken) fetchOffers();
     }, [accessToken]);
     return (
-        <div className="MyOffers Page">
-            <Typography variant="h3">My Offers</Typography>
-            {myOffers?.map((offer) => (
-                <OfferCard
-                    setMsg={setMsg}
-                    msg={msg}
-                    myId={decoded._id}
-                    offerInfo={offer}
-                    key={offer._id}
-                />
-            ))}
-            {msg && <BasicModal msg={msg} setMsg={setMsg} />}
-        </div>
+        <Slide direction="up" in style={{ transitionDelay: 800 }}>
+            <div className="MyOffers Page">
+                <Typography variant="h3">My Offers</Typography>
+                {myOffers?.map((offer) => (
+                    <OfferCard
+                        setMsg={setMsg}
+                        msg={msg}
+                        myId={decoded._id}
+                        offerInfo={offer}
+                        key={offer._id}
+                    />
+                ))}
+                {msg && <BasicModal msg={msg} setMsg={setMsg} />}
+            </div>
+        </Slide>
     );
 }

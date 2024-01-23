@@ -1,4 +1,4 @@
-import { Button, Slide, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Slide, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import "./Offer.css";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
@@ -19,6 +19,7 @@ export default function Offer() {
     const [isSender, setIsSender] = useState(true);
     const messageRef = useRef();
     const [msg, setMsg] = useState("");
+    const [isAccepted, setIsAccepted] = useState(false);
     const navigate = useNavigate();
     const params = useParams();
     const fetchData = async (dataType) => {
@@ -85,6 +86,7 @@ export default function Offer() {
     };
     const handleSenderProductsClick = (product) => {
         if (offerEnded) return;
+        if (isAccepted) return;
         setSenderOffer([...senderOffer, product]);
         setSenderProducts(
             senderProducts.filter((prod) => prod._id != product._id)
@@ -92,11 +94,13 @@ export default function Offer() {
     };
     const handleSenderOfferClick = (product) => {
         if (offerEnded) return;
+        if (isAccepted) return;
         setSenderOffer(senderOffer.filter((prod) => prod._id != product._id));
         setSenderProducts([...senderProducts, product]);
     };
     const handleReceiverProductsClick = (product) => {
         if (offerEnded) return;
+        if (isAccepted) return;
         setReceiverOffer([...receiverOffer, product]);
         setReceiverProducts(
             receiverProducts.filter((prod) => prod._id != product._id)
@@ -104,6 +108,7 @@ export default function Offer() {
     };
     const handleReceiverOfferClick = (product) => {
         if (offerEnded) return;
+        if (isAccepted) return;
         setReceiverOffer(
             receiverOffer.filter((prod) => prod._id != product._id)
         );
@@ -198,14 +203,24 @@ export default function Offer() {
         if (offerInfo) {
             fetchData("sender");
             fetchData("receiver");
+            setIsAccepted(
+                offerInfo.status.some((stat) => stat.status === "Accepted")
+            );
         }
 
         if (offerInfo?.completed !== undefined) {
             setOfferEnded(true);
+
+            setMsg({
+                title: "Trade Ended",
+                message: offerInfo?.completed
+                    ? "Successful Trade"
+                    : "Unsuccessful Trade",
+            });
         }
     }, [offerInfo]);
     return (
-        <>
+        <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="mobile-container">
                 <ArrowBackIcon
                     sx={{
@@ -234,6 +249,10 @@ export default function Offer() {
                 {isSender ? (
                     <div className="user-mobile-container">
                         <div className="info">
+                            <Avatar
+                                src={offerInfo?.sender.profilePicture}
+                                sx={{ boxShadow: "0 0 4px" }}
+                            />
                             <Typography variant="h6">
                                 {offerInfo?.sender.displayName},
                             </Typography>
@@ -277,6 +296,10 @@ export default function Offer() {
                 ) : (
                     <div className="user-mobile-container">
                         <div className="info">
+                            <Avatar
+                                src={offerInfo?.receiver.profilePicture}
+                                sx={{ boxShadow: "0 0 4px" }}
+                            />
                             <Typography variant="h6">
                                 {offerInfo?.receiver.displayName},
                             </Typography>
@@ -363,14 +386,11 @@ export default function Offer() {
                         >
                             Reject Offer
                         </Button>
-                        {offerEnded && (
-                            <Typography variant="h4">Trade Ended</Typography>
-                        )}
                     </div>
                 </div>
 
                 {msg && <BasicModal msg={msg} setMsg={setMsg} />}
             </div>
-        </>
+        </Slide>
     );
 }

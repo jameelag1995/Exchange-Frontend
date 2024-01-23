@@ -38,6 +38,7 @@ export default function ProductForm({
     const priceRef = useRef();
     const descriptionRef = useRef();
     const canBeTradedForRef = useRef();
+    const locationRef = useRef();
     const colorRef = useRef();
     const { accessToken } = useAuth();
 
@@ -55,6 +56,7 @@ export default function ProductForm({
     const setFormData = () => {
         const formData = new FormData();
         formData.append("title", titleRef.current.value);
+        formData.append("location", locationRef.current.value);
         if (images.length > 0) formData.append("pictures", images);
         formData.append("type", productType);
         formData.append("estimatedValue", priceRef.current.value);
@@ -73,6 +75,7 @@ export default function ProductForm({
     };
     const resetForm = () => {
         titleRef.current.value = "";
+        locationRef.current.value = "";
         setImages([]);
         setProductType("");
         priceRef.current.value = 0;
@@ -209,6 +212,7 @@ export default function ProductForm({
                     defaultValue={productToEdit?.title}
                     inputRef={titleRef}
                 />
+
                 <div
                     className="product-type-price"
                     style={{
@@ -297,6 +301,16 @@ export default function ProductForm({
                         </Select>
                     </FormControl>
                 </div>
+                <TextField
+                    id="outlined-multiline-flexible"
+                    label="Location"
+                    multiline
+                    maxRows={1}
+                    fullWidth
+                    required
+                    defaultValue={productToEdit?.location}
+                    inputRef={locationRef}
+                />
                 <TextField
                     id="outlined-multiline-static"
                     label="Description"

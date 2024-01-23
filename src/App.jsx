@@ -11,18 +11,18 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
 import MyProducts from "./pages/MyProducts/MyProducts";
-import { Cloudinary } from "@cloudinary/url-gen";
 import Product from "./pages/Product/Product";
 import Offer from "./pages/Offer/Offer";
 import MyOffers from "./pages/MyOffers/MyOffers";
 import Reviews from "./pages/Reviews/Reviews";
+import MiniDrawer from "./components/SideBar/SideBar";
 function App() {
     const location = useLocation();
     const [modeColor, setModeColor] = useState("light");
 
     const commonColors = {
         primary: {
-            main: "#753939",
+            main: modeColor === "light" ? "#753939" : "#C6E3F5",
         },
         secondary: {
             main: "#757439",
@@ -43,9 +43,9 @@ function App() {
             mode: modeColor,
             ...commonColors,
         },
-        typography: {
-            fontFamily: "Roboto, sans-serif",
-        },
+        // typography: {
+        //     fontFamily: "Roboto Mono",
+        // },
     });
     const handleChange = () => {
         setModeColor((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -65,10 +65,16 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <ThemeSwitch theme={theme} onChange={handleChange} />
+            {/* <ThemeSwitch theme={theme} onChange={handleChange} /> */}
 
             <AuthProvider>
-                {showNavbar && <BottomNavbar />}
+                {showNavbar && (
+                    <>
+                        <MiniDrawer />
+                        <BottomNavbar />
+                    </>
+                )}
+
                 <Routes>
                     <Route exact path="/" element={<LoginMain />}>
                         <Route path="/login" element={<Login />} />
@@ -86,12 +92,15 @@ function App() {
                         path="/profile"
                         element={
                             <>
-                                <Profile />
+                                <Profile
+                                    modeColor={modeColor}
+                                    setModeColor={setModeColor}
+                                />
                             </>
                         }
                     />
                     <Route
-                        path="/myProducts"
+                        path="/my-products"
                         element={
                             <>
                                 <MyProducts />

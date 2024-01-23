@@ -51,7 +51,9 @@ export default function Login() {
 
     return (
         <div className="login-form-container">
-            <Typography variant="h3">Welcome Back</Typography>
+            <Typography color="primary" variant="h4">
+                Welcome To Which-Switch
+            </Typography>
 
             <form id="login-form" onSubmit={handleSubmit}>
                 <FormControl sx={{ m: 1, width: 1 }} variant="outlined">
@@ -112,8 +114,8 @@ export default function Login() {
                 {invalidInput && (
                     <BasicModal msg={invalidInput} setMsg={setInvalidInput} />
                 )}
+                <LoginUsingSocialMedia />
             </form>
-            <LoginUsingSocialMedia />
         </div>
     );
 }

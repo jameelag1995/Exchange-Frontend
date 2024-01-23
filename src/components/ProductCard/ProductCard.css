@@ -39,7 +39,7 @@
     flex-wrap: wrap;
     justify-content: start;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     height: 60px;
 }
 .info-usr-container img {
