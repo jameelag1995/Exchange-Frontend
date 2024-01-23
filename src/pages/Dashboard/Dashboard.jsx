@@ -1,16 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Search from "../../components/Search/Search";
 import "./Dashboard.css";
+import SearchIcon from "@mui/icons-material/Search";
 import { axiosProductsInstance } from "../../utils/utils";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import {
+    Box,
+    Divider,
+    IconButton,
+    InputBase,
+    Paper,
+    Slider,
+    Typography,
+} from "@mui/material";
 export default function Dashboard() {
     const { accessToken } = useAuth();
+    const [allProducts, setAllProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const navigate = useNavigate();
     const [msg, setMsg] = useState(null);
+    const [priceValue, setPriceValue] = useState([0, 2000]);
+
+    const handleSearch = (e) => {
+        const searchQuery = e.target.value.toLowerCase();
+
+        const filteredProducts = allProducts.filter(
+            (product) =>
+                product.title.toLowerCase().includes(searchQuery) ||
+                product.description.toLowerCase().includes(searchQuery) ||
+                product.canBeTradedFor.includes(searchQuery) ||
+                product.category.toLowerCase().includes(searchQuery) ||
+                product.subCategory.toLowerCase().includes(searchQuery) ||
+                product.color.toLowerCase().includes(searchQuery)
+        );
+        setDisplayedProducts(filteredProducts);
+    };
     const fetchData = async () => {
         if (accessToken) {
             try {
@@ -22,11 +48,30 @@ export default function Dashboard() {
                         },
                     }
                 );
+                setAllProducts(result.data);
                 setDisplayedProducts(result.data);
             } catch (error) {
                 setMsg(error.response.data);
             }
         }
+    };
+    function valuetext(value) {
+        return `${value}/$`;
+    }
+    const handleChange = (event, newValue) => {
+        setPriceValue(newValue);
+        const [min, max] = newValue;
+        const filteredProducts = allProducts.filter((product) => {
+            // console.log(max);
+            // console.log(parseInt(product.estimatedValue) < max);
+
+            return (
+                parseInt(product.estimatedValue) < max &&
+                parseInt(product.estimatedValue) > min
+            );
+        });
+
+        setDisplayedProducts(filteredProducts);
     };
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
@@ -34,14 +79,53 @@ export default function Dashboard() {
             return;
         }
 
-        fetchData();
+        if (accessToken) fetchData();
     }, [accessToken]);
     return (
         <div className="Dashboard Page">
-            <Search
-                setDisplayedProducts={setDisplayedProducts}
-                setMsg={setMsg}
-            />
+            <Paper
+                component="form"
+                sx={{
+                    p: "2px 4px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: 400,
+                }}
+            >
+                <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="Search For Products"
+                    inputProps={{ "aria-label": "search for products" }}
+                    // inputRef={searchRef}
+                    onChange={handleSearch}
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton
+                    // onClick={handleSearch}
+                    type="button"
+                    sx={{ p: "10px" }}
+                    aria-label="search"
+                >
+                    <SearchIcon />
+                </IconButton>
+            </Paper>
+            <Box sx={{ width: 400, display: "flex", alignItems: "center" }}>
+                <Typography variant="h6" sx={{ width: 200 }}>
+                    Price Range:
+                </Typography>
+                <Slider
+                    sx={{ width: 300 }}
+                    min={0}
+                    max={10000}
+                    disableSwap
+                    getAriaLabel={() => "Price range"}
+                    value={priceValue}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={valuetext}
+                />
+            </Box>
             <div className="all-products-container">
                 {displayedProducts.length > 0 &&
                     displayedProducts.map((product) => (

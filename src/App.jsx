@@ -15,6 +15,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import Product from "./pages/Product/Product";
 import Offer from "./pages/Offer/Offer";
 import MyOffers from "./pages/MyOffers/MyOffers";
+import Reviews from "./pages/Reviews/Reviews";
 function App() {
     const location = useLocation();
     const [modeColor, setModeColor] = useState("light");
@@ -118,6 +119,14 @@ function App() {
                         element={
                             <>
                                 <MyOffers />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/reviews/:userId"
+                        element={
+                            <>
+                                <Reviews />
                             </>
                         }
                     />

@@ -1,21 +1,11 @@
-import {
-    Button,
-    Slide,
-    TextField,
-    Typography,
-    containerClasses,
-} from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { Button, Slide, TextField, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import "./Offer.css";
-import {
-    axiosOffersInstance,
-    axiosProductsInstance,
-    axiosUsersInstance,
-} from "../../utils/utils";
+import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAuth } from "../../context/AuthContext";
 import ProductOfferCard from "../../components/ProductOfferCard/ProductOfferCard";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import BasicModal from "../../components/BasicModal/BasicModal";
 export default function Offer() {
@@ -28,7 +18,6 @@ export default function Offer() {
     const [offerEnded, setOfferEnded] = useState(false);
     const [isSender, setIsSender] = useState(true);
     const messageRef = useRef();
-    const mobileMsgRef = useRef();
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
     const params = useParams();
@@ -77,7 +66,7 @@ export default function Offer() {
                     break;
             }
         } catch (error) {
-            console.log(error);
+            setMsg(error.response.data);
         }
     };
     const fetchOffer = async () => {
@@ -87,12 +76,11 @@ export default function Offer() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result.data);
             setOfferInfo(() => result.data);
             setReceiverOffer([...result.data.receiverProducts]);
             setSenderOffer([...result.data.senderProducts]);
         } catch (error) {
-            console.log(error);
+            setMsg(error.response.data);
         }
     };
     const handleSenderProductsClick = (product) => {
@@ -146,7 +134,6 @@ export default function Offer() {
             }
             let conversation = [...offerInfo.conversation];
             let message = {};
-            console.log(messageRef);
             if (messageRef.current.value.length > 0) {
                 if (offerInfo.sender._id === decoded._id) {
                     message.sender = offerInfo.sender.displayName;
@@ -197,15 +184,13 @@ export default function Offer() {
             } else {
                 setMsg({ title: "Success", message: "Offer Updated" });
             }
-            console.log(result.data);
             setOfferInfo(result.data);
         } catch (error) {
-            console.log(error);
+            setMsg(error.response.data);
         }
     };
     useEffect(() => {
         if (accessToken) fetchOffer();
-        console.log(accessToken);
 
         // console.log(receiverProducts);
     }, [accessToken]);
@@ -222,6 +207,16 @@ export default function Offer() {
     return (
         <>
             <div className="mobile-container">
+                <ArrowBackIcon
+                    sx={{
+                        position: "absolute",
+                        zIndex: "10",
+                        left: "16px",
+                        top: "16px",
+                        cursor: "pointer",
+                    }}
+                    onClick={() => navigate(-1)}
+                />
                 <div className="user-switch">
                     <Button
                         variant={isSender ? "contained" : "outlined"}

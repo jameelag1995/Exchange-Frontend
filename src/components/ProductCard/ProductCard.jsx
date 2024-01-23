@@ -1,7 +1,6 @@
 import { Avatar, Button, Typography } from "@mui/material";
 import "./ProductCard.css";
 import { useAuth } from "../../context/AuthContext";
-import { useEffect, useState } from "react";
 import { axiosProductsInstance } from "../../utils/utils";
 import { jwtDecode } from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +14,6 @@ export default function ProductCard({
     const navigate = useNavigate();
     const decoded = jwtDecode(accessToken);
     const location = useLocation();
-    console.log(location);
     const handleDelete = async () => {
         try {
             const result = await axiosProductsInstance.delete(
@@ -26,7 +24,6 @@ export default function ProductCard({
                     },
                 }
             );
-            console.log(result.data);
             setProductsData((prev) =>
                 prev.filter((product) => product._id !== productInfo._id)
             );
@@ -41,7 +38,7 @@ export default function ProductCard({
     const handleVisitPage = () => {
         navigate(`/products/${productInfo?._id}`);
     };
-    console.log(productInfo);
+
     return (
         <div className="ProductCard">
             <img src={productInfo?.pictures[0]} alt="" />

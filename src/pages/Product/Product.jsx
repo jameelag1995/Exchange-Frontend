@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
@@ -53,14 +53,13 @@ export default function Product() {
                     },
                 }
             );
-            console.log(result.data);
             setProductInfo(result.data);
         } catch (error) {
             setMsg(error.response.data);
         }
     };
     useEffect(() => {
-        fetchProductData();
+        if (accessToken) fetchProductData();
         if (!accessToken) navigate("/login");
     }, [accessToken]);
     return (
@@ -133,17 +132,27 @@ export default function Product() {
                     </Typography>
                 </div>
             </div>
-            {decoded._id !== productInfo?.currentOwner._id && (
+            <div className="product-buttons">
                 <Button
                     variant="contained"
-                    color="success"
-                    sx={{ mb: "16px" }}
-                    // onClick={() => navigate(`/offer/${productInfo?._id}`)}
-                    onClick={handleMoveToOfferPage}
+                    onClick={() =>
+                        navigate(`/reviews/${productInfo?.currentOwner._id}`)
+                    }
                 >
-                    Send an offer
+                    Check User Reviews
                 </Button>
-            )}
+                {decoded._id !== productInfo?.currentOwner._id && (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        // onClick={() => navigate(`/offer/${productInfo?._id}`)}
+                        onClick={handleMoveToOfferPage}
+                    >
+                        Send an offer
+                    </Button>
+                )}
+            </div>
+
             {msg && <BasicModal msg={msg} setMsg={setMsg} />}
         </div>
     );

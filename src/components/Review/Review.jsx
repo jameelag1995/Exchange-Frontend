@@ -1,6 +1,6 @@
 import { Button, Rating, TextField, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import "./Review.css";
 import { axiosReviewsInstance } from "../../utils/utils";
@@ -61,8 +61,10 @@ export default function Review({ offerInfo, setMsg, msg }) {
             </div>
             <TextField
                 rows={4}
+                multiline
                 label="Your Review"
                 inputRef={reviewContentRef}
+                sx={{ width: "250px" }}
             />
             <Button variant="contained" onClick={submitReview}>
                 Submit Review
