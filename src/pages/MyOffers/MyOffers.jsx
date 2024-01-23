@@ -4,10 +4,12 @@ import { axiosOffersInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import OfferCard from "../../components/OfferCard/OfferCard";
+import BasicModal from "../../components/BasicModal/BasicModal";
 
 export default function MyOffers() {
     const [myOffers, setMyOffers] = useState([]);
     const { accessToken } = useAuth();
+    const [msg, setMsg] = useState("");
     let decoded;
     if (accessToken) {
         decoded = jwtDecode(accessToken);
@@ -19,10 +21,10 @@ export default function MyOffers() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result);
+
             setMyOffers(result.data);
         } catch (error) {
-            console.log(error);
+            setMsg(error.response.data);
         }
     };
     useEffect(() => {
@@ -33,11 +35,14 @@ export default function MyOffers() {
             <Typography variant="h3">My Offers</Typography>
             {myOffers?.map((offer) => (
                 <OfferCard
+                    setMsg={setMsg}
+                    msg={msg}
                     myId={decoded._id}
                     offerInfo={offer}
                     key={offer._id}
                 />
             ))}
+            {msg && <BasicModal msg={msg} setMsg={setMsg} />}
         </div>
     );
 }
