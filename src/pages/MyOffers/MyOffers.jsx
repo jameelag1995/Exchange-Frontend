@@ -28,8 +28,8 @@ export default function MyOffers() {
         }
     };
     useEffect(() => {
-        fetchOffers();
-    }, []);
+        if (accessToken) fetchOffers();
+    }, [accessToken]);
     return (
         <div className="MyOffers Page">
             <Typography variant="h3">My Offers</Typography>

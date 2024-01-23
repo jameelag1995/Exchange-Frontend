@@ -5,3 +5,13 @@
 .Product img {
     border-radius: 6px;
 }
+.product-buttons {
+    display: flex;
+    margin-bottom: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    gap: 16px;
+}

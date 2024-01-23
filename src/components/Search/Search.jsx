@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { axiosProductsInstance } from "../../utils/utils";
-
+/* -------------------------------- Not used -------------------------------- */
 export default function Search({ setDisplayedProducts, setMsg }) {
     const searchRef = useRef();
     const { accessToken } = useAuth();

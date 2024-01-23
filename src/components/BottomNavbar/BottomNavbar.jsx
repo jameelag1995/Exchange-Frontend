@@ -1,16 +1,47 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import { AccountCircle, Dashboard, Inventory } from "@mui/icons-material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import ReviewsIcon from "@mui/icons-material/Reviews";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 export default function BottomNavbar() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("dashboard");
+    const location = useLocation();
     const navigate = useNavigate();
+    const { accessToken } = useAuth();
     const handleChange = (event, newValue) => {
-        navigate(`/${newValue}`);
-        setValue(newValue);
+        const decoded = jwtDecode(accessToken);
+        if (newValue === "reviews") {
+            navigate(`/reviews/${decoded._id}`);
+            setValue(newValue);
+        } else {
+            navigate(`/${newValue}`);
+            setValue(newValue);
+        }
     };
+    // useEffect(() => {
+    //     console.log(location.pathname);
+    //     switch (location.pathname) {
+    //         case "/reviews":
+    //             setValue("Reviews");
+    //             break;
+    //         case "/dashboard":
+    //             setValue("Dashboard");
+    //             break;
+    //         case "/myProducts":
+    //             setValue("My Products");
+    //             break;
+    //         case "/my-offers":
+    //             setValue("My Offers");
+    //             break;
+    //         case "/profile":
+    //             setValue("Profile");
+    //             break;
+    //     }
+    // }, [location.pathname]);
     return (
         <Paper
             sx={{
@@ -37,6 +68,11 @@ export default function BottomNavbar() {
                     label="My Offers"
                     value="my-offers"
                     icon={<ReceiptLongIcon />}
+                />
+                <BottomNavigationAction
+                    label="Reviews"
+                    value="reviews"
+                    icon={<ReviewsIcon />}
                 />
                 <BottomNavigationAction
                     label="Profile"

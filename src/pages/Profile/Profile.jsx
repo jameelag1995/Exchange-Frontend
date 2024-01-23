@@ -26,6 +26,7 @@ export default function Profile() {
     const [editing, setEditing] = useState(false);
     const displayNameRef = useRef();
     const [images, setImages] = useState([]);
+    const [isUpdating, setIsUpdating] = useState(false);
     const handleLogout = async () => {
         await logout();
     };
@@ -34,11 +35,12 @@ export default function Profile() {
     };
     const updateProfilePicture = async () => {
         try {
-            if (images.length === 1) {
+            const newProfilePic = images[images.length - 1];
+            if (newProfilePic) {
                 const result = await axiosUsersInstance.patch(
                     "/update",
                     {
-                        profilePicture: images[0],
+                        profilePicture: newProfilePic,
                     },
                     {
                         headers: {
@@ -48,6 +50,11 @@ export default function Profile() {
                 );
                 if (result.status === 200) {
                     await fetchUserData();
+                    setIsUpdating(false);
+                    setMsg({
+                        title: "Success",
+                        message: "Profile Picture Updated",
+                    });
                 }
             }
         } catch (error) {
@@ -100,8 +107,8 @@ export default function Profile() {
         if (!accessToken) {
             navigate("/login");
         }
-        fetchUserData();
-    }, []);
+        if (accessToken) fetchUserData();
+    }, [accessToken]);
     return (
         <div className="Profile Page">
             <div className="user-info">
@@ -109,10 +116,17 @@ export default function Profile() {
                     src={userDetails?.profilePicture}
                     sx={{ width: "100px", height: "100px" }}
                 />
-                <UploadWidget images={images} setImages={setImages} />
-                <Button variant="outlined" onClick={updateProfilePicture}>
-                    Update Picture
-                </Button>
+                <div
+                    className="upload-container"
+                    onClick={() => setIsUpdating(true)}
+                >
+                    <UploadWidget images={images} setImages={setImages} />
+                </div>
+                {isUpdating && (
+                    <Button variant="outlined" onClick={updateProfilePicture}>
+                        Update Picture
+                    </Button>
+                )}
                 <Typography variant="h4">{userDetails?.displayName}</Typography>
                 <Typography variant="h5">{userDetails?.email}</Typography>
                 <Button

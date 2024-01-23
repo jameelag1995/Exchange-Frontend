@@ -20,9 +20,7 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         if (localStorage.getItem("token")) {
             setAccessToken(JSON.parse(localStorage.getItem("token")));
-            console.log("hi");
         }
-        
     }, [location.pathname]);
     const login = async (email, password) => {
         try {
