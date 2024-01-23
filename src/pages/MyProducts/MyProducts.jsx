@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Slide, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
@@ -32,56 +32,58 @@ export default function MyProducts() {
     useEffect(() => {
         if (accessToken && !editingProduct && !addingProduct) fetchMyProducts();
         if (!accessToken) navigate("/login");
-    }, [addingProduct, editingProduct]);
+    }, [addingProduct, editingProduct, accessToken]);
     return (
-        <div className="MyProducts Page">
-            <Typography variant="h3">My Products</Typography>
-            <div className="my-products-container">
-                {productsData?.map((product) => (
-                    <ProductCard
-                        key={product?._id}
-                        setProductToEdit={setProductToEdit}
-                        setEditingProduct={setEditingProduct}
-                        setProductsData={setProductsData}
-                        productInfo={product}
-                    />
-                ))}
-                <div className="add-new-product">
-                    <AddBoxIcon
-                        onClick={() => setAddingProduct(true)}
-                        sx={{
-                            height: "250px",
-                            width: "150px",
-                            ":hover": {
-                                color: "secondary.main",
-                                cursor: "pointer",
-                            },
+        <Slide direction="up" in style={{ transitionDelay: 800 }}>
+            <div className="MyProducts Page">
+                <Typography variant="h3">My Products</Typography>
+                <div className="my-products-container">
+                    {productsData?.map((product) => (
+                        <ProductCard
+                            key={product?._id}
+                            setProductToEdit={setProductToEdit}
+                            setEditingProduct={setEditingProduct}
+                            setProductsData={setProductsData}
+                            productInfo={product}
+                        />
+                    ))}
+                    <div className="add-new-product">
+                        <AddBoxIcon
+                            onClick={() => setAddingProduct(true)}
+                            sx={{
+                                height: "250px",
+                                width: "150px",
+                                ":hover": {
+                                    color: "secondary.main",
+                                    cursor: "pointer",
+                                },
+                            }}
+                        />
+                    </div>
+                </div>
+                {(addingProduct || editingProduct) && (
+                    <div
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            position: "absolute",
+                            zIndex: "1",
                         }}
-                    />
-                </div>
+                    >
+                        <ProductForm
+                            productToEdit={productToEdit}
+                            setEditingProduct={setEditingProduct}
+                            addingProduct={addingProduct}
+                            setAddingProduct={setAddingProduct}
+                            setMsg={setMsg}
+                        />
+                    </div>
+                )}
+                {msg && <BasicModal msg={msg} setMsg={setMsg} />}
             </div>
-            {(addingProduct || editingProduct) && (
-                <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position: "absolute",
-                        zIndex: "1",
-                    }}
-                >
-                    <ProductForm
-                        productToEdit={productToEdit}
-                        setEditingProduct={setEditingProduct}
-                        addingProduct={addingProduct}
-                        setAddingProduct={setAddingProduct}
-                        setMsg={setMsg}
-                    />
-                </div>
-            )}
-            {msg && <BasicModal msg={msg} setMsg={setMsg} />}
-        </div>
+        </Slide>
     );
 }

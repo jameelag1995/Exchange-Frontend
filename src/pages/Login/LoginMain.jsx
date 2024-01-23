@@ -4,6 +4,8 @@ import LoginNav from "./LoginNav";
 import Login from "./Login";
 import Register from "./Register";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import { Typography } from "@mui/material";
 
 export default function LoginMain() {
     const [isLogin, setIsLogin] = useState(true);
@@ -12,10 +14,30 @@ export default function LoginMain() {
             <LoginNav isLogin={isLogin} setIsLogin={setIsLogin} />
             {isLogin ? <Login /> : <Register />}
 
-            <SwapHorizontalCircleIcon
-                color="primary"
-                sx={{ width: "200px", height: "200px" }}
-            />
+            <div
+                className="logo"
+                style={{
+                    maxWidth: "400px",
+                    width: 1,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "4px",
+                }}
+            >
+                <Typography variant="h3" color="primary">
+                    W
+                </Typography>
+                <SwapHorizIcon
+                    color="primary"
+                    sx={{ width: "100px", height: "100px" }}
+                />
+                <Typography variant="h3" color="primary">
+                    S
+                </Typography>
+            </div>
             {/* {palette.mode === "dark" ? (
                 <img src={darkLogo} alt="app logo" />
             ) : (

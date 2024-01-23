@@ -1,4 +1,4 @@
-import { Button, Rating, TextField, Typography } from "@mui/material";
+import { Button, Rating, Slide, TextField, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
@@ -45,30 +45,33 @@ export default function Review({ offerInfo, setMsg, msg }) {
         }
     }, [accessToken]);
     return (
-        <div className="Review">
-            <Typography variant="h5">
-                Write a Review to {receiver.displayName}
-            </Typography>
-            <div className="rating">
-                <Typography variant="h5">Rating:</Typography>
-                <Rating
-                    name="simple-controlled"
-                    value={ratingValue}
-                    onChange={(event, newValue) => {
-                        setRatingValue(newValue);
-                    }}
+        <Slide direction="right" in mountOnEnter unmountOnExit>
+            <div className="Review">
+                <Typography variant="h5">
+                    Write a Review to {receiver.displayName}
+                </Typography>
+                <div className="rating">
+                    <Typography variant="h5">Rating:</Typography>
+                    <Rating
+                        name="simple-controlled"
+                        precision={0.5}
+                        value={ratingValue}
+                        onChange={(event, newValue) => {
+                            setRatingValue(newValue);
+                        }}
+                    />
+                </div>
+                <TextField
+                    rows={4}
+                    multiline
+                    label="Your Review"
+                    inputRef={reviewContentRef}
+                    sx={{ width: "250px" }}
                 />
+                <Button variant="contained" onClick={submitReview}>
+                    Submit Review
+                </Button>
             </div>
-            <TextField
-                rows={4}
-                multiline
-                label="Your Review"
-                inputRef={reviewContentRef}
-                sx={{ width: "250px" }}
-            />
-            <Button variant="contained" onClick={submitReview}>
-                Submit Review
-            </Button>
-        </div>
+        </Slide>
     );
 }

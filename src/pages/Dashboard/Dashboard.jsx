@@ -12,6 +12,7 @@ import {
     IconButton,
     InputBase,
     Paper,
+    Slide,
     Slider,
     Typography,
 } from "@mui/material";
@@ -21,7 +22,7 @@ export default function Dashboard() {
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const navigate = useNavigate();
     const [msg, setMsg] = useState(null);
-    const [priceValue, setPriceValue] = useState([0, 2000]);
+    const [priceValue, setPriceValue] = useState([1, 10000]);
 
     const handleSearch = (e) => {
         const searchQuery = e.target.value.toLowerCase();
@@ -58,8 +59,24 @@ export default function Dashboard() {
     function valuetext(value) {
         return `${value}/$`;
     }
-    const handleChange = (event, newValue) => {
-        setPriceValue(newValue);
+    const handleChange = (event, newValue, activeThumb) => {
+        const minDistance = 100;
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (newValue[1] - newValue[0] < minDistance) {
+            if (activeThumb === 0) {
+                const clamped = Math.min(newValue[0], 10000 - minDistance);
+                setPriceValue([clamped, clamped + minDistance]);
+            } else {
+                const clamped = Math.max(newValue[1], minDistance);
+                setPriceValue([clamped - minDistance, clamped]);
+            }
+        } else {
+            setPriceValue(newValue);
+        }
+
         const [min, max] = newValue;
         const filteredProducts = allProducts.filter((product) => {
             // console.log(max);
@@ -82,57 +99,81 @@ export default function Dashboard() {
         if (accessToken) fetchData();
     }, [accessToken]);
     return (
-        <div className="Dashboard Page">
-            <Paper
-                component="form"
-                sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: 400,
-                }}
-            >
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search For Products"
-                    inputProps={{ "aria-label": "search for products" }}
-                    // inputRef={searchRef}
-                    onChange={handleSearch}
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton
-                    // onClick={handleSearch}
-                    type="button"
-                    sx={{ p: "10px" }}
-                    aria-label="search"
+        <Slide direction="up" in style={{ transitionDelay: 800 }}>
+            <div className="Dashboard Page">
+                <Paper
+                    component="form"
+                    sx={{
+                        p: "2px 4px",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: 1,
+                        maxWidth: "600px",
+                    }}
                 >
-                    <SearchIcon />
-                </IconButton>
-            </Paper>
-            <Box sx={{ width: 400, display: "flex", alignItems: "center" }}>
-                <Typography variant="h6" sx={{ width: 200 }}>
-                    Price Range:
-                </Typography>
-                <Slider
-                    sx={{ width: 300 }}
-                    min={0}
-                    max={10000}
-                    disableSwap
-                    getAriaLabel={() => "Price range"}
-                    value={priceValue}
-                    onChange={handleChange}
-                    valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
-                />
-            </Box>
-            <div className="all-products-container">
-                {displayedProducts.length > 0 &&
-                    displayedProducts.map((product) => (
-                        <ProductCard key={product._id} productInfo={product} />
-                    ))}
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search For Products"
+                        inputProps={{ "aria-label": "search for products" }}
+                        // inputRef={searchRef}
+                        onChange={handleSearch}
+                    />
+                    <Divider
+                        sx={{ height: 28, m: 0.5 }}
+                        orientation="vertical"
+                    />
+                    <IconButton
+                        // onClick={handleSearch}
+                        type="button"
+                        sx={{ p: "10px" }}
+                        aria-label="search"
+                    >
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+                <Box
+                    sx={{
+                        width: 1,
+                        maxWidth: "800px",
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "8px",
+                    }}
+                >
+                    <Typography variant="h6">Price Range:</Typography>
+                    <Typography variant="h6" sx={{ m: 2, textWrap: "nowrap" }}>
+                        min:{priceValue[0]}$
+                    </Typography>
+                    <Slider
+                        sx={{ maxWidth: 300, minWidth: 200 }}
+                        min={1}
+                        max={10000}
+                        disableSwap
+                        getAriaLabel={() => "Price range"}
+                        value={priceValue}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={valuetext}
+                    />
+                    <Typography variant="h6" sx={{ m: 2, textWrap: "nowrap" }}>
+                        max :{priceValue[1]}$
+                    </Typography>
+                </Box>
+                <div className="all-products-container">
+                    {displayedProducts.length > 0 &&
+                        displayedProducts.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                productInfo={product}
+                            />
+                        ))}
+                </div>
+                {msg && <BasicModal setMsg={setMsg} msg={msg} />}
             </div>
-            {msg && <BasicModal setMsg={setMsg} msg={msg} />}
-        </div>
+        </Slide>
     );
 }

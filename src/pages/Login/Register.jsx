@@ -69,7 +69,9 @@ export default function Register() {
 
     return (
         <div className="login-form-container">
-            <Typography variant="h3">Create Account</Typography>
+            <Typography color="primary" variant="h4">
+                Create Account
+            </Typography>
             <form id="login-form" onSubmit={handleRegisterSubmit}>
                 <FormControl sx={{ m: 1, width: 1 }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-email">
