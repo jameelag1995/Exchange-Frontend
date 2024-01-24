@@ -23,7 +23,7 @@ export default function MyProducts() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result.data);
+           
             setProductsData(result.data);
         } catch (error) {
             setMsg(error.response.data);

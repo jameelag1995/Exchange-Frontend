@@ -21,8 +21,6 @@ export default function UploadWidget({ images, setImages }) {
         );
         myWidget.open();
     }
-    console.log(formData);
-    console.log(images);
     return (
         <div>
             <Button

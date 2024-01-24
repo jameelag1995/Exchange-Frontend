@@ -157,7 +157,6 @@ export default function Offer() {
                 }
                 message.content = messageRef.current.value;
                 conversation.push(message);
-                console.log(conversation);
                 messageRef.current.value = "";
             }
             let reqBody;

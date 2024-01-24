@@ -70,7 +70,6 @@ export default function ProductForm({
             "canBeTradedFor",
             canBeTradedForRef.current.value.split(",")
         );
-        console.log(canBeTradedForRef.current.value.split(","));
         return formData;
     };
     const resetForm = () => {

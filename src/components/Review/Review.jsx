@@ -29,7 +29,7 @@ export default function Review({ offerInfo, setMsg, msg }) {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result.data);
+            
             setMsg({ title: "Success", message: "Review Submitted" });
         } catch (error) {
             setMsg(error.response.data);

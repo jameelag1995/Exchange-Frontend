@@ -34,10 +34,11 @@ export default function Product() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result.data);
+
             navigate(`/offer/${result.data._id}`);
         } catch (error) {
-            console.log(error);
+            
+            setMsg(error.response.data);
         }
         // navigate(`/offer/${productInfo?.currentOwner._id}`, {
         //     state: { data: productInfo },

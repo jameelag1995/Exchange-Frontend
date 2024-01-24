@@ -100,10 +100,9 @@ export default function Profile({ modeColor, setModeColor }) {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-            console.log(result);
+
             setUserDetails(result.data);
         } catch (error) {
-            console.log(error);
             setMsg(error.response.data);
         }
     };

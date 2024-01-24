@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
                 email,
                 password,
             });
-            console.log(result);
+            
             setAccessToken(result.data.accessToken);
             localStorage.setItem(
                 "token",
@@ -36,14 +36,14 @@ export function AuthProvider({ children }) {
             );
             return result;
         } catch (error) {
-            console.log(error);
+            
             return error;
         }
     };
     const register = async (userInfo) => {
         try {
             const result = await axiosUsersInstance.post("register", userInfo);
-            console.log(result);
+            
             setAccessToken(result.data.accessToken);
             localStorage.setItem(
                 "token",
@@ -51,13 +51,13 @@ export function AuthProvider({ children }) {
             );
             return result;
         } catch (error) {
-            console.log(error);
+            
             return error;
         }
     };
     const logout = async () => {
         try {
-            console.log(accessToken);
+            
             if (accessToken) {
                 await axiosUsersInstance.put(
                     "/logout",
@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
             setAccessToken("");
             navigate("/auth/login");
         } catch (error) {
-            console.log(error);
+            
             return error;
         }
     };
@@ -94,7 +94,7 @@ export function AuthProvider({ children }) {
                 navigate("/auth/login");
             }
         } catch (error) {
-            console.log(error);
+           
             return error;
         }
     };

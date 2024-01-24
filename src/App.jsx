@@ -55,7 +55,7 @@ function App() {
 
     const [showNavbar, setShowNavbar] = useState(false);
     useEffect(() => {
-        console.log(location.pathname);
+        
         if (
             location.pathname.includes("login") ||
             location.pathname.includes("auth") ||
