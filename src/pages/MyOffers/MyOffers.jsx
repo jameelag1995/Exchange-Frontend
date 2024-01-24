@@ -23,6 +23,12 @@ export default function MyOffers() {
             });
 
             setMyOffers(result.data);
+            if (result.data.length === 0) {
+                setMsg({
+                    title: "No Offers",
+                    message: "You didn't send or receive any offers yet.",
+                });
+            }
         } catch (error) {
             setMsg(error.response.data);
         }
