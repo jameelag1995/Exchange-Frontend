@@ -109,7 +109,7 @@ export default function Profile({ modeColor, setModeColor }) {
     };
     useEffect(() => {
         if (!accessToken) {
-            navigate("/login");
+            navigate("/auth/login");
         }
         if (accessToken) fetchUserData();
     }, [accessToken]);
@@ -206,7 +206,7 @@ export default function Profile({ modeColor, setModeColor }) {
                         </div>
                     </Link>
                     <Divider orientation="horizontal" sx={{ width: 1 }} />
-                    <Link>
+                    <Link to="/about">
                         <div className="action">
                             <InfoIcon />
                             About

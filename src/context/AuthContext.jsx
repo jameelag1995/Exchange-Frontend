@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
             }
             localStorage.clear();
             setAccessToken("");
-            navigate("/login");
+            navigate("/auth/login");
         } catch (error) {
             console.log(error);
             return error;
@@ -91,7 +91,7 @@ export function AuthProvider({ children }) {
                 );
                 localStorage.clear();
                 setAccessToken("");
-                navigate("/login");
+                navigate("/auth/login");
             }
         } catch (error) {
             console.log(error);

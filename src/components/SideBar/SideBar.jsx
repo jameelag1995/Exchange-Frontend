@@ -127,6 +127,19 @@ export default function MiniDrawer() {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <img
+                            src="/public/lightLogonobg.png"
+                            alt=""
+                            width="150px"
+                            height="120px"
+                            style={{
+                                position: "absolute",
+                                left: "46.8%",
+                                // padding: "4px",
+                                borderRadius: "6px",
+                                zIndex: "-1",
+                            }}
+                        />
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>

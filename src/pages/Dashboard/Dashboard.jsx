@@ -92,12 +92,26 @@ export default function Dashboard() {
     };
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
-            navigate("/login");
+            navigate("/auth/login");
             return;
         }
 
         if (accessToken) fetchData();
     }, [accessToken]);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (displayedProducts.length === 0)
+                setMsg({
+                    title: "No Products Were Found",
+                    message: "Try Searching for Something Else",
+                });
+        }, 1500);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [displayedProducts]);
+
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="Dashboard Page">
@@ -149,7 +163,10 @@ export default function Dashboard() {
                         min:{priceValue[0]}$
                     </Typography>
                     <Slider
-                        sx={{ maxWidth: 300, minWidth: 200 }}
+                        sx={{
+                            maxWidth: 300,
+                            minWidth: 150,
+                        }}
                         min={1}
                         max={10000}
                         disableSwap

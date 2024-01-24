@@ -51,8 +51,8 @@ export default function Login() {
 
     return (
         <div className="login-form-container">
-            <Typography color="primary" variant="h4">
-                Welcome To Which-Switch
+            <Typography color="primary" variant="h4" textAlign="center">
+                Welcome To BarterNest
             </Typography>
 
             <form id="login-form" onSubmit={handleSubmit}>

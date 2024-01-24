@@ -31,7 +31,7 @@ export default function MyProducts() {
     };
     useEffect(() => {
         if (accessToken && !editingProduct && !addingProduct) fetchMyProducts();
-        if (!accessToken) navigate("/login");
+        if (!accessToken) navigate("/auth/login");
     }, [addingProduct, editingProduct, accessToken]);
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
@@ -70,7 +70,7 @@ export default function MyProducts() {
                             justifyContent: "center",
                             alignItems: "center",
                             position: "absolute",
-                            zIndex: "1",
+                            margin: "8px",
                         }}
                     >
                         <ProductForm

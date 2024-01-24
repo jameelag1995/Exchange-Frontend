@@ -16,6 +16,8 @@ import Offer from "./pages/Offer/Offer";
 import MyOffers from "./pages/MyOffers/MyOffers";
 import Reviews from "./pages/Reviews/Reviews";
 import MiniDrawer from "./components/SideBar/SideBar";
+import Welcome from "./pages/Welcome/Welcome";
+import About from "./pages/About/About";
 function App() {
     const location = useLocation();
     const [modeColor, setModeColor] = useState("light");
@@ -53,8 +55,11 @@ function App() {
 
     const [showNavbar, setShowNavbar] = useState(false);
     useEffect(() => {
+        console.log(location.pathname);
         if (
             location.pathname.includes("login") ||
+            location.pathname.includes("auth") ||
+            location.pathname === "/" ||
             location.pathname.includes("register")
         ) {
             setShowNavbar(false);
@@ -76,9 +81,10 @@ function App() {
                 )}
 
                 <Routes>
-                    <Route exact path="/" element={<LoginMain />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
+                    <Route exact path="/" element={<Welcome />} />
+                    <Route path="/auth" element={<LoginMain />}>
+                        <Route path="/auth/login" element={<Login />} />
+                        <Route path="/auth/register" element={<Register />} />
                     </Route>
                     <Route
                         path="/dashboard"
@@ -136,6 +142,14 @@ function App() {
                         element={
                             <>
                                 <Reviews />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/about"
+                        element={
+                            <>
+                                <About />
                             </>
                         }
                     />

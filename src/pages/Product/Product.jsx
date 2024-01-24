@@ -64,16 +64,24 @@ export default function Product() {
     }, [accessToken]);
     return (
         <div className="Product Page">
-            <ArrowBackIcon
-                sx={{
-                    position: "absolute",
-                    zIndex: "10",
-                    left: "16px",
-                    top: "16px",
-                    cursor: "pointer",
+            <div
+                className="back-btn-container"
+                style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "start",
+                    alignItems: "center",
                 }}
-                onClick={() => navigate(-1)}
-            />
+            >
+                <ArrowBackIcon
+                    sx={{
+                        position: "relative",
+                        zIndex: "10",
+                        cursor: "pointer",
+                    }}
+                    onClick={() => navigate(-1)}
+                />
+            </div>
             <ImageCarousel images={productInfo?.pictures} />
             <div className="product-info-container">
                 <div className="product-container">

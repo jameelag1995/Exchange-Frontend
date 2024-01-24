@@ -116,6 +116,16 @@ export default function Offer() {
     };
     const handleOfferUpdate = async (stat) => {
         try {
+            if (
+                stat === "Accepted" &&
+                (receiverOffer.length === 0 || senderOffer.length === 0)
+            ) {
+                setMsg({
+                    title: "Failure",
+                    message: "The Two Parties Must Offer Products",
+                });
+                return;
+            }
             const decoded = jwtDecode(accessToken);
             const updatedStatusArr = offerInfo.status.map((prev) =>
                 prev.userId === decoded._id
@@ -221,29 +231,37 @@ export default function Offer() {
     }, [offerInfo]);
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
-            <div className="mobile-container">
-                <ArrowBackIcon
-                    sx={{
-                        position: "absolute",
-                        zIndex: "10",
-                        left: "16px",
-                        top: "16px",
-                        cursor: "pointer",
+            <div className="mobile-container Page">
+                <div
+                    className="back-btn-container"
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "start",
+                        alignItems: "center",
                     }}
-                    onClick={() => navigate(-1)}
-                />
+                >
+                    <ArrowBackIcon
+                        sx={{
+                            position: "relative",
+                            zIndex: "10",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => navigate(-1)}
+                    />
+                </div>
                 <div className="user-switch">
                     <Button
                         variant={isSender ? "contained" : "outlined"}
                         onClick={() => setIsSender(true)}
                     >
-                        Sender
+                        {offerInfo?.sender.displayName}
                     </Button>
                     <Button
                         variant={!isSender ? "contained" : "outlined"}
                         onClick={() => setIsSender(false)}
                     >
-                        Receiver
+                        {offerInfo?.receiver.displayName}
                     </Button>
                 </div>
                 {isSender ? (

@@ -11,12 +11,17 @@
     width: 100%;
     min-height: 100vh;
     position: relative;
-    padding: 64px 16px 60px 16px;
+    padding: 16px 16px 60px 16px;
     gap: 32px;
 }
 @media (min-width: 900px) {
     .Page {
         padding: 80px;
+    }
+}
+@media (max-width: 900px) {
+    .product-type-price {
+        flex-wrap: wrap;
     }
 }
 form {
@@ -25,4 +30,24 @@ form {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
 }

@@ -27,16 +27,17 @@ export default function LoginMain() {
                     gap: "4px",
                 }}
             >
-                <Typography variant="h3" color="primary">
-                    W
+                <img src="/public/lightLogonobg.png" alt="Barter Nest" />
+                {/* <Typography variant="h3" color="primary">
+                    B
                 </Typography>
                 <SwapHorizIcon
                     color="primary"
                     sx={{ width: "100px", height: "100px" }}
                 />
                 <Typography variant="h3" color="primary">
-                    S
-                </Typography>
+                    N
+                </Typography> */}
             </div>
             {/* {palette.mode === "dark" ? (
                 <img src={darkLogo} alt="app logo" />

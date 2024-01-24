@@ -41,106 +41,104 @@ export default function ProductCard({
     };
 
     return (
-        <Slide direction="left" in>
-            <div className="ProductCard">
-                <img src={productInfo?.pictures[0]} alt="" />
-                <div className="product-info-container">
-                    <div className="product-container">
-                        <Typography variant="p">
-                            <b>{productInfo?.title}</b>
-                        </Typography>
-                        <Typography variant="p" color="green">
-                            <b>Type: </b>
-                            {productInfo?.type}
-                        </Typography>
-                    </div>
-                    <div className="product-container">
-                        <Typography variant="p">
-                            <b>Color: </b>
-                            {productInfo?.color}
-                        </Typography>
-                        <Typography variant="p">
-                            <b>Category: </b>
-                            {productInfo?.category}
-                            <br />
-                            <b>Sub-Category: </b>
-                            {productInfo?.subCategory}
-                        </Typography>
-                    </div>
-                    <Typography
-                        variant="p"
-                        sx={{ maxHeight: "50px", overflow: "hidden" }}
-                    >
-                        <b>Description: </b>
-                        <br />
-                        {productInfo?.description}
+        <div className="ProductCard">
+            <img src={productInfo?.pictures[0]} alt="" />
+            <div className="product-info-container">
+                <div className="product-container">
+                    <Typography variant="p">
+                        <b>{productInfo?.title}</b>
+                    </Typography>
+                    <Typography variant="p" color="green">
+                        <b>Type: </b>
+                        {productInfo?.type}
+                    </Typography>
+                </div>
+                <div className="product-container">
+                    <Typography variant="p">
+                        <b>Color: </b>
+                        {productInfo?.color}
                     </Typography>
                     <Typography variant="p">
-                        <b>Can be traded for: </b>
+                        <b>Category: </b>
+                        {productInfo?.category}
                         <br />
-                        {productInfo?.canBeTradedFor.join(", ")}
+                        <b>Sub-Category: </b>
+                        {productInfo?.subCategory}
                     </Typography>
-                    <Typography variant="p">
-                        <b>Estimated Value: </b>
-                        {productInfo?.estimatedValue}$
-                    </Typography>
-                    <div className="product-container">
-                        <div className="info-usr-container">
-                            <Avatar
-                                src={productInfo?.currentOwner?.profilePicture}
-                                sx={{
-                                    width: "20px",
-                                    height: "20px",
-                                    boxShadow: "0 0 4px",
-                                }}
-                            />
-                            <Typography variant="p">
-                                {productInfo?.currentOwner?.displayName}
-                            </Typography>
-                        </div>
-                        <div
-                            className="location"
-                            style={{
-                                display: "flex",
-                                justifyContent: "start",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                gap: "8px",
+                </div>
+                <Typography
+                    variant="p"
+                    sx={{ maxHeight: "50px", overflow: "hidden" }}
+                >
+                    <b>Description: </b>
+                    <br />
+                    {productInfo?.description}
+                </Typography>
+                <Typography variant="p">
+                    <b>Can be traded for: </b>
+                    <br />
+                    {productInfo?.canBeTradedFor.join(", ")}
+                </Typography>
+                <Typography variant="p">
+                    <b>Estimated Value: </b>
+                    {productInfo?.estimatedValue}$
+                </Typography>
+                <div className="product-container">
+                    <div className="info-usr-container">
+                        <Avatar
+                            src={productInfo?.currentOwner?.profilePicture}
+                            sx={{
+                                width: "20px",
+                                height: "20px",
+                                boxShadow: "0 0 4px",
                             }}
-                        >
-                            <LocationOnIcon />
-                            <Typography variant="p">
-                                {productInfo?.location}
-                            </Typography>
-                        </div>
+                        />
+                        <Typography variant="p">
+                            {productInfo?.currentOwner?.displayName}
+                        </Typography>
+                    </div>
+                    <div
+                        className="location"
+                        style={{
+                            display: "flex",
+                            justifyContent: "start",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: "8px",
+                        }}
+                    >
+                        <LocationOnIcon />
+                        <Typography variant="p">
+                            {productInfo?.location}
+                        </Typography>
                     </div>
                 </div>
-
-                {decoded._id === productInfo?.currentOwner?._id &&
-                    !location.pathname.includes("dashboard") && (
-                        <>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                fullWidth
-                                onClick={handleEdit}
-                            >
-                                Edit Product
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                fullWidth
-                                onClick={handleDelete}
-                            >
-                                Delete Product
-                            </Button>
-                        </>
-                    )}
-                <Button variant="contained" fullWidth onClick={handleVisitPage}>
-                    visit product page
-                </Button>
             </div>
-        </Slide>
+
+            {decoded._id === productInfo?.currentOwner?._id &&
+                !location.pathname.includes("dashboard") && (
+                    <>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            fullWidth
+                            onClick={handleEdit}
+                        >
+                            Edit Product
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            fullWidth
+                            onClick={handleDelete}
+                        >
+                            Delete Product
+                        </Button>
+                    </>
+                )}
+            <Button variant="contained" fullWidth onClick={handleVisitPage}>
+                visit product page
+            </Button>
+        </div>
     );
 }

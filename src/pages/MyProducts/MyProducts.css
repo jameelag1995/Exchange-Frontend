@@ -8,6 +8,11 @@
     width: 100%;
     min-width: 300px;
 }
+@media (max-width: 900px) {
+    .my-products-container {
+        justify-content: center;
+    }
+}
 .add-new-product {
     display: flex;
     justify-content: center;
@@ -15,4 +20,3 @@
     width: 300px;
     height: 500px;
 }
-
