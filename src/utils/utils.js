@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const URL = "https://ruby-plain-ostrich.cyclic.app";
 export const axiosUsersInstance = axios.create({
-    baseURL: "http://localhost:3000/api/v1/exchange/users/",
+    baseURL: URL + "/api/v1/exchange/users/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -10,7 +11,7 @@ export const axiosUsersInstance = axios.create({
 });
 
 export const axiosProductsInstance = axios.create({
-    baseURL: "http://localhost:3000/api/v1/exchange/products/",
+    baseURL: URL + "/api/v1/exchange/products/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -18,7 +19,7 @@ export const axiosProductsInstance = axios.create({
     },
 });
 export const axiosOffersInstance = axios.create({
-    baseURL: "http://localhost:3000/api/v1/exchange/offers/",
+    baseURL: URL + "/api/v1/exchange/offers/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ export const axiosOffersInstance = axios.create({
     },
 });
 export const axiosReviewsInstance = axios.create({
-    baseURL: "http://localhost:3000/api/v1/exchange/reviews/",
+    baseURL: URL + "/api/v1/exchange/reviews/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
