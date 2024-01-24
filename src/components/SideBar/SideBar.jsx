@@ -25,7 +25,7 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -128,7 +128,7 @@ export default function MiniDrawer() {
                             <MenuIcon />
                         </IconButton>
                         <img
-                            src="/public/lightLogonobg.png"
+                            src="/lightLogonobg.png"
                             alt=""
                             width="150px"
                             height="120px"
@@ -197,7 +197,7 @@ export default function MiniDrawer() {
                                     <Inventory />
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary="My Products"
+                                    primary="Products"
                                     sx={{ opacity: open ? 1 : 0 }}
                                 />
                             </ListItemButton>

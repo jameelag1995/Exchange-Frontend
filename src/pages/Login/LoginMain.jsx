@@ -27,7 +27,7 @@ export default function LoginMain() {
                     gap: "4px",
                 }}
             >
-                <img src="/public/lightLogonobg.png" alt="Barter Nest" />
+                <img src="/lightLogonobg.png" alt="Barter Nest" />
                 {/* <Typography variant="h3" color="primary">
                     B
                 </Typography>

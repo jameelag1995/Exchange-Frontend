@@ -36,7 +36,7 @@ export default function MyProducts() {
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="MyProducts Page">
-                <Typography variant="h3">My Products</Typography>
+                <Typography variant="h3">Products</Typography>
                 <div className="my-products-container">
                     {productsData?.map((product) => (
                         <ProductCard

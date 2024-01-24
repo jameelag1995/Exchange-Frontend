@@ -45,12 +45,12 @@ export default function BottomNavbar() {
                         icon={<Dashboard />}
                     />
                     <BottomNavigationAction
-                        label="My Products"
+                        label="Products"
                         value="my-products"
                         icon={<Inventory />}
                     />
                     <BottomNavigationAction
-                        label="My Offers"
+                        label="Offers"
                         value="my-offers"
                         icon={<ReceiptLongIcon />}
                     />
