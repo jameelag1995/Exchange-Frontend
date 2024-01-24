@@ -33,7 +33,7 @@ export default function MyOffers() {
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="MyOffers Page">
-                <Typography variant="h3">My Offers</Typography>
+                <Typography variant="h3">Offers</Typography>
                 {myOffers?.map((offer) => (
                     <OfferCard
                         setMsg={setMsg}

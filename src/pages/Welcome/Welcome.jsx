@@ -6,7 +6,7 @@ export default function Welcome() {
     const navigate = useNavigate();
     return (
         <div className="Welcome Page">
-            <img src="/public/lightLogonobg.png" alt="BarterNest" />
+            <img src="/lightLogonobg.png" alt="BarterNest" />
 
             <Typography
                 variant="h4"
