@@ -4,7 +4,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import { useAuth } from "../../context/AuthContext";
 import BasicModal from "../../components/BasicModal/BasicModal";
-import { Avatar, Button, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Typography } from "@mui/material";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import "./Product.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -37,7 +37,6 @@ export default function Product() {
 
             navigate(`/offer/${result.data._id}`);
         } catch (error) {
-            
             setMsg(error.response.data);
         }
         // navigate(`/offer/${productInfo?.currentOwner._id}`, {
@@ -86,10 +85,12 @@ export default function Product() {
             <ImageCarousel images={productInfo?.pictures} />
             <div className="product-info-container">
                 <div className="product-container">
-                    <Typography variant="h5">
-                        <b>Title: </b>
+                    <Typography variant="h5" textAlign="center" width="100%">
                         {productInfo?.title}
                     </Typography>
+                </div>
+                <Divider orientation="horizontal" sx={{ width: 1 }} />
+                <div className="product-container">
                     <Typography variant="p">
                         <b>Color: </b>
                         {productInfo?.color}
@@ -102,7 +103,7 @@ export default function Product() {
                         <b>Sub-Category: </b>
                         {productInfo?.subCategory}
                     </Typography>
-                    <Typography variant="h6" color="green">
+                    <Typography variant="p" color="green">
                         <b>Type:</b>
                         {productInfo?.type}
                     </Typography>
@@ -120,6 +121,7 @@ export default function Product() {
                     <b>Estimated Value: </b>
                     {productInfo?.estimatedValue}$
                 </Typography>
+                <Divider orientation="horizontal" sx={{ width: 1 }} />
                 <div className="product-container">
                     <Typography
                         variant="p"

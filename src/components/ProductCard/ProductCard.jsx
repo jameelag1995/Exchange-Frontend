@@ -1,4 +1,4 @@
-import { Avatar, Button, Slide, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Slide, Typography } from "@mui/material";
 import "./ProductCard.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useAuth } from "../../context/AuthContext";
@@ -44,16 +44,20 @@ export default function ProductCard({
         <div className="ProductCard">
             <img src={productInfo?.pictures[0]} alt="" />
             <div className="product-info-container">
-                <div className="product-container">
+                <div
+                    className="product-container"
+                    style={{ flexDirection: "column", alignItems: "center" }}
+                >
                     <Typography variant="p">
                         <b>{productInfo?.title}</b>
                     </Typography>
+                </div>
+                <Divider orientation="horizontal" sx={{ width: 1 }} />
+                <div className="product-container">
                     <Typography variant="p" color="green">
                         <b>Type: </b>
                         {productInfo?.type}
                     </Typography>
-                </div>
-                <div className="product-container">
                     <Typography variant="p">
                         <b>Color: </b>
                         {productInfo?.color}
@@ -83,6 +87,7 @@ export default function ProductCard({
                     <b>Estimated Value: </b>
                     {productInfo?.estimatedValue}$
                 </Typography>
+                <Divider orientation="horizontal" sx={{ width: 1 }} />
                 <div className="product-container">
                     <div className="info-usr-container">
                         <Avatar
