@@ -27,6 +27,7 @@ a {
     align-items: start;
     gap: 32px;
 }
+
 .action {
     display: flex;
     flex-direction: row;

@@ -135,6 +135,10 @@ export default function ProductForm({
         "Sports & Outdoors",
         "Toys & Games",
         "Automotive",
+        "Technology",
+        "Design",
+        "Marketing",
+        "Finance",
         "Other",
         // Add more categories as needed
     ];
@@ -157,6 +161,18 @@ export default function ProductForm({
         "Sports & Outdoors": ["Outdoor Gear", "Athletic Clothing", "Footwear"],
         "Toys & Games": ["Action Figures", "Board Games", "Puzzles"],
         Automotive: ["Car Accessories", "Tools", "Maintenance"],
+        Technology: [
+            "Web Development",
+            "Mobile App Development",
+            "IT Consulting",
+        ],
+        Design: ["Graphic Design", "UI/UX Design", "Illustration"],
+        Marketing: [
+            "Digital Marketing",
+            "Social Media Management",
+            "Content Writing",
+        ],
+        Finance: ["Accounting", "Financial Planning", "Tax Services"],
         Other: ["Miscellaneous"],
         // Add more subcategories as needed
     };

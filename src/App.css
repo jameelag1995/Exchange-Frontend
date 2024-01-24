@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 } */
+
 .Page {
     display: flex;
     flex-direction: column;
@@ -16,7 +17,7 @@
 }
 @media (min-width: 900px) {
     .Page {
-        padding: 80px;
+        padding: 96px 16px 80px 80px;
     }
 }
 @media (max-width: 900px) {

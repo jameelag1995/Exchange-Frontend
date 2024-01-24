@@ -9,6 +9,11 @@
     border-radius: 6px;
     box-shadow: 0 0 4px;
     padding: 8px;
+    transition: all 0.5s ease-in-out;
+}
+.ProductCard:hover {
+    box-shadow: 0 0 16px;
+    transform: scale(1.1);
 }
 .ProductCard img {
     width: 100%;

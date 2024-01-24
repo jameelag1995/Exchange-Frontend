@@ -45,9 +45,9 @@ function App() {
             mode: modeColor,
             ...commonColors,
         },
-        // typography: {
-        //     fontFamily: "Roboto Mono",
-        // },
+        typography: {
+            fontFamily: "Roboto Slab",
+        },
     });
     const handleChange = () => {
         setModeColor((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -55,7 +55,6 @@ function App() {
 
     const [showNavbar, setShowNavbar] = useState(false);
     useEffect(() => {
-        
         if (
             location.pathname.includes("login") ||
             location.pathname.includes("auth") ||

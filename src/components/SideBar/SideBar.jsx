@@ -127,19 +127,30 @@ export default function MiniDrawer() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <img
-                            src="/lightLogonobg.png"
-                            alt=""
-                            width="150px"
-                            height="120px"
+                        <div
+                            className="logo-container-toolbar"
                             style={{
-                                position: "absolute",
-                                left: "46.8%",
-                                // padding: "4px",
-                                borderRadius: "6px",
-                                zIndex: "-1",
+                                height: "72px",
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
                             }}
-                        />
+                        >
+                            <img
+                                src="/lightLogonobg.png"
+                                alt=""
+                                width="150px"
+                                height="120px"
+                                style={{
+                                    position: "relative",
+
+                                    // padding: "4px",
+                                    borderRadius: "6px",
+                                    zIndex: "-1",
+                                }}
+                            />
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>

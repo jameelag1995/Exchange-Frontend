@@ -5,7 +5,13 @@ const About = () => {
     return (
         <div className="About Page">
             <Typography variant="h4" gutterBottom>
-                About Barter Nest
+                About BarterNest
+            </Typography>
+            <Typography variant="h6" paragraph textAlign="left" width={1}>
+                Definition: barter is a system of exchange in which participants
+                in a transaction directly exchange goods or services for other
+                goods or services without using a medium of exchange, such as
+                money.
             </Typography>
             <Typography variant="h5" paragraph textAlign="left" width={1}>
                 Barter Nest offers several compelling reasons for users to
