@@ -7,3 +7,8 @@
     gap: 32px;
 }
 
+@media (max-width: 900px) {
+    .all-products-container {
+        justify-content: center;
+    }
+}

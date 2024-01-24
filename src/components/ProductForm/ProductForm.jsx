@@ -165,7 +165,6 @@ export default function ProductForm({
     return (
         <Paper
             sx={{
-                zIndex: 3,
                 width: 1,
                 maxWidth: "800px",
                 position: "absolute",
@@ -175,6 +174,7 @@ export default function ProductForm({
                 alignItems: "center",
                 gap: "16px",
                 p: "8px",
+                margin: 4,
                 borderRadius: "6px",
                 boxShadow: "0 0 4px",
             }}
@@ -217,7 +217,7 @@ export default function ProductForm({
                     className="product-type-price"
                     style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent: "start",
                         alignItems: "center",
                         flexDirection: "row",
                         gap: "16px",

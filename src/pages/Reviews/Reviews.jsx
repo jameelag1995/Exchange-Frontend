@@ -50,16 +50,24 @@ export default function Reviews() {
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="Reviews Page">
-                <ArrowBackIcon
-                    sx={{
-                        position: "absolute",
-                        zIndex: "10",
-                        left: "16px",
-                        top: "16px",
-                        cursor: "pointer",
+                <div
+                    className="back-btn-container"
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "start",
+                        alignItems: "center",
                     }}
-                    onClick={() => navigate(-1)}
-                />
+                >
+                    <ArrowBackIcon
+                        sx={{
+                            position: "relative",
+                            zIndex: "10",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => navigate(-1)}
+                    />
+                </div>
                 <Avatar
                     src={userInfo?.profilePicture}
                     sx={{

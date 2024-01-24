@@ -1,16 +1,16 @@
 .login-register-container {
     position: relative;
     /* width: 375px !important; */
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 32px;
+    justify-content: start;
+    gap: 16px;
     align-items: center;
     width: 100%;
 }
 .login-register-container img {
-    width: 300px;
+    width: 350px;
     height: 200px;
     position: relative;
 }

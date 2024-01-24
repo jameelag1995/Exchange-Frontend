@@ -8,7 +8,7 @@ export default function LoginNav({ isLogin, setIsLogin }) {
                 <Button
                     variant={isLogin ? "contained" : "outlined"}
                     onClick={() => {
-                        navigate("/login");
+                        navigate("/auth/login");
                         setIsLogin(true);
                     }}
                 >
@@ -17,7 +17,7 @@ export default function LoginNav({ isLogin, setIsLogin }) {
                 <Button
                     variant={!isLogin ? "contained" : "outlined"}
                     onClick={() => {
-                        navigate("/register");
+                        navigate("/auth/register");
                         setIsLogin(false);
                     }}
                 >

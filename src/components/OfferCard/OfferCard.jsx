@@ -55,7 +55,7 @@ export default function OfferCard({ offerInfo, myId, setMsg, msg }) {
                         color="warning"
                         onClick={() => setWritingReview((prev) => !prev)}
                     >
-                        Write Review
+                        Write a Review
                     </Button>
                 )}
             </div>
