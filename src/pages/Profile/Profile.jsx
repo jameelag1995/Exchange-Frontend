@@ -57,7 +57,7 @@ export default function Profile({ modeColor, setModeColor }) {
                     setIsUpdating(false);
                     setMsg({
                         title: "Success",
-                        message: "Profile Picture Updated",
+                        message: "Profile Picture Updated.",
                     });
                 }
             }
@@ -89,7 +89,7 @@ export default function Profile({ modeColor, setModeColor }) {
         } else {
             setMsg({
                 title: "Display Name Change Error",
-                message: "Display Name must be at least 2 characters ",
+                message: "Display Name must be at least 2 characters.",
             });
         }
     };

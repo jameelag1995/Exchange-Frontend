@@ -30,7 +30,7 @@ export default function Review({ offerInfo, setMsg, msg }) {
                 },
             });
             
-            setMsg({ title: "Success", message: "Review Submitted" });
+            setMsg({ title: "Success", message: "Review Submitted." });
         } catch (error) {
             setMsg(error.response.data);
         }

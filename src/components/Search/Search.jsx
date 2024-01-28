@@ -25,7 +25,7 @@ export default function Search({ setDisplayedProducts, setMsg }) {
                 if (result.data.length === 0) {
                     setMsg({
                         title: "No Products were found!",
-                        message: "No Products contain the search word you used",
+                        message: "No products contain the search word you used.",
                     });
                 }
                 setDisplayedProducts(result.data);

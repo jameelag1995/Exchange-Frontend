@@ -103,11 +103,14 @@ export default function Dashboard() {
             if (displayedProducts.length === 0)
                 setMsg({
                     title: "No Products Were Found",
-                    message: "Try Searching for Something Else",
+                    message: "Try Searching for Something Else.",
                 });
         }, 1500);
 
-        return () => clearTimeout(timeout);
+        return () => {
+            clearTimeout(timeout);
+            setMsg(null);
+        };
     }, [displayedProducts]);
 
     return (

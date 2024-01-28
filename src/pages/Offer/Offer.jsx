@@ -122,7 +122,7 @@ export default function Offer() {
             ) {
                 setMsg({
                     title: "Failure",
-                    message: "The Two Parties Must Offer Products",
+                    message: "The Two Parties Must Offer Products.",
                 });
                 return;
             }
@@ -190,13 +190,13 @@ export default function Offer() {
                 if (result.data.completed) {
                     setMsg({
                         title: "Success",
-                        message: "Trade Ended Successfully",
+                        message: "Trade Ended Successfully.",
                     });
                 } else {
-                    setMsg({ title: "Failure", message: "Trade Was Rejected" });
+                    setMsg({ title: "Failure", message: "Trade Was Rejected." });
                 }
             } else {
-                setMsg({ title: "Success", message: "Offer Updated" });
+                setMsg({ title: "Success", message: "Offer Updated." });
             }
             setOfferInfo(result.data);
         } catch (error) {
@@ -223,8 +223,8 @@ export default function Offer() {
             setMsg({
                 title: "Trade Ended",
                 message: offerInfo?.completed
-                    ? "Successful Trade"
-                    : "Unsuccessful Trade",
+                    ? "Successful Trade."
+                    : "Unsuccessful Trade.",
             });
         }
     }, [offerInfo]);

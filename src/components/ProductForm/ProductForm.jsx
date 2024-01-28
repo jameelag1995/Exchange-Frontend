@@ -100,7 +100,7 @@ export default function ProductForm({
             resetForm();
             setMsg({
                 title: "Success",
-                message: "Product Edited Successfully",
+                message: "Product Edited Successfully.",
             });
         } catch (error) {
             setMsg(error.response.data);
@@ -120,7 +120,7 @@ export default function ProductForm({
             );
             setAddingProduct(false);
             resetForm();
-            setMsg({ title: "Success", message: "Product Added Successfully" });
+            setMsg({ title: "Success", message: "Product Added Successfully." });
         } catch (error) {
             setMsg(error.response.data);
         }
