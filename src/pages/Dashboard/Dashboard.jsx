@@ -107,9 +107,7 @@ export default function Dashboard() {
                 });
         }, 1500);
 
-        return () => {
-            clearTimeout(timeout);
-        };
+        return () => clearTimeout(timeout);
     }, [displayedProducts]);
 
     return (

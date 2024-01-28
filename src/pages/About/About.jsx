@@ -14,8 +14,8 @@ const About = () => {
                 money.
             </Typography>
             <Typography variant="h5" paragraph textAlign="left" width={1}>
-                Barter Nest offers several compelling reasons for users to
-                choose our platform:
+                BarterNest offers several compelling reasons for users to choose
+                our platform:
             </Typography>
             <div
                 className="about-sections"
@@ -77,7 +77,7 @@ const About = () => {
                             Diverse Trading Opportunities
                         </Typography>
                         <Typography variant="body1">
-                            Barter Nest provides a diverse and extensive network
+                            BarterNest provides a diverse and extensive network
                             of users, creating ample opportunities for
                             individuals and businesses to engage in mutually
                             beneficial trades.
@@ -135,7 +135,7 @@ const About = () => {
                             Mobile Accessibility
                         </Typography>
                         <Typography variant="body1">
-                            Barter Nest offers a mobile-friendly experience,
+                            BarterNest offers a mobile-friendly experience,
                             allowing users to trade on-the-go through a
                             responsive and accessible website or dedicated
                             mobile application.
@@ -148,16 +148,16 @@ const About = () => {
                             Smart Matching Algorithm
                         </Typography>
                         <Typography variant="body1">
-                            Barter Nest employs an intelligent matching
-                            algorithm that suggests potential trades based on
-                            user preferences, increasing the likelihood of
-                            successful exchanges.
+                            BarterNest employs an intelligent matching algorithm
+                            that suggests potential trades based on user
+                            preferences, increasing the likelihood of successful
+                            exchanges.
                         </Typography>
                     </CardContent>
                 </Card>
             </div>
             <Typography variant="h5" paragraph textAlign="left" width={1}>
-                Ultimately, Barter Nest aims to revolutionize the way people
+                Ultimately, BarterNest aims to revolutionize the way people
                 think about transactions by providing a platform that encourages
                 collaboration, sustainability, and a sense of community.
             </Typography>
