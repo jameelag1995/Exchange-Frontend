@@ -4,7 +4,6 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useNavigate } from "react-router-dom";
 import "./OfferCard.css";
 import Review from "../Review/Review";
-import { none } from "@cloudinary/url-gen/qualifiers/fontHinting";
 export default function OfferCard({ offerInfo, myId, setMsg, msg }) {
     const [senderName, setSenderName] = useState("");
     const [receiverName, setReceiverName] = useState("");
