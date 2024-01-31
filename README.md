@@ -4,6 +4,8 @@ Barter Nest is a full-stack web application built with the MERN (MongoDB, Expres
 
 ## Link to Website: https://barternest.netlify.app/
 
+## Link to Back-End Code: https://github.com/jameelag1995/Exchange-Backend
+
 ### user for testing:
 
 -   email: example@mail.com
