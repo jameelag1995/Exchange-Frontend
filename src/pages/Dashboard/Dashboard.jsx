@@ -87,9 +87,10 @@ export default function Dashboard() {
                 parseInt(product.estimatedValue) > min
             );
         });
-        setTimeout(() => {
+        const itemsTimeout = setTimeout(() => {
             setDisplayedProducts(filteredProducts);
         }, 1500);
+        clearTimeout(itemsTimeout);
     };
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
