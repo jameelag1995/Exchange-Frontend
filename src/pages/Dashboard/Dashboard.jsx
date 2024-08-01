@@ -22,7 +22,7 @@ export default function Dashboard() {
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const navigate = useNavigate();
     const [msg, setMsg] = useState(null);
-    const [priceValue, setPriceValue] = useState([1, 10000]);
+    const [priceValue, setPriceValue] = useState([1, 1000]);
 
     const handleSearch = (e) => {
         const searchQuery = e.target.value.toLowerCase();
@@ -169,7 +169,7 @@ export default function Dashboard() {
                             minWidth: 150,
                         }}
                         min={1}
-                        max={10000}
+                        max={1000}
                         disableSwap
                         getAriaLabel={() => "Price range"}
                         value={priceValue}
