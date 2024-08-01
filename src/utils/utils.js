@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "https://ruby-plain-ostrich.cyclic.app";
+const URL = "https://exchange-backend-twbx.onrender.com";
 export const axiosUsersInstance = axios.create({
     baseURL: URL + "/api/v1/exchange/users/",
     timeout: 5000, // Set a timeout for requests (optional)
