@@ -87,8 +87,9 @@ export default function Dashboard() {
                 parseInt(product.estimatedValue) > min
             );
         });
-
-        setDisplayedProducts(filteredProducts);
+        setTimeout(() => {
+            setDisplayedProducts(filteredProducts);
+        }, 1500);
     };
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
