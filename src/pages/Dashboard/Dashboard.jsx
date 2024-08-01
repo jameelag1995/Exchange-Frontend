@@ -67,7 +67,7 @@ export default function Dashboard() {
 
         if (newValue[1] - newValue[0] < minDistance) {
             if (activeThumb === 0) {
-                const clamped = Math.min(newValue[0], 10000 - minDistance);
+                const clamped = Math.min(newValue[0], 1000 - minDistance);
                 setPriceValue([clamped, clamped + minDistance]);
             } else {
                 const clamped = Math.max(newValue[1], minDistance);
@@ -87,10 +87,8 @@ export default function Dashboard() {
                 parseInt(product.estimatedValue) > min
             );
         });
-        const itemsTimeout = setTimeout(() => {
-            setDisplayedProducts(filteredProducts);
-        }, 1500);
-        clearTimeout(itemsTimeout);
+
+        setDisplayedProducts(filteredProducts);
     };
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
