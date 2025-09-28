@@ -9,21 +9,26 @@ import {
     OutlinedInput,
     Slide,
     Typography,
+    Box,
+    Container,
+    Paper,
+    useTheme,
 } from "@mui/material";
-import HistoryIcon from "@mui/icons-material/History";
-import ShieldIcon from "@mui/icons-material/Shield";
 import InfoIcon from "@mui/icons-material/Info";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./Profile.css";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme as useCustomTheme } from "../../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import UploadWidget from "../../components/UploadWidget/UploadWidget";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { light } from "@mui/material/styles/createPalette";
-export default function Profile({ modeColor, setModeColor }) {
+
+export default function Profile() {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const { mode, toggleTheme } = useCustomTheme();
     const { accessToken, logout, logoutAll } = useAuth();
     const [userDetails, setUserDetails] = useState(null);
     const [msg, setMsg] = useState(null);
@@ -31,12 +36,15 @@ export default function Profile({ modeColor, setModeColor }) {
     const displayNameRef = useRef();
     const [images, setImages] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
+
     const handleLogout = async () => {
         await logout();
     };
+
     const handleLogoutAll = async () => {
         await logoutAll();
     };
+
     const updateProfilePicture = async () => {
         try {
             const newProfilePic = images[images.length - 1];
@@ -65,6 +73,7 @@ export default function Profile({ modeColor, setModeColor }) {
             setMsg(error.response.data);
         }
     };
+
     const handleDisplayNameChange = async () => {
         if (displayNameRef.current.value.length >= 2) {
             try {
@@ -93,6 +102,7 @@ export default function Profile({ modeColor, setModeColor }) {
             });
         }
     };
+
     const fetchUserData = async () => {
         try {
             const result = await axiosUsersInstance.get("/me", {
@@ -106,133 +116,262 @@ export default function Profile({ modeColor, setModeColor }) {
             setMsg(error.response.data);
         }
     };
+
     useEffect(() => {
         if (!accessToken) {
             navigate("/auth/login");
         }
         if (accessToken) fetchUserData();
     }, [accessToken]);
+
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
-            <div className="Profile Page">
-                <div className="user-info">
-                    <Avatar
-                        src={userDetails?.profilePicture}
-                        sx={{
-                            width: "100px",
-                            height: "100px",
-                            boxShadow: "0 0 4px",
+            <Container maxWidth="md" sx={{ py: 4, mt: 8, mb: 8 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    {/* User Info Section */}
+                    <Paper 
+                        elevation={0}
+                        sx={{ 
+                            p: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: 3,
+                            background: theme.palette.mode === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.05)' 
+                                : 'rgba(25, 118, 210, 0.05)',
+                            border: `1px solid ${theme.palette.mode === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.1)' 
+                                : 'rgba(25, 118, 210, 0.1)'}`,
+                            borderRadius: 3
                         }}
-                    />
-                    <div
-                        className="upload-container"
-                        onClick={() => setIsUpdating(true)}
                     >
-                        <UploadWidget images={images} setImages={setImages} />
-                    </div>
-                    {isUpdating && (
-                        <Button
-                            variant="outlined"
-                            onClick={updateProfilePicture}
-                        >
-                            Update Picture
-                        </Button>
-                    )}
-                    <Typography variant="h4">
-                        {userDetails?.displayName}
-                    </Typography>
-                    <Typography variant="h5">{userDetails?.email}</Typography>
-                    <Button
-                        variant={editing ? "contained" : "outlined"}
-                        onClick={() => setEditing((prev) => !prev)}
-                    >
-                        Edit Profile
-                    </Button>
-                    {editing && (
-                        <div className="editingInputs">
-                            <FormControl
-                                sx={{ m: 1, width: 1 }}
-                                variant="outlined"
+                        <Avatar
+                            src={userDetails?.profilePicture}
+                            sx={{
+                                width: 120,
+                                height: 120,
+                                boxShadow: theme.shadows[4],
+                                border: `3px solid ${theme.palette.primary.main}`,
+                            }}
+                        />
+                        
+                        <Box sx={{ textAlign: 'center' }}>
+                            <Typography 
+                                variant="h4" 
+                                sx={{ 
+                                    fontWeight: 600,
+                                    color: theme.palette.text.primary,
+                                    mb: 1
+                                }}
                             >
-                                <InputLabel htmlFor="outlined-adornment-display-name">
-                                    Display Name
-                                </InputLabel>
-                                <OutlinedInput
-                                    required
-                                    id="outlined-adornment-display-name"
-                                    label="Display Name"
-                                    inputRef={displayNameRef}
-                                    type="text"
-                                    size="large"
-                                />
-                            </FormControl>
+                                {userDetails?.displayName}
+                            </Typography>
+                            <Typography 
+                                variant="h6" 
+                                sx={{ 
+                                    color: theme.palette.text.secondary,
+                                    mb: 2
+                                }}
+                            >
+                                {userDetails?.email}
+                            </Typography>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Button
-                                variant="contained"
-                                onClick={handleDisplayNameChange}
+                                variant={editing ? "contained" : "outlined"}
+                                onClick={() => setEditing((prev) => !prev)}
+                                sx={{ minWidth: 120 }}
                             >
-                                Change Display Name
+                                Edit Profile
                             </Button>
-                        </div>
-                    )}
-                </div>
-                <div className="user-actions">
-                    <div
-                        className="action"
-                        onClick={() =>
-                            setModeColor((prev) =>
-                                prev === "light" ? "dark" : "light"
-                            )
-                        }
-                    >
-                        {modeColor === "light" ? (
-                            <>
-                                <DarkModeIcon />
-                                Switch To Dark-Mode
-                            </>
-                        ) : (
-                            <>
-                                <LightModeIcon />
-                                Switch To Light-Mode
-                            </>
+                            
+                            <Box 
+                                sx={{ 
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                    p: 1.5,
+                                    borderRadius: 2,
+                                    backgroundColor: theme.palette.mode === 'dark' 
+                                        ? 'rgba(255, 255, 255, 0.1)' 
+                                        : 'rgba(0, 0, 0, 0.05)',
+                                    transition: 'all 0.3s ease',
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.mode === 'dark' 
+                                            ? 'rgba(255, 255, 255, 0.2)' 
+                                            : 'rgba(0, 0, 0, 0.1)',
+                                        transform: 'scale(1.05)',
+                                    }
+                                }}
+                                onClick={toggleTheme}
+                            >
+                                {mode === 'light' ? (
+                                    <>
+                                        <DarkModeIcon sx={{ color: theme.palette.primary.main }} />
+                                        <Typography sx={{ color: theme.palette.text.primary }}>
+                                            Dark Mode
+                                        </Typography>
+                                    </>
+                                ) : (
+                                    <>
+                                        <LightModeIcon sx={{ color: theme.palette.primary.main }} />
+                                        <Typography sx={{ color: theme.palette.text.primary }}>
+                                            Light Mode
+                                        </Typography>
+                                    </>
+                                )}
+                            </Box>
+                        </Box>
+
+                        {editing && (
+                            <Box sx={{ 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: 2, 
+                                width: '100%', 
+                                maxWidth: 400 
+                            }}>
+                                <FormControl variant="outlined" fullWidth>
+                                    <InputLabel htmlFor="outlined-adornment-display-name">
+                                        Display Name
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        required
+                                        id="outlined-adornment-display-name"
+                                        label="Display Name"
+                                        inputRef={displayNameRef}
+                                        type="text"
+                                        size="large"
+                                    />
+                                </FormControl>
+                                <Button
+                                    variant="contained"
+                                    onClick={handleDisplayNameChange}
+                                    sx={{ minWidth: 120 }}
+                                >
+                                    Update Name
+                                </Button>
+                            </Box>
                         )}
-                    </div>
 
-                    <Divider orientation="horizontal" sx={{ width: 1 }} />
-                    <Link>
-                        <div className="action">
-                            <ShieldIcon />
-                            Security
-                        </div>
-                    </Link>
-                    <Divider orientation="horizontal" sx={{ width: 1 }} />
-                    <Link to="/about">
-                        <div className="action">
-                            <InfoIcon />
-                            About
-                        </div>
-                    </Link>
-                    <Divider orientation="horizontal" sx={{ width: 1 }} />
+                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <div
+                                className="upload-container"
+                                onClick={() => setIsUpdating(true)}
+                            >
+                                <UploadWidget images={images} setImages={setImages} />
+                            </div>
+                            {isUpdating && (
+                                <Button
+                                    variant="outlined"
+                                    onClick={updateProfilePicture}
+                                    sx={{ minWidth: 120 }}
+                                >
+                                    Update Picture
+                                </Button>
+                            )}
+                        </Box>
+                    </Paper>
 
-                    <div
-                        className="action"
-                        style={{ color: "#ee2740" }}
-                        onClick={handleLogout}
+                    {/* User Actions Section */}
+                    <Paper 
+                        elevation={0}
+                        sx={{ 
+                            p: 3,
+                            background: theme.palette.mode === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.05)' 
+                                : 'rgba(0, 0, 0, 0.02)',
+                            border: `1px solid ${theme.palette.mode === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.1)' 
+                                : 'rgba(0, 0, 0, 0.08)'}`,
+                            borderRadius: 3
+                        }}
                     >
-                        <LogoutIcon color="#ee2740" />
-                        Logout
-                    </div>
-                    <Divider orientation="horizontal" sx={{ width: 1 }} />
-                    <div
-                        className="action"
-                        style={{ color: "#ee2740" }}
-                        onClick={handleLogoutAll}
-                    >
-                        <LogoutIcon color="#ee2740" />
-                        Logout From All Devices
-                    </div>
-                </div>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            <Link to="/about" style={{ textDecoration: 'none' }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 2,
+                                        p: 2,
+                                        borderRadius: 2,
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        '&:hover': {
+                                            backgroundColor: theme.palette.mode === 'dark' 
+                                                ? 'rgba(255, 255, 255, 0.1)' 
+                                                : 'rgba(0, 0, 0, 0.05)',
+                                        }
+                                    }}
+                                >
+                                    <InfoIcon sx={{ color: theme.palette.primary.main }} />
+                                    <Typography sx={{ color: theme.palette.text.primary }}>
+                                        About
+                                    </Typography>
+                                </Box>
+                            </Link>
+
+                            <Divider sx={{ my: 1 }} />
+
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    p: 2,
+                                    borderRadius: 2,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    color: theme.palette.error.main,
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.mode === 'dark' 
+                                            ? 'rgba(244, 67, 54, 0.1)' 
+                                            : 'rgba(244, 67, 54, 0.05)',
+                                    }
+                                }}
+                                onClick={handleLogout}
+                            >
+                                <LogoutIcon sx={{ color: theme.palette.error.main }} />
+                                <Typography sx={{ color: theme.palette.error.main }}>
+                                    Logout
+                                </Typography>
+                            </Box>
+
+                            <Divider sx={{ my: 1 }} />
+
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    p: 2,
+                                    borderRadius: 2,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    color: theme.palette.error.main,
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.mode === 'dark' 
+                                            ? 'rgba(244, 67, 54, 0.1)' 
+                                            : 'rgba(244, 67, 54, 0.05)',
+                                    }
+                                }}
+                                onClick={handleLogoutAll}
+                            >
+                                <LogoutIcon sx={{ color: theme.palette.error.main }} />
+                                <Typography sx={{ color: theme.palette.error.main }}>
+                                    Logout From All Devices
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </Box>
+                
                 {msg && <BasicModal msg={msg} setMsg={setMsg} />}
-            </div>
+            </Container>
         </Slide>
     );
 }

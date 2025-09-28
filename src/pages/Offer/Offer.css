@@ -1,149 +1,461 @@
+/* Main Offer Page Container */
 .Offer {
-    gap: 16px !important;
-    /* padding-top: 80px; */
-}
-.offer-container {
-    width: 100%;
-    /* padding: 16px; */
-
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    min-width: 1400px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.products-to-offer-container {
-    width: 100%;
-    /* padding: 16px; */
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    min-width: 1400px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sender-container {
-    padding: 4px 16px;
-    width: 40%;
-    min-height: 320px;
-    /* border: 1px solid black; */
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-.receiver-container {
-    padding: 4px 16px;
-    width: 40%;
-    min-height: 320px;
-    /* border: 1px solid black; */
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.offer-sides-info {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-}
-
-.buttons-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 16px;
-    width: 150px;
-    text-align: center;
-}
-
-.users-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-}
-.info {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    width: 40%;
-}
-
-.text-container {
-    border: 1px solid lightblue;
-    border-radius: 6px;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.messages-container {
-    width: 300px;
-    height: 100px;
-    overflow-y: auto;
-}
-
-.mobile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    min-width: 600px;
-    /* padding: 48px 16px 60px 16px; */
-    position: relative;
+    justify-content: flex-start;
     min-height: 100vh;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+    /* Ensure content is below the navbar */
+    margin-top: 80px;
+    /* Add bottom padding for mobile bottom navbar */
+    padding-bottom: 80px;
+    background: #fafafa;
 }
 
+.Offer[data-theme="dark"] {
+    background: #121212;
+}
+
+/* Back Button Container */
+.back-btn-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-btn-container .MuiSvgIcon-root {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #1976d2;
+    font-size: 2rem;
+}
+
+.Offer[data-theme="dark"] .back-btn-container .MuiSvgIcon-root {
+    color: #90caf9;
+}
+
+.back-btn-container .MuiSvgIcon-root:hover {
+    transform: scale(1.1);
+    color: #1565c0;
+}
+
+.Offer[data-theme="dark"] .back-btn-container .MuiSvgIcon-root:hover {
+    color: #42a5f5;
+}
+
+/* User Switch Container */
 .user-switch {
     width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 16px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
+.Offer[data-theme="dark"] .user-switch {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.user-switch .MuiButton-root {
+    min-width: 120px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.user-switch .MuiButton-contained {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+}
+
+.Offer[data-theme="dark"] .user-switch .MuiButton-contained {
+    background: linear-gradient(135deg, #90caf9 0%, #42a5f5 100%);
+    box-shadow: 0 4px 15px rgba(144, 202, 249, 0.3);
+}
+
+.user-switch .MuiButton-contained:hover {
+    background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+}
+
+.Offer[data-theme="dark"] .user-switch .MuiButton-contained:hover {
+    background: linear-gradient(135deg, #42a5f5 0%, #90caf9 100%);
+    box-shadow: 0 6px 20px rgba(144, 202, 249, 0.4);
+}
+
+/* User Mobile Container */
 .user-mobile-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 8px;
+    gap: 20px;
     width: 100%;
+    max-width: 1200px;
 }
 
+/* User Info Section */
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.Offer[data-theme="dark"] .info {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.info .MuiAvatar-root {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #1976d2;
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.2);
+}
+
+.Offer[data-theme="dark"] .info .MuiAvatar-root {
+    border: 3px solid #90caf9;
+    box-shadow: 0 4px 15px rgba(144, 202, 249, 0.2);
+}
+
+.info .MuiTypography-h6 {
+    font-weight: 600;
+    color: #212121;
+    margin: 0;
+}
+
+.Offer[data-theme="dark"] .info .MuiTypography-h6 {
+    color: #ffffff;
+}
+
+/* Section Titles */
+.user-mobile-container .MuiTypography-p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1976d2;
+    text-align: center;
+    margin: 20px 0 10px 0;
+    padding: 8px 16px;
+    background: rgba(25, 118, 210, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.Offer[data-theme="dark"] .user-mobile-container .MuiTypography-p {
+    color: #90caf9;
+    background: rgba(144, 202, 249, 0.2);
+}
+
+/* Product Containers */
+.sender-container,
+.receiver-container {
+    width: 100%;
+    max-width: 800px;
+    min-height: 200px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+}
+
+.Offer[data-theme="dark"] .sender-container,
+.Offer[data-theme="dark"] .receiver-container {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sender-container:hover,
+.receiver-container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.Offer[data-theme="dark"] .sender-container:hover,
+.Offer[data-theme="dark"] .receiver-container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Empty State */
+.sender-container:empty::after,
+.receiver-container:empty::after {
+    content: 'No products available';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    color: #757575;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.Offer[data-theme="dark"] .sender-container:empty::after,
+.Offer[data-theme="dark"] .receiver-container:empty::after {
+    color: #b0b0b0;
+}
+
+/* Bottom Offer Container */
 .bottom-offer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.Offer[data-theme="dark"] .bottom-offer-container {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Text Container */
+.text-container {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid rgba(25, 118, 210, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.Offer[data-theme="dark"] .text-container {
+    background: rgba(30, 30, 30, 0.95);
+    border: 2px solid rgba(144, 202, 249, 0.3);
+}
+
+/* Messages Container */
+.messages-container {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.Offer[data-theme="dark"] .messages-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.messages-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.messages-container li {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(25, 118, 210, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #1976d2;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #212121;
+}
+
+.Offer[data-theme="dark"] .messages-container li {
+    background: rgba(144, 202, 249, 0.2);
+    border-left: 3px solid #90caf9;
+    color: #ffffff;
+}
+
+.messages-container li:last-child {
+    margin-bottom: 0;
+}
+
+/* Buttons Container */
+.buttons-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 16px;
-    padding: 8px;
+    flex-wrap: wrap;
     width: 100%;
+    max-width: 500px;
+}
+
+.buttons-container .MuiButton-root {
+    min-width: 120px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: none;
+}
+
+.buttons-container .MuiButton-contained {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.buttons-container .MuiButton-contained:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.buttons-container .MuiButton-contained[color="warning"] {
+    background: linear-gradient(135deg, #ed6c02 0%, #e65100 100%);
+}
+
+.buttons-container .MuiButton-contained[color="success"] {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
+
+.buttons-container .MuiButton-contained[color="error"] {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+}
+
+/* Mobile Container (Legacy - keeping for compatibility) */
+.mobile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    margin-top: 80px;
+    padding-bottom: 80px;
+    background: #fafafa;
+}
+
+.Offer[data-theme="dark"] .mobile-container {
+    background: #121212;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .Offer {
+        padding: 10px;
+        margin-top: 60px;
+        padding-bottom: 100px;
+    }
+    
+    .mobile-container {
+        padding: 10px;
+        margin-top: 60px;
+        padding-bottom: 100px;
+    }
+    
+    .user-switch {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .sender-container,
+    .receiver-container {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .bottom-offer-container {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .buttons-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .buttons-container .MuiButton-root {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .Offer {
+        margin-top: 50px;
+        padding-bottom: 120px;
+    }
+    
+    .mobile-container {
+        margin-top: 50px;
+        padding-bottom: 120px;
+    }
+    
+    .info {
+        padding: 16px;
+    }
+    
+    .info .MuiAvatar-root {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .sender-container,
+    .receiver-container {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .text-container {
+        padding: 12px;
+    }
+    
+    .messages-container {
+        height: 100px;
+        padding: 8px;
+    }
+    
+    .messages-container li {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
 }

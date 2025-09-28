@@ -1,17 +1,26 @@
 import { Typography } from "@mui/material";
 import React from "react";
+import { useTheme } from "../../context/ThemeContext";
 import "./ProductOfferCard.css";
+
 export default function ProductOfferCard({ productInfo }) {
+    const { mode } = useTheme();
+    
     return (
-        <div className="ProductOfferCard">
-            <img src={productInfo?.pictures[0]} alt="" />
+        <div className="ProductOfferCard" data-theme={mode}>
+            <img src={productInfo?.pictures[0]} alt={productInfo?.title} />
             <div className="info-container">
-                <Typography variant="p">Title: {productInfo?.title}</Typography>
-                <Typography variant="p">
-                    Category: {productInfo?.category}
+                <Typography variant="body2">
+                    <strong>Title</strong>
+                    <span>{productInfo?.title}</span>
                 </Typography>
-                <Typography variant="p">
-                    Estimated value:{productInfo?.estimatedValue}$
+                <Typography variant="body2">
+                    <strong>Category</strong>
+                    <span>{productInfo?.category}</span>
+                </Typography>
+                <Typography variant="body2">
+                    <strong>Estimated Value</strong>
+                    <span>${productInfo?.estimatedValue}</span>
                 </Typography>
             </div>
         </div>

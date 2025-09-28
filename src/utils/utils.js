@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const URL = "https://exchange-backend-twbx.onrender.com";
+const BASE_URL = import.meta.env.VITE_ENV == 'PROD' ? import.meta.env.VITE_PROD_URL : import.meta.env.VITE_DEV_URL; 
+const URL = BASE_URL + "/api/v1/exchange/";
 export const axiosUsersInstance = axios.create({
-    baseURL: URL + "/api/v1/exchange/users/",
+    baseURL: URL + "users/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -11,7 +12,7 @@ export const axiosUsersInstance = axios.create({
 });
 
 export const axiosProductsInstance = axios.create({
-    baseURL: URL + "/api/v1/exchange/products/",
+    baseURL: URL + "products/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -19,7 +20,7 @@ export const axiosProductsInstance = axios.create({
     },
 });
 export const axiosOffersInstance = axios.create({
-    baseURL: URL + "/api/v1/exchange/offers/",
+    baseURL: URL + "offers/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",
@@ -27,7 +28,7 @@ export const axiosOffersInstance = axios.create({
     },
 });
 export const axiosReviewsInstance = axios.create({
-    baseURL: URL + "/api/v1/exchange/reviews/",
+    baseURL: URL + "reviews/",
     timeout: 5000, // Set a timeout for requests (optional)
     headers: {
         "Content-Type": "application/json",

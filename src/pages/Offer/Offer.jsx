@@ -1,5 +1,6 @@
-import { Avatar, Button, Slide, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Slide, TextField, Typography, Box, Chip } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 import "./Offer.css";
 import { axiosOffersInstance, axiosProductsInstance } from "../../utils/utils";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -8,7 +9,9 @@ import ProductOfferCard from "../../components/ProductOfferCard/ProductOfferCard
 import { useNavigate, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import BasicModal from "../../components/BasicModal/BasicModal";
+
 export default function Offer() {
+    const { mode } = useTheme();
     const [senderProducts, setSenderProducts] = useState(null);
     const [senderOffer, setSenderOffer] = useState(null);
     const [receiverProducts, setReceiverProducts] = useState(null);
@@ -22,6 +25,7 @@ export default function Offer() {
     const [isAccepted, setIsAccepted] = useState(false);
     const navigate = useNavigate();
     const params = useParams();
+
     const fetchData = async (dataType) => {
         try {
             let result;
@@ -62,7 +66,6 @@ export default function Offer() {
                         )
                     );
                     break;
-
                 default:
                     break;
             }
@@ -70,6 +73,7 @@ export default function Offer() {
             setMsg(error.response.data);
         }
     };
+
     const fetchOffer = async () => {
         try {
             const result = await axiosOffersInstance.get(`/${params.offerId}`, {
@@ -84,6 +88,7 @@ export default function Offer() {
             setMsg(error.response.data);
         }
     };
+
     const handleSenderProductsClick = (product) => {
         if (offerEnded) return;
         if (isAccepted) return;
@@ -92,12 +97,14 @@ export default function Offer() {
             senderProducts.filter((prod) => prod._id != product._id)
         );
     };
+
     const handleSenderOfferClick = (product) => {
         if (offerEnded) return;
         if (isAccepted) return;
         setSenderOffer(senderOffer.filter((prod) => prod._id != product._id));
         setSenderProducts([...senderProducts, product]);
     };
+
     const handleReceiverProductsClick = (product) => {
         if (offerEnded) return;
         if (isAccepted) return;
@@ -106,6 +113,7 @@ export default function Offer() {
             receiverProducts.filter((prod) => prod._id != product._id)
         );
     };
+
     const handleReceiverOfferClick = (product) => {
         if (offerEnded) return;
         if (isAccepted) return;
@@ -114,6 +122,7 @@ export default function Offer() {
         );
         setReceiverProducts([...receiverProducts, product]);
     };
+
     const handleOfferUpdate = async (stat) => {
         try {
             if (
@@ -203,11 +212,11 @@ export default function Offer() {
             setMsg(error.response.data);
         }
     };
+
     useEffect(() => {
         if (accessToken) fetchOffer();
-
-        // console.log(receiverProducts);
     }, [accessToken]);
+
     useEffect(() => {
         if (offerInfo) {
             fetchData("sender");
@@ -219,7 +228,6 @@ export default function Offer() {
 
         if (offerInfo?.completed !== undefined) {
             setOfferEnded(true);
-
             setMsg({
                 title: "Trade Ended",
                 message: offerInfo?.completed
@@ -228,143 +236,267 @@ export default function Offer() {
             });
         }
     }, [offerInfo]);
+
+    const getStatusColor = (status) => {
+        switch (status?.toLowerCase()) {
+            case 'accepted':
+                return 'success';
+            case 'rejected':
+                return 'error';
+            case 'pending':
+                return 'warning';
+            default:
+                return 'default';
+        }
+    };
+
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
-            <div className="mobile-container Page">
-                <div
-                    className="back-btn-container"
-                    style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "start",
-                        alignItems: "center",
-                    }}
-                >
-                    <ArrowBackIcon
-                        sx={{
-                            position: "relative",
-                            zIndex: "10",
-                            cursor: "pointer",
+            <div className="Offer Page" data-theme={mode}>
+                {/* Back Button */}
+                <div className="back-btn-container">
+                    <ArrowBackIcon 
+                        onClick={() => navigate(-1)} 
+                        sx={{ 
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                color: mode === 'light' ? '#1565c0' : '#42a5f5',
+                            }
                         }}
-                        onClick={() => navigate(-1)}
                     />
                 </div>
+
+                {/* User Switch */}
                 <div className="user-switch">
                     <Button
                         variant={isSender ? "contained" : "outlined"}
                         onClick={() => setIsSender(true)}
+                        sx={{
+                            background: isSender ? (mode === 'light' 
+                                ? 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)'
+                                : 'linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)') : 'transparent',
+                            color: isSender ? (mode === 'light' ? '#ffffff' : '#000000') : (mode === 'light' ? '#1976d2' : '#90caf9'),
+                            borderColor: mode === 'light' ? '#1976d2' : '#90caf9',
+                            '&:hover': {
+                                background: isSender ? (mode === 'light' 
+                                    ? 'linear-gradient(135deg, #1565c0 0%, #1976d2 100%)'
+                                    : 'linear-gradient(135deg, #42a5f5 0%, #90caf9 100%)') : (mode === 'light' 
+                                    ? 'rgba(25, 118, 210, 0.08)' : 'rgba(144, 202, 249, 0.08)'),
+                            }
+                        }}
                     >
                         {offerInfo?.sender.displayName}
                     </Button>
                     <Button
                         variant={!isSender ? "contained" : "outlined"}
                         onClick={() => setIsSender(false)}
+                        sx={{
+                            background: !isSender ? (mode === 'light' 
+                                ? 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)'
+                                : 'linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)') : 'transparent',
+                            color: !isSender ? (mode === 'light' ? '#ffffff' : '#000000') : (mode === 'light' ? '#1976d2' : '#90caf9'),
+                            borderColor: mode === 'light' ? '#1976d2' : '#90caf9',
+                            '&:hover': {
+                                background: !isSender ? (mode === 'light' 
+                                    ? 'linear-gradient(135deg, #1565c0 0%, #1976d2 100%)'
+                                    : 'linear-gradient(135deg, #42a5f5 0%, #90caf9 100%)') : (mode === 'light' 
+                                    ? 'rgba(25, 118, 210, 0.08)' : 'rgba(144, 202, 249, 0.08)'),
+                            }
+                        }}
                     >
                         {offerInfo?.receiver.displayName}
                     </Button>
                 </div>
+
+                {/* Main Content */}
                 {isSender ? (
                     <div className="user-mobile-container">
+                        {/* User Info */}
                         <div className="info">
-                            <Avatar
-                                src={offerInfo?.sender.profilePicture}
-                                sx={{ boxShadow: "0 0 4px" }}
+                            <Avatar src={offerInfo?.sender.profilePicture} />
+                            <Typography variant="h6" sx={{ color: mode === 'light' ? '#212121' : '#ffffff' }}>
+                                {offerInfo?.sender.displayName}
+                            </Typography>
+                            <Chip 
+                                label={offerInfo?.status[0]?.status || 'Pending'} 
+                                color={getStatusColor(offerInfo?.status[0]?.status)}
+                                size="small"
+                                sx={{ 
+                                    fontWeight: 600,
+                                    backgroundColor: getStatusColor(offerInfo?.status[0]?.status) === 'success' ? '#2e7d32' :
+                                                   getStatusColor(offerInfo?.status[0]?.status) === 'error' ? '#d32f2f' :
+                                                   getStatusColor(offerInfo?.status[0]?.status) === 'warning' ? '#ed6c02' : '#757575',
+                                    color: '#ffffff'
+                                }}
                             />
-                            <Typography variant="h6">
-                                {offerInfo?.sender.displayName},
-                            </Typography>
-                            <Typography variant="h6">
-                                Status: {offerInfo?.status[0]?.status}
-                            </Typography>
                         </div>
-                        <Typography variant="p">Offer</Typography>
+
+                        {/* Offer Section */}
+                        <Typography variant="p" sx={{ 
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            fontWeight: 600,
+                            fontSize: '1.1rem'
+                        }}>
+                            Current Offer
+                        </Typography>
                         <div className="sender-container">
-                            {senderOffer &&
+                            {senderOffer && senderOffer.length > 0 ? (
                                 senderOffer.map((product) => (
                                     <div
                                         key={product._id}
-                                        onClick={() =>
-                                            handleSenderOfferClick(product)
-                                        }
+                                        onClick={() => handleSenderOfferClick(product)}
                                     >
-                                        <ProductOfferCard
-                                            productInfo={product}
-                                        />
+                                        <ProductOfferCard productInfo={product} />
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: '100px',
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                    fontStyle: 'italic'
+                                }}>
+                                    No products in offer yet
+                                </Box>
+                            )}
                         </div>
-                        <Typography variant="p">Your Products</Typography>
+
+                        {/* Available Products Section */}
+                        <Typography variant="p" sx={{ 
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            fontWeight: 600,
+                            fontSize: '1.1rem'
+                        }}>
+                            Available Products
+                        </Typography>
                         <div className="sender-container">
-                            {senderProducts &&
-                                senderProducts?.map((product) => (
+                            {senderProducts && senderProducts.length > 0 ? (
+                                senderProducts.map((product) => (
                                     <div
                                         key={product._id}
-                                        onClick={() =>
-                                            handleSenderProductsClick(product)
-                                        }
+                                        onClick={() => handleSenderProductsClick(product)}
                                     >
-                                        <ProductOfferCard
-                                            productInfo={product}
-                                        />
+                                        <ProductOfferCard productInfo={product} />
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: '100px',
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                    fontStyle: 'italic'
+                                }}>
+                                    No available products
+                                </Box>
+                            )}
                         </div>
                     </div>
                 ) : (
                     <div className="user-mobile-container">
+                        {/* User Info */}
                         <div className="info">
-                            <Avatar
-                                src={offerInfo?.receiver.profilePicture}
-                                sx={{ boxShadow: "0 0 4px" }}
+                            <Avatar src={offerInfo?.receiver.profilePicture} />
+                            <Typography variant="h6" sx={{ color: mode === 'light' ? '#212121' : '#ffffff' }}>
+                                {offerInfo?.receiver.displayName}
+                            </Typography>
+                            <Chip 
+                                label={offerInfo?.status[1]?.status || 'Pending'} 
+                                color={getStatusColor(offerInfo?.status[1]?.status)}
+                                size="small"
+                                sx={{ 
+                                    fontWeight: 600,
+                                    backgroundColor: getStatusColor(offerInfo?.status[1]?.status) === 'success' ? '#2e7d32' :
+                                                   getStatusColor(offerInfo?.status[1]?.status) === 'error' ? '#d32f2f' :
+                                                   getStatusColor(offerInfo?.status[1]?.status) === 'warning' ? '#ed6c02' : '#757575',
+                                    color: '#ffffff'
+                                }}
                             />
-                            <Typography variant="h6">
-                                {offerInfo?.receiver.displayName},
-                            </Typography>
-                            <Typography variant="h6">
-                                Status: {offerInfo?.status[1]?.status}
-                            </Typography>
                         </div>
-                        <Typography variant="p">Offer</Typography>
+
+                        {/* Offer Section */}
+                        <Typography variant="p" sx={{ 
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            fontWeight: 600,
+                            fontSize: '1.1rem'
+                        }}>
+                            Current Offer
+                        </Typography>
                         <div className="receiver-container">
-                            {receiverOffer &&
+                            {receiverOffer && receiverOffer.length > 0 ? (
                                 receiverOffer.map((product) => (
                                     <div
                                         key={product._id}
-                                        onClick={() =>
-                                            handleReceiverOfferClick(product)
-                                        }
+                                        onClick={() => handleReceiverOfferClick(product)}
                                     >
-                                        <ProductOfferCard
-                                            productInfo={product}
-                                        />
+                                        <ProductOfferCard productInfo={product} />
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: '100px',
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                    fontStyle: 'italic'
+                                }}>
+                                    No products in offer yet
+                                </Box>
+                            )}
                         </div>
-                        <Typography variant="p">Your Products</Typography>
+
+                        {/* Available Products Section */}
+                        <Typography variant="p" sx={{ 
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            fontWeight: 600,
+                            fontSize: '1.1rem'
+                        }}>
+                            Your Available Products
+                        </Typography>
                         <div className="receiver-container">
-                            {receiverProducts &&
-                                receiverProducts?.map((product) => (
+                            {receiverProducts && receiverProducts.length > 0 ? (
+                                receiverProducts.map((product) => (
                                     <div
                                         key={product._id}
-                                        onClick={() =>
-                                            handleReceiverProductsClick(product)
-                                        }
+                                        onClick={() => handleReceiverProductsClick(product)}
                                     >
-                                        <ProductOfferCard
-                                            productInfo={product}
-                                        />
+                                        <ProductOfferCard productInfo={product} />
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: '100px',
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                    fontStyle: 'italic'
+                                }}>
+                                    No available products
+                                </Box>
+                            )}
                         </div>
                     </div>
                 )}
+
+                {/* Bottom Actions */}
                 <div className="bottom-offer-container">
+                    {/* Messages Section */}
                     <div className="text-container">
                         <div className="messages-container">
                             <ul>
                                 {offerInfo?.conversation?.map((msg, index) => (
-                                    <li key={index}>
-                                        {`${msg.sender}: ${msg.content}`}{" "}
+                                    <li key={index} style={{ color: mode === 'light' ? '#212121' : '#ffffff' }}>
+                                        <strong style={{ color: mode === 'light' ? '#1976d2' : '#90caf9' }}>{msg.sender}:</strong> {msg.content}
                                     </li>
                                 ))}
                             </ul>
@@ -372,18 +504,50 @@ export default function Offer() {
                         <TextField
                             multiline
                             minRows={1}
-                            placeholder="Enter Your Message Here..."
-                            label="Text Message"
-                            sx={{ width: "300px" }}
+                            maxRows={3}
+                            placeholder="Enter your message here..."
+                            label="Message"
+                            fullWidth
                             inputRef={messageRef}
+                            sx={{ 
+                                maxWidth: 500,
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: mode === 'light' ? '#e0e0e0' : '#424242',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: mode === 'light' ? '#1976d2' : '#90caf9',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: mode === 'light' ? '#1976d2' : '#90caf9',
+                                    },
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                },
+                                '& .MuiInputBase-input': {
+                                    color: mode === 'light' ? '#212121' : '#ffffff',
+                                },
+                            }}
                         />
                     </div>
+
+                    {/* Action Buttons */}
                     <div className="buttons-container">
                         <Button
                             variant="contained"
                             color="warning"
                             onClick={() => handleOfferUpdate("Pending")}
                             disabled={offerEnded}
+                            sx={{
+                                background: '#ed6c02',
+                                '&:hover': {
+                                    background: '#f57c00',
+                                },
+                                '&:disabled': {
+                                    background: '#ccc',
+                                }
+                            }}
                         >
                             Update Offer
                         </Button>
@@ -392,6 +556,15 @@ export default function Offer() {
                             color="success"
                             onClick={() => handleOfferUpdate("Accepted")}
                             disabled={offerEnded}
+                            sx={{
+                                background: '#2e7d32',
+                                '&:hover': {
+                                    background: '#388e3c',
+                                },
+                                '&:disabled': {
+                                    background: '#ccc',
+                                }
+                            }}
                         >
                             Accept Offer
                         </Button>
@@ -400,6 +573,15 @@ export default function Offer() {
                             color="error"
                             onClick={() => handleOfferUpdate("Rejected")}
                             disabled={offerEnded}
+                            sx={{
+                                background: '#d32f2f',
+                                '&:hover': {
+                                    background: '#c62828',
+                                },
+                                '&:disabled': {
+                                    background: '#ccc',
+                                }
+                            }}
                         >
                             Reject Offer
                         </Button>

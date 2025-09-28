@@ -1,21 +1,116 @@
 .ReviewCard {
-    width: 40%;
-    padding: 8px 16px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 16px;
-    background-color: lightslategray;
-    border-radius: 6px;
-    border: 1px solid #333;
-    box-shadow: 0 0 6px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     position: relative;
+    transition: all 0.3s ease;
+    margin: 0 auto;
 }
+
+.ReviewCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
 .review-sender-info {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    width: 100%;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.review-sender-info .MuiAvatar-root {
+    border: 2px solid #1976d2;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2);
+}
+
+.review-sender-info .MuiTypography-h6 {
+    font-weight: 600;
+    color: #212121;
+}
+
+.ReviewCard .MuiRating-root {
+    margin: 8px 0;
+}
+
+.ReviewCard .MuiTypography-body1 {
+    line-height: 1.6;
+    color: #424242;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+.ReviewCard .MuiTypography-body1:last-child {
+    align-self: flex-end;
+    font-size: 0.8rem;
+    color: #757575;
+    font-style: italic;
+    margin-top: auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .ReviewCard {
+        background: #1e1e1e;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+    }
+    
+    .review-sender-info {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    
+    .review-sender-info .MuiAvatar-root {
+        border: 2px solid #90caf9;
+    }
+    
+    .review-sender-info .MuiTypography-h6 {
+        color: #ffffff;
+    }
+    
+    .ReviewCard .MuiTypography-body1 {
+        color: #e0e0e0;
+    }
+    
+    .ReviewCard .MuiTypography-body1:last-child {
+        color: #b0b0b0;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ReviewCard {
+        padding: 16px;
+        margin: 0 8px;
+    }
+    
+    .review-sender-info {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ReviewCard {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .review-sender-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
 }

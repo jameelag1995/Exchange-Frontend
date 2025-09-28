@@ -1,0 +1,117 @@
+.Loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.Loading .MuiTypography-root {
+    color: #212121;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1976d2;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dots .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dots .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.loading-dots .dot:nth-child(3) {
+    animation-delay: 0s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .Loading {
+        background: rgba(30, 30, 30, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+    }
+    
+    .Loading .MuiTypography-root {
+        color: #ffffff;
+    }
+    
+    .loading-dots .dot {
+        background: #90caf9;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .Loading {
+        padding: 30px;
+        min-height: 150px;
+    }
+    
+    .loading-dots .dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Loading {
+        padding: 20px;
+        min-height: 120px;
+        gap: 16px;
+    }
+    
+    .loading-dots .dot {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .Loading .MuiTypography-root {
+        font-size: 0.9rem;
+    }
+} 

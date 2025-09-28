@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,6 +9,7 @@ import BasicModal from "../../components/BasicModal/BasicModal";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import {
     Box,
+    Container,
     Divider,
     IconButton,
     InputBase,
@@ -16,8 +18,10 @@ import {
     Slider,
     Typography,
 } from "@mui/material";
+
 export default function Dashboard() {
     const { accessToken } = useAuth();
+    const { mode } = useTheme();
     const [allProducts, setAllProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const navigate = useNavigate();
@@ -38,6 +42,7 @@ export default function Dashboard() {
         );
         setDisplayedProducts(filteredProducts);
     };
+
     const fetchData = async () => {
         if (accessToken) {
             try {
@@ -56,9 +61,11 @@ export default function Dashboard() {
             }
         }
     };
+
     function valuetext(value) {
         return `${value}/$`;
     }
+
     const handleChange = (event, newValue, activeThumb) => {
         const minDistance = 100;
         if (!Array.isArray(newValue)) {
@@ -79,9 +86,6 @@ export default function Dashboard() {
 
         const [min, max] = newValue;
         const filteredProducts = allProducts.filter((product) => {
-            // console.log(max);
-            // console.log(parseInt(product.estimatedValue) < max);
-
             return (
                 parseInt(product.estimatedValue) < max &&
                 parseInt(product.estimatedValue) > min
@@ -90,6 +94,7 @@ export default function Dashboard() {
 
         setDisplayedProducts(filteredProducts);
     };
+
     useEffect(() => {
         if (!accessToken && !localStorage.getItem("token")) {
             navigate("/auth/login");
@@ -98,6 +103,7 @@ export default function Dashboard() {
 
         if (accessToken) fetchData();
     }, [accessToken]);
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             if (displayedProducts.length === 0)
@@ -115,7 +121,8 @@ export default function Dashboard() {
 
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
-            <div className="Dashboard Page">
+            <Container maxWidth="xl" className="Dashboard Page">
+                {/* Search Bar */}
                 <Paper
                     component="form"
                     sx={{
@@ -123,40 +130,81 @@ export default function Dashboard() {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
-                        width: 1,
+                        width: "100%",
                         maxWidth: "600px",
+                        mx: "auto",
+                        mb: 3,
+                        mt: 2,
+                        border: mode === 'light' ? '2px solid #e0e0e0' : '2px solid #424242',
+                        '&:hover': {
+                            border: mode === 'light' ? '2px solid #1976d2' : '2px solid #90caf9',
+                            boxShadow: mode === 'light' 
+                                ? '0 4px 20px rgba(25, 118, 210, 0.15)' 
+                                : '0 4px 20px rgba(144, 202, 249, 0.15)',
+                        },
+                        '&:focus-within': {
+                            border: mode === 'light' ? '2px solid #1976d2' : '2px solid #90caf9',
+                            boxShadow: mode === 'light' 
+                                ? '0 4px 20px rgba(25, 118, 210, 0.2)' 
+                                : '0 4px 20px rgba(144, 202, 249, 0.2)',
+                        },
+                        transition: 'all 0.3s ease',
                     }}
                 >
                     <InputBase
-                        sx={{ ml: 1, flex: 1 }}
+                        sx={{ 
+                            ml: 1, 
+                            flex: 1,
+                            '& input': {
+                                color: mode === 'light' ? '#212121' : '#ffffff',
+                                '&::placeholder': {
+                                    color: mode === 'light' ? '#757575' : '#b0b0b0',
+                                    opacity: 1,
+                                },
+                            },
+                        }}
                         placeholder="Search For Products"
                         inputProps={{ "aria-label": "search for products" }}
-                        // inputRef={searchRef}
                         onChange={handleSearch}
                     />
                     <Divider
-                        sx={{ height: 28, m: 0.5 }}
+                        sx={{ 
+                            height: 28, 
+                            m: 0.5,
+                            backgroundColor: mode === 'light' ? '#e0e0e0' : '#424242',
+                        }}
                         orientation="vertical"
                     />
                     <IconButton
-                        // onClick={handleSearch}
                         type="button"
-                        sx={{ p: "10px" }}
+                        sx={{ 
+                            p: "10px",
+                            color: mode === 'light' ? '#1976d2' : '#90caf9',
+                            '&:hover': {
+                                backgroundColor: mode === 'light' 
+                                    ? 'rgba(25, 118, 210, 0.08)' 
+                                    : 'rgba(144, 202, 249, 0.08)',
+                            },
+                        }}
                         aria-label="search"
                     >
                         <SearchIcon />
                     </IconButton>
                 </Paper>
+
+                {/* Price Range Filter */}
                 <Box
                     sx={{
-                        width: 1,
+                        width: "100%",
                         maxWidth: "800px",
                         display: "flex",
                         flexDirection: "row",
                         flexWrap: "wrap",
                         justifyContent: "center",
                         alignItems: "center",
-                        gap: "8px",
+                        gap: 2,
+                        mx: "auto",
+                        mb: 4,
                     }}
                 >
                     <Typography variant="h6">Price Range:</Typography>
@@ -181,6 +229,8 @@ export default function Dashboard() {
                         max :{priceValue[1]}$
                     </Typography>
                 </Box>
+
+                {/* Products Grid */}
                 <div className="all-products-container">
                     {displayedProducts.length > 0 &&
                         displayedProducts.map((product) => (
@@ -190,8 +240,9 @@ export default function Dashboard() {
                             />
                         ))}
                 </div>
+
                 {msg && <BasicModal setMsg={setMsg} msg={msg} />}
-            </div>
+            </Container>
         </Slide>
     );
 }

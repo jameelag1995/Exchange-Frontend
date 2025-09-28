@@ -1,24 +1,25 @@
 import {
     Button,
     FormControl,
-    IconButton,
-    Input,
-    InputAdornment,
     InputLabel,
     MenuItem,
     Paper,
     Select,
     TextField,
     Typography,
+    Box,
+    Grid,
+    useTheme,
+    useMediaQuery,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Close } from "@mui/icons-material";
-import { useEffect, useRef, useState } from "react";
-import { axiosProductsInstance } from "../../utils/utils";
+import { useRef, useState } from "react";
+import { api } from "../../utils/api";
 import { useAuth } from "../../context/AuthContext";
 import UploadWidget from "../UploadWidget/UploadWidget";
 import { image } from "@cloudinary/url-gen/qualifiers/source";
-import ProductCategorySelect from "../ProductCategorySelect/ProductCategorySelect";
+import { PRODUCT_CATEGORIES, PRODUCT_SUBCATEGORIES } from "../../constants";
+
 export default function ProductForm({
     productToEdit,
     addingProduct,
@@ -41,6 +42,9 @@ export default function ProductForm({
     const locationRef = useRef();
     const colorRef = useRef();
     const { accessToken } = useAuth();
+    
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const handleTypeChange = (event) => {
         setProductType(event.target.value);
@@ -48,7 +52,9 @@ export default function ProductForm({
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
+        setSelectedSubCategory(""); // Reset subcategory when category changes
     };
+    
     const handleSubCategoryChange = (event) => {
         setSelectedSubCategory(event.target.value);
     };
@@ -63,15 +69,14 @@ export default function ProductForm({
         formData.append("color", colorRef.current.value);
         formData.append("category", selectedCategory);
         formData.append("subCategory", selectedSubCategory);
-
         formData.append("description", descriptionRef.current.value);
-
         formData.append(
             "canBeTradedFor",
             canBeTradedForRef.current.value.split(",")
         );
         return formData;
     };
+    
     const resetForm = () => {
         titleRef.current.value = "";
         locationRef.current.value = "";
@@ -84,10 +89,11 @@ export default function ProductForm({
         descriptionRef.current.value = "";
         canBeTradedForRef.current.value = "";
     };
+    
     const handleEditProduct = async () => {
         const formData = setFormData();
         try {
-            const result = await axiosProductsInstance.put(
+            await api.products.put(
                 `/${productToEdit?._id}`,
                 formData,
                 {
@@ -106,10 +112,11 @@ export default function ProductForm({
             setMsg(error.response.data);
         }
     };
+    
     const handleAddProduct = async () => {
         const formData = setFormData();
         try {
-            const result = await axiosProductsInstance.post(
+            await api.products.post(
                 "/create",
                 formData,
                 {
@@ -125,239 +132,298 @@ export default function ProductForm({
             setMsg(error.response.data);
         }
     };
-    const categories = [
-        "Electronics",
-        "Clothing",
-        "Books",
-        "Jewelry",
-        "Home & Furniture",
-        "Beauty",
-        "Sports & Outdoors",
-        "Toys & Games",
-        "Automotive",
-        "Technology",
-        "Design",
-        "Marketing",
-        "Finance",
-        "Other",
-        // Add more categories as needed
-    ];
-    const subcategories = {
-        Electronics: [
-            "Smartphones",
-            "Smart Watch",
-            "Laptops",
-            "Tablets",
-            "Audio",
-            "PC",
-            "Hardware",
-            "Accessories",
-        ],
-        Clothing: ["Men's", "Women's", "Kids"],
-        Books: ["Fiction", "Non-Fiction", "Mystery", "Science Fiction"],
-        Jewelry: ["Necklaces", "Bracelets", "Earrings", "Rings", "Watch"],
-        "Home & Furniture": ["Furniture", "Bedding", "Decor"],
-        Beauty: ["Skincare", "Makeup", "Haircare"],
-        "Sports & Outdoors": ["Outdoor Gear", "Athletic Clothing", "Footwear"],
-        "Toys & Games": ["Action Figures", "Board Games", "Puzzles"],
-        Automotive: ["Car Accessories", "Tools", "Maintenance"],
-        Technology: [
-            "Web Development",
-            "Mobile App Development",
-            "IT Consulting",
-        ],
-        Design: ["Graphic Design", "UI/UX Design", "Illustration"],
-        Marketing: [
-            "Digital Marketing",
-            "Social Media Management",
-            "Content Writing",
-        ],
-        Finance: ["Accounting", "Financial Planning", "Tax Services"],
-        Other: ["Miscellaneous"],
-        // Add more subcategories as needed
-    };
 
     return (
-        <Paper
+        <Box
             sx={{
-                width: 1,
-                maxWidth: "800px",
-                position: "absolute",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "16px",
-                p: "8px",
-                margin: 4,
-                borderRadius: "6px",
-                boxShadow: "0 0 4px",
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1000,
+                p: { xs: 1, sm: 2, md: 3 },
+                overflow: 'auto'
             }}
         >
-            <Close
-                onClick={() => {
-                    setAddingProduct(false);
-                    setEditingProduct(false);
-                    resetForm();
-                }}
+            <Paper
                 sx={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "10px",
-                }}
-            />
-            <Typography variant="h5">Add New Product</Typography>
-            <FormControl
-                sx={{
-                    width: 1,
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "16px",
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    maxWidth: { xs: '100%', sm: '90%', md: '800px', lg: '900px' },
+                    width: '100%',
+                    maxHeight: { xs: '95vh', md: '90vh' },
+                    overflow: 'auto',
+                    borderRadius: { xs: 2, md: 3 },
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+                    p: { xs: 2, sm: 3, md: 4 },
+                    gap: 2,
+                    animation: 'slideIn 0.3s ease-out',
+                    '@keyframes slideIn': {
+                        from: {
+                            opacity: 0,
+                            transform: 'translateY(-20px) scale(0.95)',
+                        },
+                        to: {
+                            opacity: 1,
+                            transform: 'translateY(0) scale(1)',
+                        },
+                    },
                 }}
             >
-                <TextField
-                    id="outlined-multiline-flexible"
-                    label="Title"
-                    multiline
-                    maxRows={4}
-                    fullWidth
-                    required
-                    defaultValue={productToEdit?.title}
-                    inputRef={titleRef}
+                <Close
+                    onClick={() => {
+                        setAddingProduct(false);
+                        setEditingProduct(false);
+                        resetForm();
+                    }}
+                    sx={{
+                        position: 'absolute',
+                        right: { xs: 8, md: 16 },
+                        top: { xs: 8, md: 16 },
+                        cursor: 'pointer',
+                        color: 'text.secondary',
+                        '&:hover': {
+                            color: 'error.main',
+                        },
+                        zIndex: 1,
+                    }}
                 />
-
-                <div
-                    className="product-type-price"
-                    style={{
-                        display: "flex",
-                        justifyContent: "start",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        gap: "16px",
-                        width: "100%",
+                
+                <Typography 
+                    variant={isMobile ? "h6" : "h5"} 
+                    sx={{ 
+                        textAlign: 'center',
+                        mb: 2,
+                        fontWeight: 600,
+                        color: 'text.primary'
                     }}
                 >
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label" required>
-                            Category
-                        </InputLabel>
+                    {productToEdit ? 'Edit Product' : 'Add New Product'}
+                </Typography>
 
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            label="Category"
-                            value={selectedCategory}
-                            onChange={handleCategoryChange}
-                        >
-                            {categories.map((category, index) => (
-                                <MenuItem key={index} value={category}>
-                                    {category}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label" required>
-                            Sub-Category
-                        </InputLabel>
-
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            label="Sub-Category"
-                            value={selectedSubCategory}
-                            onChange={handleSubCategoryChange}
-                        >
-                            {selectedCategory &&
-                                subcategories[selectedCategory].map(
-                                    (subCategory, index) => (
-                                        <MenuItem
-                                            key={index}
-                                            value={subCategory}
-                                        >
-                                            {subCategory}
-                                        </MenuItem>
-                                    )
-                                )}
-                        </Select>
-                    </FormControl>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    {/* Title Field */}
                     <TextField
-                        id="outlined-multiline-flexible"
-                        label="Color"
-                        fullWidth
-                        defaultValue={productToEdit?.color}
-                        inputRef={colorRef}
-                    />
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="Estimated Value"
-                        type="number"
+                        label="Title"
+                        multiline
+                        maxRows={4}
                         fullWidth
                         required
-                        defaultValue={productToEdit?.estimatedValue}
-                        inputRef={priceRef}
+                        defaultValue={productToEdit?.title}
+                        inputRef={titleRef}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: 2,
+                            },
+                        }}
                     />
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label" required>
-                            Type
-                        </InputLabel>
 
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            label="Type"
-                            value={productType}
-                            onChange={handleTypeChange}
+                    {/* Category, Sub-Category, Color, Value, Type Row */}
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <FormControl fullWidth>
+                                <InputLabel required>Category</InputLabel>
+                                <Select
+                                    label="Category"
+                                    value={selectedCategory}
+                                    onChange={handleCategoryChange}
+                                    sx={{ borderRadius: 2 }}
+                                >
+                                    {PRODUCT_CATEGORIES.map((category, index) => (
+                                        <MenuItem key={index} value={category}>
+                                            {category}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={4}>
+                            <FormControl fullWidth>
+                                <InputLabel required>Sub-Category</InputLabel>
+                                <Select
+                                    label="Sub-Category"
+                                    value={selectedSubCategory}
+                                    onChange={handleSubCategoryChange}
+                                    sx={{ borderRadius: 2 }}
+                                    disabled={!selectedCategory}
+                                >
+                                    {selectedCategory &&
+                                        PRODUCT_SUBCATEGORIES[selectedCategory]?.map(
+                                            (subCategory, index) => (
+                                                <MenuItem
+                                                    key={index}
+                                                    value={subCategory}
+                                                >
+                                                    {subCategory}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={4}>
+                            <TextField
+                                label="Color"
+                                fullWidth
+                                defaultValue={productToEdit?.color}
+                                inputRef={colorRef}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: 2,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={4}>
+                            <TextField
+                                label="Estimated Value"
+                                type="number"
+                                fullWidth
+                                required
+                                defaultValue={productToEdit?.estimatedValue}
+                                inputRef={priceRef}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: 2,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={4}>
+                            <FormControl fullWidth>
+                                <InputLabel required>Type</InputLabel>
+                                <Select
+                                    label="Type"
+                                    value={productType}
+                                    onChange={handleTypeChange}
+                                    sx={{ borderRadius: 2 }}
+                                >
+                                    <MenuItem value="Goods">Goods</MenuItem>
+                                    <MenuItem value="Service">Service</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+
+                    {/* Location Field */}
+                    <TextField
+                        label="Location"
+                        multiline
+                        maxRows={1}
+                        fullWidth
+                        required
+                        defaultValue={productToEdit?.location}
+                        inputRef={locationRef}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: 2,
+                            },
+                        }}
+                    />
+
+                    {/* Description Field */}
+                    <TextField
+                        label="Description"
+                        multiline
+                        rows={4}
+                        fullWidth
+                        required
+                        defaultValue={productToEdit?.description}
+                        inputRef={descriptionRef}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: 2,
+                            },
+                        }}
+                    />
+
+                    {/* Can Be Traded For Field */}
+                    <TextField
+                        label="Can Be Traded For"
+                        multiline
+                        rows={2}
+                        fullWidth
+                        required
+                        placeholder="Include the sub category and separate with commas example (iphone 10,smartphones,lenovo,laptop)"
+                        defaultValue={productToEdit?.canBeTradedFor}
+                        inputRef={canBeTradedForRef}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: 2,
+                            },
+                        }}
+                    />
+
+                    {/* Upload Widget */}
+                    <Box sx={{ 
+                        border: '2px dashed',
+                        borderColor: 'divider',
+                        borderRadius: 2,
+                        p: 2,
+                        textAlign: 'center',
+                        backgroundColor: 'grey.50'
+                    }}>
+                        <UploadWidget images={image} setImages={setImages} />
+                    </Box>
+
+                    {/* Action Buttons */}
+                    <Box sx={{ 
+                        display: 'flex', 
+                        gap: 2, 
+                        justifyContent: 'flex-end',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        mt: 2
+                    }}>
+                        <Button 
+                            variant="outlined" 
+                            onClick={() => {
+                                setAddingProduct(false);
+                                setEditingProduct(false);
+                                resetForm();
+                            }}
+                            sx={{ 
+                                minWidth: { xs: '100%', sm: '120px' },
+                                borderRadius: 2
+                            }}
                         >
-                            <MenuItem value="Goods">Goods</MenuItem>
-                            <MenuItem value="Service">Service</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
-                <TextField
-                    id="outlined-multiline-flexible"
-                    label="Location"
-                    multiline
-                    maxRows={1}
-                    fullWidth
-                    required
-                    defaultValue={productToEdit?.location}
-                    inputRef={locationRef}
-                />
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Description"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    required
-                    defaultValue={productToEdit?.description}
-                    inputRef={descriptionRef}
-                />
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Can Be Traded For"
-                    multiline
-                    rows={2}
-                    fullWidth
-                    required
-                    placeholder="include the sub category and separate with commas example (iphone 10,smartphones,lenovo,laptop)"
-                    defaultValue={productToEdit?.canBeTradedFor}
-                    inputRef={canBeTradedForRef}
-                />
-            </FormControl>
-            <UploadWidget images={image} setImages={setImages} />
-            {addingProduct ? (
-                <Button variant="contained" onClick={handleAddProduct}>
-                    Add Product
-                </Button>
-            ) : (
-                <Button variant="contained" onClick={handleEditProduct}>
-                    Edit Product
-                </Button>
-            )}
-        </Paper>
+                            Cancel
+                        </Button>
+                        {addingProduct ? (
+                            <Button 
+                                variant="contained" 
+                                onClick={handleAddProduct}
+                                sx={{ 
+                                    minWidth: { xs: '100%', sm: '120px' },
+                                    borderRadius: 2
+                                }}
+                            >
+                                Add Product
+                            </Button>
+                        ) : (
+                            <Button 
+                                variant="contained" 
+                                onClick={handleEditProduct}
+                                sx={{ 
+                                    minWidth: { xs: '100%', sm: '120px' },
+                                    borderRadius: 2
+                                }}
+                            >
+                                Edit Product
+                            </Button>
+                        )}
+                    </Box>
+                </Box>
+            </Paper>
+        </Box>
     );
 }

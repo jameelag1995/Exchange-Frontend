@@ -23,7 +23,7 @@ export default function MyProducts() {
                     Authorization: "Bearer " + accessToken,
                 },
             });
-           
+            console.log(result);
             setProductsData(result.data);
         } catch (error) {
             setMsg(error.response.data);
@@ -62,25 +62,13 @@ export default function MyProducts() {
                     </div>
                 </div>
                 {(addingProduct || editingProduct) && (
-                    <div
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "absolute",
-                            margin: "8px",
-                        }}
-                    >
-                        <ProductForm
-                            productToEdit={productToEdit}
-                            setEditingProduct={setEditingProduct}
-                            addingProduct={addingProduct}
-                            setAddingProduct={setAddingProduct}
-                            setMsg={setMsg}
-                        />
-                    </div>
+                    <ProductForm
+                        productToEdit={productToEdit}
+                        setEditingProduct={setEditingProduct}
+                        addingProduct={addingProduct}
+                        setAddingProduct={setAddingProduct}
+                        setMsg={setMsg}
+                    />
                 )}
                 {msg && <BasicModal msg={msg} setMsg={setMsg} />}
             </div>

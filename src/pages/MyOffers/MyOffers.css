@@ -1,4 +1,4 @@
-.MyProducts {
+.MyOffers {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,50 +13,23 @@
     padding-bottom: 80px;
 }
 
-.my-products-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 8px;
-    gap: 32px;
-    width: 100%;
-    min-width: 300px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.add-new-product {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 500px;
+.MyOffers .MuiTypography-h3 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Mobile adjustments */
 @media (max-width: 900px) {
-    .MyProducts {
+    .MyOffers {
         padding: 10px;
         margin-top: 60px; /* Less margin for mobile */
         padding-bottom: 100px; /* More bottom padding for mobile navbar */
     }
-    
-    .my-products-container {
-        justify-content: center;
-        gap: 20px;
-        padding: 10px 0 20px 0; /* Add bottom padding */
-    }
 }
 
 @media (max-width: 600px) {
-    .MyProducts {
+    .MyOffers {
         margin-top: 50px; /* Even less margin for small mobile */
         padding-bottom: 120px; /* Even more bottom padding for small mobile */
     }
-    
-    .my-products-container {
-        gap: 16px;
-        padding: 10px 0 30px 0; /* More bottom padding */
-    }
-}
+} 

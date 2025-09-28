@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import OfferCard from "../../components/OfferCard/OfferCard";
 import BasicModal from "../../components/BasicModal/BasicModal";
+import "./MyOffers.css";
 
 export default function MyOffers() {
     const [myOffers, setMyOffers] = useState([]);

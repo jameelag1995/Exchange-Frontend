@@ -1,18 +1,205 @@
 .OfferCard {
-    width: 80%;
+    width: 100%;
+    max-width: 800px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 16px;
-    align-items: center;
-    padding: 8px 16px;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.OfferCard[data-theme="dark"] {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.OfferCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1976d2 0%, #dc004e 100%);
+}
+
+.OfferCard[data-theme="dark"]::before {
+    background: linear-gradient(90deg, #90caf9 0%, #f48fb1 100%);
+}
+
+.OfferCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.OfferCard[data-theme="dark"]:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .users-names {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     gap: 16px;
+    padding: 16px;
+    background: rgba(25, 118, 210, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(25, 118, 210, 0.15);
+}
+
+.OfferCard[data-theme="dark"] .users-names {
+    background: rgba(144, 202, 249, 0.15);
+    border: 1px solid rgba(144, 202, 249, 0.25);
+}
+
+.users-names .MuiTypography-root {
+    font-weight: 600;
+    color: #212121;
+    font-size: 1.1rem;
+}
+
+.OfferCard[data-theme="dark"] .users-names .MuiTypography-root {
+    color: #ffffff;
+}
+
+.users-names .MuiSvgIcon-root {
+    color: #1976d2;
+    font-size: 1.5rem;
+}
+
+.OfferCard[data-theme="dark"] .users-names .MuiSvgIcon-root {
+    color: #90caf9;
+}
+
+.offer-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.OfferCard[data-theme="dark"] .offer-info {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.offer-info .MuiTypography-root {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.offer-info .MuiTypography-root strong {
+    color: #1976d2;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.OfferCard[data-theme="dark"] .offer-info .MuiTypography-root strong {
+    color: #90caf9;
+}
+
+.offer-info .MuiTypography-root span {
+    color: #424242;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.OfferCard[data-theme="dark"] .offer-info .MuiTypography-root span {
+    color: #e0e0e0;
+}
+
+.offer-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.OfferCard[data-theme="dark"] .offer-actions {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.offer-actions .MuiButton-root {
+    min-width: 120px;
+    border-radius: 8px;
+    text-transform: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Status indicators */
+.status-pending {
+    color: #ed6c02;
+}
+
+.status-accepted {
+    color: #2e7d32;
+}
+
+.status-rejected {
+    color: #d32f2f;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .OfferCard {
+        padding: 20px;
+        margin: 0 8px;
+    }
+    
+    .users-names {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .offer-info {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .offer-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .offer-actions .MuiButton-root {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .OfferCard {
+        padding: 16px;
+        margin: 0 4px;
+    }
+    
+    .users-names {
+        padding: 12px;
+    }
+    
+    .offer-info {
+        padding: 12px;
+    }
 }

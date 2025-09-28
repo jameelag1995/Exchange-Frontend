@@ -1,7 +1,27 @@
 .Welcome {
-    /* align-items: start; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
 }
+
 .barter-def {
     width: 100%;
-    text-align: left;
+    text-align: center;
+    max-width: 600px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .Welcome {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Welcome {
+        padding: 16px;
+    }
 }

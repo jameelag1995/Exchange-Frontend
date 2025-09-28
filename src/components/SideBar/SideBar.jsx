@@ -6,7 +6,6 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,15 +15,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Hidden } from "@mui/material";
-import { AccountCircle, Dashboard, Inventory } from "@mui/icons-material";
+import { AccountCircle, Dashboard, Inventory, Info } from "@mui/icons-material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 const drawerWidth = 180;
 
 const openedMixin = (theme) => ({
@@ -114,43 +112,49 @@ export default function MiniDrawer() {
             <Box sx={{ display: "flex" }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            sx={{
-                                marginRight: 5,
-                                ...(open && { display: "none" }),
-                            }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <div
-                            className="logo-container-toolbar"
-                            style={{
-                                height: "72px",
-                                width: "100%",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
+                    <Toolbar sx={{ justifyContent: 'space-between' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                sx={{
+                                    marginRight: 5,
+                                    ...(open && { display: "none" }),
+                                }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Box>
+                        
+                        <Box 
+                            sx={{ 
+                                position: 'absolute',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%'
                             }}
                         >
                             <img
                                 src="/lightLogonobg.png"
-                                alt=""
-                                width="150px"
-                                height="120px"
+                                alt="BarterNest Logo"
                                 style={{
-                                    position: "relative",
-
-                                    // padding: "4px",
-                                    borderRadius: "6px",
-                                    zIndex: "-1",
+                                    maxWidth: '150px',
+                                    maxHeight: '120px',
+                                    width: 'auto',
+                                    height: 'auto',
+                                    borderRadius: '6px',
                                 }}
                             />
-                        </div>
+                        </Box>
+                        
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <ThemeSwitch />
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -283,6 +287,31 @@ export default function MiniDrawer() {
                                 </ListItemIcon>
                                 <ListItemText
                                     primary="Profile"
+                                    sx={{ opacity: open ? 1 : 0 }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider sx={{ my: 1 }} />
+                        <ListItem disablePadding sx={{ display: "block" }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? "initial" : "center",
+                                    px: 2.5,
+                                }}
+                                onClick={() => navigate("/about")}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : "auto",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Info />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary="About"
                                     sx={{ opacity: open ? 1 : 0 }}
                                 />
                             </ListItemButton>

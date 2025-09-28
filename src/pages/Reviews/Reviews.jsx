@@ -7,6 +7,8 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { useNavigate, useParams } from "react-router-dom";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import "./Reviews.css";
+
 export default function Reviews() {
     const { accessToken } = useAuth();
     const [reviews, setReviews] = useState([]);
@@ -50,15 +52,7 @@ export default function Reviews() {
     return (
         <Slide direction="up" in style={{ transitionDelay: 800 }}>
             <div className="Reviews Page">
-                <div
-                    className="back-btn-container"
-                    style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "start",
-                        alignItems: "center",
-                    }}
-                >
+                <div className="back-btn-container">
                     <ArrowBackIcon
                         sx={{
                             position: "relative",
@@ -77,16 +71,8 @@ export default function Reviews() {
                     }}
                 />
                 <Typography variant="h4">{userInfo?.displayName}</Typography>
-                <div
-                    className="rating-review-container"
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
+                <div className="rating-review-container">
                     <div className="rating">
-                        {/* <Typography variant="h6">Rating: </Typography> */}
                         <Rating value={rating} precision={0.5} readOnly />
                         <Typography variant="h6">{rating}</Typography>
                     </div>

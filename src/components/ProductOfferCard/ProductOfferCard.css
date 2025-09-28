@@ -1,28 +1,153 @@
 .ProductOfferCard {
     width: 250px;
-    height: 300px;
-    padding: 4px 8px;
+    height: 320px;
+    padding: 16px;
     display: flex;
-    gap: 8px;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    border: 1px solid black;
-    border-radius: 6px;
-    box-shadow: 0 0 5px;
+    gap: 12px;
+    justify-content: flex-start;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
 }
+
+.ProductOfferCard[data-theme="dark"] {
+    background: #1e1e1e;
+    border: 2px solid #424242;
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ProductOfferCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1976d2 0%, #dc004e 100%);
+}
+
+.ProductOfferCard[data-theme="dark"]::before {
+    background: linear-gradient(90deg, #90caf9 0%, #f48fb1 100%);
+}
+
 .ProductOfferCard:hover {
-    box-shadow: 0 0 20px;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
-.info-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: start;
-    align-items: start;
-    gap: 8px;
+
+.ProductOfferCard[data-theme="dark"]:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
+
 .ProductOfferCard img {
     width: 100%;
-    height: 200px;
+    height: 180px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.ProductOfferCard[data-theme="dark"] img {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ProductOfferCard:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ProductOfferCard[data-theme="dark"]:hover img {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    flex: 1;
+}
+
+.info-container .MuiTypography-root {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.info-container .MuiTypography-root strong {
+    color: #1976d2;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.ProductOfferCard[data-theme="dark"] .info-container .MuiTypography-root strong {
+    color: #90caf9;
+}
+
+.info-container .MuiTypography-root span {
+    color: #212121;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.ProductOfferCard[data-theme="dark"] .info-container .MuiTypography-root span {
+    color: #e0e0e0;
+}
+
+.info-container .MuiTypography-root:last-child {
+    margin-top: auto;
+}
+
+.info-container .MuiTypography-root:last-child span {
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.ProductOfferCard[data-theme="dark"] .info-container .MuiTypography-root:last-child span {
+    color: #4caf50;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ProductOfferCard {
+        width: 220px;
+        height: 300px;
+        padding: 12px;
+    }
+    
+    .ProductOfferCard img {
+        height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ProductOfferCard {
+        width: 200px;
+        height: 280px;
+        padding: 10px;
+    }
+    
+    .ProductOfferCard img {
+        height: 140px;
+    }
+    
+    .info-container {
+        gap: 6px;
+    }
 }

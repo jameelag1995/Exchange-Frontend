@@ -1,39 +1,68 @@
+/* Profile page specific styles */
 .Profile {
-    gap: 100px;
+    /* Styles are now handled by Material-UI components */
 }
+
 .user-info {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
 }
+
+.upload-container {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .editingInputs {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
+    width: 100%;
+    max-width: 400px;
 }
-a {
-    text-decoration: none;
-    color: #005f8b;
-}
+
 .user-actions {
     display: flex;
-    width: 80%;
     flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    gap: 32px;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .action {
     display: flex;
-    flex-direction: row;
-    justify-content: start;
     align-items: center;
-    gap: 16px;
-    width: 100%;
+    gap: 8px;
     cursor: pointer;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.action:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive adjustments for Material-UI components */
+@media (max-width: 768px) {
+    .Profile {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Profile {
+        padding: 12px;
+    }
 }
