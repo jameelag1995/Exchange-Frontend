@@ -1,6 +1,6 @@
 // API Configuration
 export const API_CONFIG = {
-    BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+    BASE_URL: import.meta.env.VITE_NODE_ENV == 'PROD' ? import.meta.env.VITE_PROD_URL : import.meta.env.VITE_DEV_URL,
     ENDPOINTS: {
         USERS: '/api/users',
         PRODUCTS: '/api/products',
